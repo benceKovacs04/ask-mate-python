@@ -20,6 +20,12 @@ def route_question(question_id):
     return render_template('question_details.html', question=question)
 
 
+@app.route('/question/<question_id>/new-answer', methods=['GET', 'POST'])
+def route_new_answer(question_id):
+
+
+    return render_template('add_answer.html')
+
 if __name__ == '__main__':
     app.run(
         host='0.0.0.0',
