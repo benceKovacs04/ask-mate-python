@@ -28,13 +28,16 @@
     <p><h2>Message</h2></p>
     <p>{{ question['message'] }}</p><br>
     <p><h3>Answers</h3></p>
-    <table border="1" frame="1" width="1900" cellpadding="10">
-        {% for answer in answers_to_question %}
-            <tr>
-                <td>{{ answer['message'] }}</td>
-            </tr>
-        {% endfor %}
-    </table>
-
+    {% if answers_to_question %}
+        <table border="1" frame="1" width="1900" cellpadding="10">
+            {% for answer in answers_to_question %}
+                <tr>
+                    <td>{{ answer['message'] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>There are no answers to this question yet.</p>
+    {% endif %}
 </body>
 </html>
