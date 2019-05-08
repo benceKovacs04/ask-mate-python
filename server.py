@@ -20,6 +20,14 @@ def route_question(question_id):
     return render_template('question_details.html', question=question)
 
 
+@app.route('/add-question', methods=['GET', 'POST'])
+def add_question():
+    if request.method == 'POST':
+        new_question = request.form
+
+    return render_template("add_question.html")
+
+
 if __name__ == '__main__':
     app.run(
         host='0.0.0.0',

@@ -17,10 +17,7 @@ def update_question_in_data(updated_question, id):
             all_questions[index] = updated_question
             break
 
-
-
     connection.write_to_csv('sample_data/question.csv', all_questions)
-
 
 
 def show_question(id):
@@ -29,7 +26,5 @@ def show_question(id):
     question['view_number'] = str(int(question['view_number']) + 1)
 
     update_question_in_data(question, id)
-
-
 
     return question
