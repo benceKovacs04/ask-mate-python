@@ -25,11 +25,31 @@
         </tbody>
     </table>
     <br>
+
     <p><h2>Message</h2></p>
     <p>{{ question['message'] }}</p><br>
+
     <p><h3>Answers</h3></p>
-    {% for answer in all_answers %}
-        <p style="border:1px; border-style:solid; padding:1em">{{ answer['message'] }}</p>
-    {% endfor %}
+    {% if answers_to_question %}
+        <table border="1" frame="1" cellpadding="10">
+            <thead>
+                <tr>
+                    <td align="center"><strong>Answer</strong></td>
+                    <td align="center" width="10"><strong>Votes</strong></td>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for answer in answers_to_question %}
+                    <tr>
+                        <td>{{ answer['message'] }}</td>
+                        <td align="center">{{ answer['vote_number'] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>There are no answers to this question yet.</p>
+    {% endif %}
 </body>
 </html>
