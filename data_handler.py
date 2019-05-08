@@ -36,3 +36,12 @@ def show_question(id):
     update_question_in_data(question, id)
 
     return question
+
+def get_new_answer_id(question_id):
+    question_answers = get_answers_to_question(question_id)
+    if len(question_answers) != 0:
+        new_id = str(int(question_answers[-1]['id']) + 1)
+    else:
+        new_id = 0
+
+    return new_id

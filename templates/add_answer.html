@@ -9,9 +9,22 @@
 
         <form action="/question/<question_id>/new-answer" method="post">
 
+            <input type="hidden" name="id" value="{{ new_id }}">
+            <input type="hidden" name="submission_time" value="{{ timestamp }}">
+            <input type="hidden" name="vote_number" value="0">
+            <input type="hidden" name="question_id" value="{{ question_id }}">
+
+            <p><b><label for="new-message">New answer</label></b><br>
+                <textarea id="new-message" name="message" rows="8" cols="50" minlength="10" required></textarea></p>
+
+            <input type="hidden" value=" ">
+
+            <p><button type="submit">Save answer!</button></p>
+
 
         </form>
     </body>
 </html>
+
 
 id,submission_time,vote_number,question_id,message,image

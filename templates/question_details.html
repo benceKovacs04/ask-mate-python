@@ -28,6 +28,7 @@
     <p><h2>Message</h2></p>
     <p>{{ question['message'] }}</p><br>
     <p><h3>Answers</h3></p>
+    <p><a href="/question/{{ question['id'] }}/new-answer">Add new answer</a></p>
     {% if answers_to_question %}
         <table border="1" frame="1" width="1900" cellpadding="10">
             {% for answer in answers_to_question %}
