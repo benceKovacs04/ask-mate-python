@@ -26,10 +26,6 @@ def append_to_csv(file_name, data):
         dict_writer.writerows(writeable_format)
 
 
-
-
-
-
 def add_question(new_question, file_name):
     with open(file_name, 'a') as file:
         dict_writer = csv.DictWriter(file, HEADER)
