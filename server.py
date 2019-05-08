@@ -8,7 +8,7 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/list')
 def route_list():
-    all_questions = connection.get_all_questions()
+    all_questions = connection.get_all_data_from_file('sample_data/question.csv')
 
     return render_template('list.html', all_questions=all_questions)
 
@@ -16,16 +16,23 @@ def route_list():
 @app.route('/question/<question_id>')
 def route_question(question_id):
     question = data_handler.show_question(question_id)
+    all_answers = connection.get_all_data_from_file('sample_data/answer.csv')
 
-    return render_template('question_details.html', question=question)
+    return render_template('question_details.html', question=question, all_answers=all_answers)
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
 def add_question():
-    if request.method == 'POST':
-        new_question = request.form
+    file_name = 'sample_data/question.csv'
+    id = data_handler.generate_id(file_name)
+    time_stamp = data_handler.add_time_stamp()
 
-    return render_template("add_question.html")
+    if request.method == 'POST':
+        new_question = dict(request.form)
+        connection.add_question(new_question, file_name)
+        return redirect('/')
+
+    return render_template("add_question.html", id=id, time_stamp=time_stamp)
 
 
 if __name__ == '__main__':
