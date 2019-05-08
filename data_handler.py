@@ -15,7 +15,6 @@ def get_answers_to_question(question_id):
     for answer in all_answers:
         if answer['question_id'] == question_id:
             answers.append(answer)
-
     return answers
 
 
