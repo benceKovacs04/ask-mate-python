@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>{{ question['title'] }}</title>
 </head>
 <body>
     <h1>{{ question['title'] }}</h1>
@@ -27,7 +27,8 @@
     <br>
     <p><h2>Message</h2></p>
     <p>{{ question['message'] }}</p><br>
-    <p><h3>Answers</h3></p>
+    <p><h3>Answers</h3>
+    <a href="/question/{{ question['id'] }}/new-answer">Add new answer</a></p>
     {% for answer in all_answers %}
         <p style="border:1px; border-style:solid; padding:1em">{{ answer['message'] }}</p>
     {% endfor %}

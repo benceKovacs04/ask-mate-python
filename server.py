@@ -24,7 +24,6 @@ def route_question(question_id):
 @app.route('/question/<question_id>/new-answer', methods=['GET', 'POST'])
 def route_new_answer(question_id):
 
-
     return render_template('add_answer.html')
 
 if __name__ == '__main__':
