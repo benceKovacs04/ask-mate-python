@@ -25,9 +25,11 @@
         </tbody>
     </table>
     <br>
-
+    
+    <p><img src="{{  question['image'] }}" height="200px" width="200px" alt="Invalid image URL"</p>
     <p><h2>Message</h2></p>
     <p>{{ question['message'] }}</p><br>
+
 
     <p><h3>Answers</h3></p>
     <p><a href="/question/{{ question['id'] }}/new-answer">Add new answer</a></p>
@@ -37,7 +39,7 @@
                 <tr>
                     <td align="center"><strong>Answer</strong></td>
                     <td align="center" width="10"><strong>Votes</strong></td>
-
+                    <td align="center" width="10"><strong>Image</strong></td>
                 </tr>
             </thead>
             <tbody>
@@ -45,6 +47,11 @@
                     <tr>
                         <td>{{ answer['message'] }}</td>
                         <td align="center">{{ answer['vote_number'] }}</td>
+                        {% if answer['image'] %}
+                            <td><img src="{{ answer['image'] }}" height="200px" width="200px" alt="Invalid image URL"></td>
+                        {% else %}
+                            <td>No image added</td>
+                        {% endif %}
                     </tr>
                 {% endfor %}
             </tbody>
