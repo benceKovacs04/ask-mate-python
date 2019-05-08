@@ -17,17 +17,13 @@ def write_to_csv(file_name, data):
         dict_writer.writeheader()
         dict_writer.writerows(data)
 
+
 def append_to_csv(file_name, data):
     writeable_format = []
     writeable_format.append(data)
     with open(file_name, "a") as file:
         dict_writer = csv.DictWriter(file, ANSWER_HEADER)
-        #dict_writer.writeheader()
         dict_writer.writerows(writeable_format)
-
-
-
-
 
 
 def add_question(new_question, file_name):

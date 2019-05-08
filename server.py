@@ -51,6 +51,7 @@ def route_new_answer(question_id):
 
         return redirect(f'/question/{new_answer["question_id"] }')
 
+
 if __name__ == '__main__':
     app.run(
         host='0.0.0.0',
