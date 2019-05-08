@@ -30,8 +30,9 @@ def add_question():
 
     if request.method == 'POST':
         new_question = dict(request.form)
+        question_id = new_question['id']
         connection.add_question(new_question, file_name)
-        return redirect('/')
+        return redirect(f'/question/{question_id}')
 
     return render_template("add_question.html", id=id, time_stamp=time_stamp)
 
@@ -50,6 +51,7 @@ def route_new_answer(question_id):
         connection.append_to_csv('sample_data/answer.csv', new_answer)
 
         return redirect(f'/question/{new_answer["question_id"] }')
+
 
 if __name__ == '__main__':
     app.run(
