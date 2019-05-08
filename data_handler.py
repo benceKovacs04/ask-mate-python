@@ -1,4 +1,5 @@
 import connection
+import time
 
 
 def get_question(id):
@@ -8,6 +9,7 @@ def get_question(id):
         if question['id'] == id:
             return question
 
+
 def get_answers_to_question(question_id):
     all_answers = connection.get_all_data_from_file('sample_data/answer.csv')
     answers = []
@@ -15,7 +17,6 @@ def get_answers_to_question(question_id):
     for answer in all_answers:
         if answer['question_id'] == question_id:
             answers.append(answer)
-
     return answers
 
 
@@ -43,5 +44,19 @@ def get_new_answer_id(question_id):
         new_id = str(int(question_answers[-1]['id']) + 1)
     else:
         new_id = 0
+
+    return new_id
+
+
+def add_time_stamp():
+    time_stamp = time.time()
+
+    return round(time_stamp)
+
+
+def generate_id(file_name):
+    all_questions = connection.get_all_data_from_file(file_name)
+    last_id = all_questions[-1]['id']
+    new_id = int(last_id) + 1
 
     return new_id
