@@ -30,8 +30,9 @@ def add_question():
 
     if request.method == 'POST':
         new_question = dict(request.form)
+        question_id = new_question['id']
         connection.add_question(new_question, file_name)
-        return redirect('/')
+        return redirect(f'/question/{question_id}')
 
     return render_template("add_question.html", id=id, time_stamp=time_stamp)
 
