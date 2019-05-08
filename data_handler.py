@@ -8,12 +8,17 @@ def get_question(id):
         if question['id'] == id:
             return question
 
-def get_answer(id):
+def get_answers_to_question(question_id):
     all_answers = connection.get_all_data_from_file('sample_data/answer.csv')
+    answers = []
 
     for answer in all_answers:
-        if answer['id'] == id:
-            return answer
+        print(answer)
+        print(answer['message'])
+        if answer['question_id'] == question_id:
+            answers.append(answer)
+
+    return answers
 
 
 def update_question_in_data(updated_question, id):
@@ -34,3 +39,6 @@ def show_question(id):
     update_question_in_data(question, id)
 
     return question
+
+def show_answer(id):
+    answer =get_answer(id)
