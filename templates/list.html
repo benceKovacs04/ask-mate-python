@@ -16,9 +16,9 @@
             <tbody>
 
                 {% for question in all_questions[::-1] %}
-                <tr>
-                    <td><a href="/question/{{ question['id'] }}">{{ question['title'] }}</a></td>
-                </tr>
+                    <tr>
+                        <td><a href="/question/{{ question['id'] }}">{{ question['title'] }}</a></td>
+                    </tr>
                 {% endfor %}
 
             </tbody>

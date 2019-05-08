@@ -26,6 +26,8 @@
     </table>
     <br>
     <p><h2>Message</h2></p>
-    <p>{{ question['message'] }}</p>
+    {% for answer in all_answers %}
+        <p style="border:1px; border-style:solid; padding:1em">{{ answer['message'] }}</p>
+    {% endfor %}
 </body>
 </html>
