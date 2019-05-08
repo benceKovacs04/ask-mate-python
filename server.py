@@ -10,15 +10,14 @@ app = Flask(__name__)
 def route_list():
     all_questions = connection.get_all_data_from_file('sample_data/question.csv')
 
-
     return render_template('list.html', all_questions=all_questions)
 
 @app.route('/question/<question_id>')
 def route_question(question_id):
     question = data_handler.show_question(question_id)
-    all_answers = connection.get_all_data_from_file('sample_data/answer.csv')
+    answers_to_question = data_handler.get_answers_to_question(question_id)
 
-    return render_template('question_details.html', question=question, all_answers=all_answers)
+    return render_template('question_details.html', question=question, answers_to_question=answers_to_question)
 
 
 if __name__ == '__main__':

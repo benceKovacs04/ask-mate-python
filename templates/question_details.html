@@ -28,8 +28,13 @@
     <p><h2>Message</h2></p>
     <p>{{ question['message'] }}</p><br>
     <p><h3>Answers</h3></p>
-    {% for answer in all_answers %}
-        <p style="border:1px; border-style:solid; padding:1em">{{ answer['message'] }}</p>
-    {% endfor %}
+    <table border="1" frame="1" width="1900" cellpadding="10">
+        {% for answer in answers_to_question %}
+            <tr>
+                <td>{{ answer['message'] }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
 </body>
 </html>
