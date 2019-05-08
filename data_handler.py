@@ -13,8 +13,6 @@ def get_answers_to_question(question_id):
     answers = []
 
     for answer in all_answers:
-        print(answer)
-        print(answer['message'])
         if answer['question_id'] == question_id:
             answers.append(answer)
 
@@ -32,13 +30,9 @@ def update_question_in_data(updated_question, id):
     connection.write_to_csv('sample_data/question.csv', all_questions)
 
 
-
 def show_question(id):
     question = get_question(id)
     question['view_number'] = str(int(question['view_number']) + 1)
     update_question_in_data(question, id)
 
     return question
-
-def show_answer(id):
-    answer =get_answer(id)
