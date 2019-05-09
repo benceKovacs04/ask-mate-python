@@ -20,7 +20,7 @@ def get_answers_to_question(question_id):
     return answers
 
 
-def update_question_in_data(updated_question, id):
+def update_question_in_data(updated_question):
     all_questions = connection.get_all_data_from_file('sample_data/question.csv')
 
     for index in range(len(all_questions)):
@@ -34,7 +34,7 @@ def update_question_in_data(updated_question, id):
 def show_question(id):
     question = get_question(id)
     question['view_number'] = str(int(question['view_number']) + 1)
-    update_question_in_data(question, id)
+    update_question_in_data(question)
 
     return question
 

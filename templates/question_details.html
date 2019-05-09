@@ -25,14 +25,15 @@
         </tbody>
     </table>
     <br>
-    
     <p><img src="{{  question['image'] }}" height="200px" width="200px" alt="Invalid image URL"</p>
     <p><h2>Message</h2></p>
     <p>{{ question['message'] }}</p><br>
+    <a href="/edit-question/{{ question['id'] }}"><button>Edit question</button></a></p>
 
 
     <p><h3>Answers</h3></p>
-    <p><a href="/question/{{ question['id'] }}/new-answer">Add new answer</a></p>
+    <p><a href="/question/{{ question['id'] }}/new-answer"><button>Add new answer</button></a>
+
     {% if answers_to_question %}
         <table border="1" frame="1" cellpadding="10">
             <thead>
