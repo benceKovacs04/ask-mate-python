@@ -8,24 +8,27 @@
         <p><h1>AskMate</h1>
         <br style="line-height:1"><br></p>
         <p><a href="/add-question"><button>Ask new question</button></a></p>
-        <table border="1" frame="1" cellpadding="5">
-            <thead>
-                <tr>
-                    <p><th>Question titles</th></p>
-                </tr>
-            </thead>
-            <tbody>
-
-                {% for question in all_questions[::-1] %}
+        {% if all_questions|length != 0 %}
+            <table border="1" frame="1" cellpadding="5">
+                <thead>
                     <tr>
-                        <td><a href="/question/{{ question['id'] }}">{{ question['title'] }}</a></td>
-                        <td><a href="/question/{{ question['id'] }}/delete">Delete this question</a></td>
+                        <p><th>Question titles</th></p>
                     </tr>
-                {% endfor %}
+                </thead>
+                <tbody>
 
-            </tbody>
+                    {% for question in all_questions[::-1] %}
+                        <tr>
+                            <td><a href="/question/{{ question['id'] }}">{{ question['title'] }}</a></td>
+                            <td><a href="/question/{{ question['id'] }}/delete">Delete this question</a></td>
+                        </tr>
+                    {% endfor %}
 
-        </table>
+                </tbody>
+            </table>
+        {% else %}
+            <p>There are no questions yet.</p>
+        {% endif %}
 
     </body>
 </html>

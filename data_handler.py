@@ -85,7 +85,10 @@ def add_time_stamp():
 
 def generate_id(file_name):
     all_questions = connection.get_all_data_from_file(file_name)
-    last_id = all_questions[-1]['id']
-    new_id = int(last_id) + 1
+    if len(all_questions) == 0:
+        new_id = 0
+    else:
+        last_id = all_questions[-1]['id']
+        new_id = int(last_id) + 1
 
     return new_id
