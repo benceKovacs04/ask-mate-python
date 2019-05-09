@@ -38,7 +38,6 @@ def update_entry_in_data(updated_data, file_name):
 
     connection.write_to_csv(file_name, all_data)
 
-
 def delete_question_from_data(question_to_delete):
     all_answers = connection.get_all_data_from_file('sample_data/answer.csv')
     question_id = question_to_delete['id']
@@ -80,7 +79,7 @@ def increase_view_number(question):
 
 
 def get_new_answer_id(question_id):
-    question_answers = connection.get_all_data_from_file('sample_data/answer.csv')
+    question_answers = get_answers_to_question(question_id)
     if len(question_answers) != 0:
         new_id = str(int(question_answers[-1]['id']) + 1)
     else:

@@ -1,10 +1,6 @@
 id,submission_time,view_number,vote_number,title,message,image
-<<<<<<< HEAD
-0,1493368154,99,7,How to make lists in Python?,"I am totally new to this, any hints?",
-1,1493068124,54,9,Wordpress loading multiple jQuery Versions,"I developed a plugin that uses the jquery booklet plugin (http://builtbywill.com/booklet/#/) this plugin binds a function to $ so I cann call $('.myBook').booklet();
-=======
-1,1493068124,46,9,Wordpress loading multiple jQuery Versions,"I developed a plugin that uses the jquery booklet plugin (http://builtbywill.com/booklet/#/) this plugin binds a function to $ so I cann call $('.myBook').booklet();
->>>>>>> 6485a14159193210d1fcb6bfdeb05f6b86274d0d
+0,1493368154,94,7,How to make lists in Python?,"I am totally new to this, any hints?",
+1,1493068124,44,9,Wordpress loading multiple jQuery Versions,"I developed a plugin that uses the jquery booklet plugin (http://builtbywill.com/booklet/#/) this plugin binds a function to $ so I cann call $('.myBook').booklet();
 
 I could easy managing the loading order with wp_enqueue_script so first I load jquery then I load booklet so everything is fine.
 
@@ -13,21 +9,14 @@ BUT in my theme i also using jquery via webpack so the loading order is now foll
 jquery
 booklet
 app.js (bundled file with webpack, including jquery)",images/image1.png
-<<<<<<< HEAD
-2,1493015432,1518,59,Drawing canvas with an image picked with Cordova Camera Plugin,"I'm getting an image from device and drawing a canvas with filters using Pixi JS. It works all well using computer to get an image. But when I'm on IOS, it throws errors such as cross origin issue, or that I'm trying to use an unknown format.
+2,1493015432,1512,57,Drawing canvas with an image picked with Cordova Camera Plugin,"I'm getting an image from device and drawing a canvas with filters using Pixi JS. It works all well using computer to get an image. But when I'm on IOS, it throws errors such as cross origin issue, or that I'm trying to use an unknown format.
 
 This is the code I'm using to draw the image (that works on web/desktop but not cordova built ios app)",
-3,1557321639,22,0,proba,hahogec,
+3,1557321639,19,0,proba,hahogec,
 3,1557321639,30,0,proba,hahogec, 
-4,1557324618,29,0,is this image good,title,https://i.redd.it/j0wiyskh2tw21.jpg
-5,,124,11,tesztelés,"tesztelem a funkciót
+4,1557324618,20,0,is this image good,title,https://i.redd.it/j0wiyskh2tw21.jpg
+5,,108,11,tesztelés,"tesztelem a funkciót
 
 editing
 
 editing 2",
-=======
-2,1493015432,1527,57,Drawing canvas with an image picked with Cordova Camera Plugin,"I'm getting an image from device and drawing a canvas with filters using Pixi JS. It works all well using computer to get an image. But when I'm on IOS, it throws errors such as cross origin issue, or that I'm trying to use an unknown format.
-
-This is the code I'm using to draw the image (that works on web/desktop but not cordova built ios app)",
-3,1557406417,1,0,what is the meaning of life?,seriously,
->>>>>>> 6485a14159193210d1fcb6bfdeb05f6b86274d0d
