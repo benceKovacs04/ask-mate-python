@@ -53,6 +53,31 @@ def route_new_answer(question_id):
         return redirect(f'/question/{new_answer["question_id"] }')
 
 
+@app.route('/question/<question_id>/vote-up')
+@app.route('/question/<question_id>/vote-down')
+@app.route('/question/<question_id>/answer/<answer_id>/vote-up')
+@app.route('/question/<question_id>/answer/<answer_id>/vote-down')
+def question(question_id, answer_id):
+    url = request.url_rule
+
+    vote = 0
+
+    if "vote-up" in url.rule:
+        vote += 1
+    elif "vote-down" in url.rule:
+        vote -= 1
+
+    if "answer" in url.rule:
+
+
+    elif "answer" not in url.rule:
+        
+
+
+
+    return redirect(f'/question/{question_id}')
+
+
 if __name__ == '__main__':
     app.run(
         host='0.0.0.0',

@@ -29,6 +29,9 @@
     <p><h2>Message</h2></p>
     <p>{{ question['message'] }}</p><br>
 
+    <button type="button"><a href="/question/{{ question['id'] }}/vote-up">Like</a></button>
+    <button type="button"><a href='/question/{{ question['id'] }}/vote-down'>Dislike</a></button>
+
     <p><h3>Answers</h3></p>
     <p><a href="/question/{{ question['id'] }}/new-answer">Add new answer</a></p>
     {% if answers_to_question %}
@@ -37,7 +40,7 @@
                 <tr>
                     <td align="center"><strong>Answer</strong></td>
                     <td align="center" width="10"><strong>Votes</strong></td>
-
+                    <td align="center"><strong>Voting</strong></td>
                 </tr>
             </thead>
             <tbody>
@@ -45,6 +48,10 @@
                     <tr>
                         <td>{{ answer['message'] }}</td>
                         <td align="center">{{ answer['vote_number'] }}</td>
+
+                        <td><button type="button"><a href="/question/{{ question['id'] }}/answer/{{ answer['id'] }}/vote-up">Like</button></td>
+                        <td><button type="button"><a href='/question/{{ question['id'] }}/answer/{{ answer['id'] }}/vote-down'>Dislike</button></td>
+
                     </tr>
                 {% endfor %}
             </tbody>
