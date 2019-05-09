@@ -46,6 +46,7 @@
                     <td align="center" width="10"><strong>Votes</strong></td>
                     <td colspan="2" align="center"><strong>Voting</strong></td>
                     <td align="center" width="10"><strong>Image</strong></td>
+                    <td align="center" width="10"><strong>Edit</strong></td>
                 </tr>
             </thead>
             <tbody>
@@ -62,6 +63,8 @@
                         {% else %}
                             <td>No image added</td>
                         {% endif %}
+
+                        <td><a href="/question/{{ question['id'] }}/edit-answer/{{ answer['id'] }}"><button>Edit Answer</button></a></td>
                     </tr>
                 {% endfor %}
             </tbody>
