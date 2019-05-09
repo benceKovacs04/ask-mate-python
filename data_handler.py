@@ -38,6 +38,26 @@ def update_entry_in_data(updated_data, file_name):
 
     connection.write_to_csv(file_name, all_data)
 
+def delete_question_from_data(question_to_delete):
+    all_answers = connection.get_all_data_from_file('sample_data/answer.csv')
+    question_id = question_to_delete['id']
+    answers_to_delete = get_answers_to_question(question_id)
+
+    for index in range(len(all_answers)):
+        if all_answers[index] in answers_to_delete:
+            del all_answers[index]
+
+    connection.write_to_csv('sample_data/answer.csv', all_answers)
+
+    all_questions = connection.get_all_data_from_file('sample_data/question.csv')
+
+    for index in range(len(all_questions)):
+        if all_questions[index]['id'] == question_to_delete['id']:
+            del all_questions[index]
+            break
+
+    connection.write_to_csv('sample_data/question.csv', all_questions)
+
 
 def show_question(id, voted):
 
@@ -76,7 +96,10 @@ def add_time_stamp():
 
 def generate_id(file_name):
     all_questions = connection.get_all_data_from_file(file_name)
-    last_id = all_questions[-1]['id']
-    new_id = int(last_id) + 1
+    if len(all_questions) == 0:
+        new_id = 0
+    else:
+        last_id = all_questions[-1]['id']
+        new_id = int(last_id) + 1
 
     return new_id
