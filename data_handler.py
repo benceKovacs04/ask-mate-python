@@ -59,19 +59,8 @@ def delete_question_from_data(question_to_delete):
     connection.write_to_csv('sample_data/question.csv', all_questions)
 
 
-def show_question(id, voted):
-
+def show_question(id):
     question = get_question(id)
-
-    if voted:
-        return question
-
-    updated_question = increase_view_number(question)
-
-    return updated_question
-
-
-def increase_view_number(question):
     question['view_number'] = str(int(question['view_number']) + 1)
     update_entry_in_data(question, 'sample_data/question.csv')
 
