@@ -55,8 +55,8 @@
                         <td>{{ answer['message'] }}</td>
                         <td align="center">{{ answer['vote_number'] }}</td>
 
-                        <td><button type="button"><a href="/question/{{ question['id'] }}/answer/{{ answer['id'] }}/vote-up">Like</button></td>
-                        <td><button type="button"><a href='/question/{{ question['id'] }}/answer/{{ answer['id'] }}/vote-down'>Dislike</button></td>
+                        <td align="center"><button type="button"><a href="/question/{{ question['id'] }}/answer/{{ answer['id'] }}/vote-up">Like</button></td>
+                        <td align="center"><button type="button"><a href='/question/{{ question['id'] }}/answer/{{ answer['id'] }}/vote-down'>Dislike</button></td>
 
                         {% if answer['image'] %}
                             <td><img src="{{ answer['image'] }}" height="200px" width="200px" alt="Invalid image URL"></td>
@@ -64,7 +64,7 @@
                             <td>No image added</td>
                         {% endif %}
 
-                        <td><a href="/question/{{ question['id'] }}/edit-answer/{{ answer['id'] }}"><button>Edit Answer</button></a></td>
+                        <td align="center"><a href="/question/{{ question['id'] }}/edit-answer/{{ answer['id'] }}"><button>Edit Answer</button></a></td>
                     </tr>
                 {% endfor %}
             </tbody>
