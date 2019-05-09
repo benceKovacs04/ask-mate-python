@@ -12,8 +12,13 @@ def get_all_data_from_file(file_name):
 
 
 def write_to_csv(file_name, data):
+    if file_name == 'sample_data/answer.csv':
+        header = ANSWER_HEADER
+    else:
+        header = HEADER
+
     with open(file_name, "w") as file:
-        dict_writer = csv.DictWriter(file, HEADER)
+        dict_writer = csv.DictWriter(file, header)
         dict_writer.writeheader()
         dict_writer.writerows(data)
 

@@ -37,6 +37,7 @@ def add_question():
 
     return render_template("add_question.html", id=id, time_stamp=time_stamp)
 
+
 @app.route('/edit-question/<question_id>', methods=['GET', 'POST'])
 def route_edit_question(question_id):
     question_to_edit = data_handler.get_question(question_id)
@@ -71,6 +72,35 @@ def delete_question(question_id):
     data_handler.delete_question_from_data(question_to_delete)
 
     return redirect('/')
+
+
+@app.route('/question/<question_id>/vote-up')
+@app.route('/question/<question_id>/vote-down')
+@app.route('/question/<question_id>/answer/<answer_id>/vote-up')
+@app.route('/question/<question_id>/answer/<answer_id>/vote-down')
+def question(question_id, answer_id=None):
+    url = request.url_rule
+
+    vote = 0
+
+    if "vote-up" in url.rule:
+        vote += 1
+    elif "vote-down" in url.rule:
+        vote -= 1
+
+    if "answer" in url.rule:
+        answer = data_handler.get_answer_by_id(question_id, answer_id)
+        new_vote = int(answer['vote_number']) + vote
+        answer['vote_number'] = new_vote
+        data_handler.update_entry_in_data(answer, 'sample_data/answer.csv')
+
+    elif "answer" not in url.rule:
+        question = data_handler.get_question(question_id)
+        new_vote = int(question['vote_number']) + vote
+        question['vote_number'] = new_vote
+        data_handler.update_entry_in_data(question, 'sample_data/question.csv')
+
+    return redirect(f'/question/{question_id}')
 
 
 if __name__ == '__main__':

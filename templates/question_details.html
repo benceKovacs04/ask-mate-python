@@ -32,6 +32,8 @@
     <p>{{ question['message'] }}</p><br>
     <a href="/edit-question/{{ question['id'] }}"><button>Edit question</button></a></p>
 
+    <button type="button"><a href="/question/{{ question['id'] }}/vote-up">Like</a></button>
+    <button type="button"><a href='/question/{{ question['id'] }}/vote-down'>Dislike</a></button>
 
     <p><h3>Answers</h3></p>
     <p><a href="/question/{{ question['id'] }}/new-answer"><button>Add new answer</button></a>
@@ -42,6 +44,7 @@
                 <tr>
                     <td align="center"><strong>Answer</strong></td>
                     <td align="center" width="10"><strong>Votes</strong></td>
+                    <td align="center"><strong>Voting</strong></td>
                     <td align="center" width="10"><strong>Image</strong></td>
                 </tr>
             </thead>
@@ -50,6 +53,10 @@
                     <tr>
                         <td>{{ answer['message'] }}</td>
                         <td align="center">{{ answer['vote_number'] }}</td>
+
+                        <td><button type="button"><a href="/question/{{ question['id'] }}/answer/{{ answer['id'] }}/vote-up">Like</button></td>
+                        <td><button type="button"><a href='/question/{{ question['id'] }}/answer/{{ answer['id'] }}/vote-down'>Dislike</button></td>
+
                         {% if answer['image'] %}
                             <td><img src="{{ answer['image'] }}" height="200px" width="200px" alt="Invalid image URL"></td>
                         {% else %}

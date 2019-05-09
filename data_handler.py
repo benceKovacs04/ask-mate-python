@@ -20,6 +20,14 @@ def get_answers_to_question(question_id):
     return answers
 
 
+def get_answer_by_id(question_id, answer_id):
+
+    answers = get_answers_to_question(question_id)
+    for answer in answers:
+        if answer['id'] == answer_id:
+            return answer
+
+
 def update_entry_in_data(updated_data, file_name):
     all_data = connection.get_all_data_from_file(file_name)
 
