@@ -7,7 +7,7 @@
     <body>
         <p><h1>Add new answer</h1></p>
 
-        <form action="/question/<question_id>/new-answer" method="post">
+        <form action="/question/{{  }}/new-answer" method="post">
 
             <input type="hidden" name="id" value="{{ new_id }}">
             <input type="hidden" name="submission_time" value="{{ timestamp }}">
@@ -17,7 +17,6 @@
             <p><b><label for="new-message">New answer</label></b><br>
                 <textarea id="new-message" name="message" rows="8" cols="50" minlength="10" required></textarea></p>
 
-            <input type="hidden" value=" ">
 
             <label for="img_url">Insert image URL here:</label>
             <input id="img_url" name="image" placeholder="link">
