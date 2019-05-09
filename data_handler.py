@@ -68,7 +68,8 @@ def show_question(id):
 
 
 def get_new_answer_id(question_id):
-    question_answers = get_answers_to_question(question_id)
+    #question_answers = get_answers_to_question(question_id)
+    question_answers = connection.get_all_data_from_file('sample_data/answer.csv')
     if len(question_answers) != 0:
         new_id = str(int(question_answers[-1]['id']) + 1)
     else:

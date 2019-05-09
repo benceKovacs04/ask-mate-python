@@ -18,7 +18,7 @@ def route_list():
 def route_question(question_id):
     question = data_handler.show_question(question_id)
     answers_to_question = data_handler.get_answers_to_question(question_id)
-    print(answers_to_question)
+
 
     return render_template('question_details.html', question=question, answers_to_question=answers_to_question)
 
