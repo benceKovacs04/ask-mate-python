@@ -15,8 +15,16 @@ def route_list():
 
 
 @app.route('/question/<question_id>')
+@app.route('/question/<question_id>/voted')
 def route_question(question_id):
-    question = data_handler.show_question(question_id)
+    url = request.url_rule
+
+    if "voted" in url.rule:
+        voted = True
+    else:
+        voted = False
+
+    question = data_handler.show_question(question_id, voted)
     answers_to_question = data_handler.get_answers_to_question(question_id)
 
     return render_template('question_details.html', question=question, answers_to_question=answers_to_question)
@@ -92,7 +100,7 @@ def question(question_id, answer_id=None):
         question['vote_number'] = new_vote
         data_handler.update_entry_in_data(question, 'sample_data/question.csv')
 
-    return redirect(f'/question/{question_id}')
+    return redirect(f'/question/{question_id}/voted')
 
 
 if __name__ == '__main__':

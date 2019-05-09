@@ -39,8 +39,19 @@ def update_entry_in_data(updated_data, file_name):
     connection.write_to_csv(file_name, all_data)
 
 
-def show_question(id):
+def show_question(id, voted):
+
     question = get_question(id)
+
+    if voted:
+        return question
+
+    updated_question = increase_view_number(question)
+
+    return updated_question
+
+
+def increase_view_number(question):
     question['view_number'] = str(int(question['view_number']) + 1)
     update_entry_in_data(question, 'sample_data/question.csv')
 
