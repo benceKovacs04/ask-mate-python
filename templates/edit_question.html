@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Edit question</title>
+    </head>
+    <body>
+        <form action="/edit-question/{{ question_to_edit['id'] }}" method="post">
+
+        <label for="title-input">Question Title</label><br>
+        <input id="title-input" name="title" cols="30" required value="{{ question_to_edit['title'] }}"><br>
+
+        <label for="message-input">Message</label><br>
+        <textarea id="message-input" name="message" rows="6" cols="30" required>{{ question_to_edit['message'] }}</textarea><br>
+
+        <input type="hidden" id="id" name="id" value={{ question_to_edit['id'] }}>
+
+        <input type="hidden" id="time_stamp" name="submission_time" value={{ question_to_edit['time_stamp'] }}>
+
+        <input type="hidden" id="view_number" name="view_number" value="{{ question_to_edit['view_number'] }}">
+
+        <input type="hidden" id="vote_number" name="vote_number" value="{{ question_to_edit['vote_number'] }}">
+
+        <label for="img_url">Insert image URL here:</label>
+        <input id="img_url" name="image" placeholder="link">
+
+        <button type="submit">Edit question</button>
+    </body>
+</html>
+
