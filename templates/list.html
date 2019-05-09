@@ -19,6 +19,7 @@
                 {% for question in all_questions[::-1] %}
                     <tr>
                         <td><a href="/question/{{ question['id'] }}">{{ question['title'] }}</a></td>
+                        <td><a href="/question/{{ question['id'] }}/delete">Delete this question</a></td>
                     </tr>
                 {% endfor %}
 

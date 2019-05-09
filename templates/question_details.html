@@ -25,8 +25,9 @@
         </tbody>
     </table>
     <br>
-    
-    <p><img src="{{  question['image'] }}" height="200px" width="200px" alt="Invalid image URL"</p>
+    {%  if question['image'] %}
+        <p><img src="{{  question['image'] }}" height="200px" width="200px" alt="Invalid image URL"</p>
+    {% endif %}
     <p><h2>Message</h2></p>
     <p>{{ question['message'] }}</p><br>
 
@@ -60,6 +61,7 @@
         <button style="height:30px"><a href="/" action="post">Go back to question page</a></button>
     {% else %}
         <p>There are no answers to this question yet.</p>
+        <button style="height:30px"><a href="/" action="post">Go back to question page</a></button>
     {% endif %}
 </body>
 </html>

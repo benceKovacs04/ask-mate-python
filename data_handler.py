@@ -20,7 +20,7 @@ def get_answers_to_question(question_id):
     return answers
 
 
-def update_question_in_data(updated_question, id):
+def update_question_in_data(updated_question):
     all_questions = connection.get_all_data_from_file('sample_data/question.csv')
 
     for index in range(len(all_questions)):
@@ -30,11 +30,31 @@ def update_question_in_data(updated_question, id):
 
     connection.write_to_csv('sample_data/question.csv', all_questions)
 
+def delete_question_from_data(question_to_delete):
+    all_answers = connection.get_all_data_from_file('sample_data/answer.csv')
+    question_id = question_to_delete['id']
+    answers_to_delete = get_answers_to_question(question_id)
+
+    for index in range(len(all_answers)):
+        if all_answers[index] in answers_to_delete:
+            del all_answers[index]
+
+    connection.write_to_csv('sample_data/answer.csv', all_answers)
+
+    all_questions = connection.get_all_data_from_file('sample_data/question.csv')
+
+    for index in range(len(all_questions)):
+        if all_questions[index]['id'] == question_to_delete['id']:
+            del all_questions[index]
+            break
+
+    connection.write_to_csv('sample_data/question.csv', all_questions)
+
 
 def show_question(id):
     question = get_question(id)
     question['view_number'] = str(int(question['view_number']) + 1)
-    update_question_in_data(question, id)
+    update_question_in_data(question)
 
     return question
 

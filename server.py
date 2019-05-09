@@ -6,7 +6,7 @@ import time
 app = Flask(__name__)
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 @app.route('/list')
 def route_list():
     all_questions = connection.get_all_data_from_file('sample_data/question.csv')
@@ -51,6 +51,13 @@ def route_new_answer(question_id):
         connection.append_to_csv('sample_data/answer.csv', new_answer)
 
         return redirect(f'/question/{new_answer["question_id"] }')
+
+@app.route('/question/<question_id>/delete')
+def delete_question(question_id):
+    question_to_delete = data_handler.get_question(question_id)
+    data_handler.delete_question_from_data(question_to_delete)
+
+    return redirect('/')
 
 
 if __name__ == '__main__':
