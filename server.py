@@ -42,7 +42,7 @@ def route_edit_question(question_id):
 
     if request.method == 'POST':
         updated_question = dict(request.form)
-        data_handler.update_question_in_data(updated_question)
+        data_handler.update_entry_in_data(updated_question, 'sample_data/question.csv')
 
         return redirect(f'/question/{updated_question["id"]}')
 
