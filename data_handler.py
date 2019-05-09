@@ -20,21 +20,29 @@ def get_answers_to_question(question_id):
     return answers
 
 
-def update_question_in_data(updated_question):
-    all_questions = connection.get_all_data_from_file('sample_data/question.csv')
+def get_answer_by_id(question_id, answer_id):
 
-    for index in range(len(all_questions)):
-        if all_questions[index]['id'] == updated_question['id']:
-            all_questions[index] = updated_question
+    answers = get_answers_to_question(question_id)
+    for answer in answers:
+        if answer['id'] == answer_id:
+            return answer
+
+
+def update_entry_in_data(updated_data, file_name):
+    all_data = connection.get_all_data_from_file(file_name)
+
+    for index in range(len(all_data)):
+        if all_data[index]['id'] == updated_data['id']:
+            all_data[index] = updated_data
             break
 
-    connection.write_to_csv('sample_data/question.csv', all_questions)
+    connection.write_to_csv(file_name, all_data)
 
 
 def show_question(id):
     question = get_question(id)
     question['view_number'] = str(int(question['view_number']) + 1)
-    update_question_in_data(question)
+    update_entry_in_data(question, 'sample_data/question.csv')
 
     return question
 

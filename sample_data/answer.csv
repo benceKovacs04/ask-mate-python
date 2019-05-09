@@ -1,23 +1,2 @@
 id,submission_time,vote_number,question_id,message,image
-0,1493398154,4,0,"You need to use brackets: my_list = []",
-1,1493088154,35,0,"Look it up in the Python docs",
-0,1557318279.5762458,0,2,test answer,
-1,1557318384.869641,0,2,another test answer,
-2,1557318441.0462494,0,2,testing testing testing,
-3,1557318487.8537843,0,2,blah blah blah blah,
-4,1557318600.8444328,0,2,asldkfjélaksdfjélaksfjd,
-5,1557318702.1396923,0,2,trtewrtwertwertewrt,
-6,1557318897.5283616,0,2,asldékfjaélsdkfjéalsdkjf,
-7,1557318918.366389,0,2,bencebencebencebencebencebencebence,
-0,1557320231.7890768,0,3,hue hue hue!,
-1,1557320248.8571537,0,3,hueeeeeeeeeeeeeeeeeeeeeeeee!,
-2,1557320257.2203152,0,3,hueeeeeeeeeeeeeeeeeeeeeeeee!hueeeeeeeeeeeeeeeeeeeeeeeee!hueeeeeeeeeeeeeeeeeeeeeeeee!	,
-3,1557321284.7471967,0,3,asdasdasdasdasdasd,
-3,1557321284.7471967,0,3,asdasdasdasdasdasd,
-0,1557321557.3706734,0,4,asdfasdfasdfasdfasdfasdfasdf,
-0,1557321557.3706734,0,4,asdfasdfasdfasdfasdfasdfasdf,
-4,1557324415.6956127,0,3,lolololololol,https://i.redd.it/j0wiyskh2tw21.jpg
-
-1,1557324898.4575338,0,4,no but this image is actually good,https://i.redd.it/j0wiyskh2tw21.jpg
-2,1557332628.702422,0,0,aksdjflaksjdfélaksjdfélakjsdfélas,
-0,1557332686.1621141,0,5,sdkjfaélskdjfélaskjdf,
+0,1557401658.5976644,-1,5,vkdbfvikdfnvkdfnv,

@@ -36,17 +36,16 @@ def add_question():
 
     return render_template("add_question.html", id=id, time_stamp=time_stamp)
 
+
 @app.route('/edit-question/<question_id>', methods=['GET', 'POST'])
 def route_edit_question(question_id):
     question_to_edit = data_handler.get_question(question_id)
 
     if request.method == 'POST':
         updated_question = dict(request.form)
-        data_handler.update_question_in_data(updated_question)
+        data_handler.update_entry_in_data(updated_question, 'sample_data/question.csv')
 
         return redirect(f'/question/{updated_question["id"]}')
-
-
 
     return render_template('edit_question.html', question_to_edit=question_to_edit)
 
@@ -82,14 +81,16 @@ def question(question_id, answer_id=None):
         vote -= 1
 
     if "answer" in url.rule:
-        pass
+        answer = data_handler.get_answer_by_id(question_id, answer_id)
+        new_vote = int(answer['vote_number']) + vote
+        answer['vote_number'] = new_vote
+        data_handler.update_entry_in_data(answer, 'sample_data/answer.csv')
 
     elif "answer" not in url.rule:
         question = data_handler.get_question(question_id)
         new_vote = int(question['vote_number']) + vote
         question['vote_number'] = new_vote
-        data_handler.update_question_in_data(question)
-
+        data_handler.update_entry_in_data(question, 'sample_data/question.csv')
 
     return redirect(f'/question/{question_id}')
 
