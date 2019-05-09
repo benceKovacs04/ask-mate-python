@@ -36,6 +36,20 @@ def add_question():
 
     return render_template("add_question.html", id=id, time_stamp=time_stamp)
 
+@app.route('/edit-question/<question_id>', methods=['GET', 'POST'])
+def route_edit_question(question_id):
+    question_to_edit = data_handler.get_question(question_id)
+
+    if request.method == 'POST':
+        updated_question = dict(request.form)
+        data_handler.update_entry_in_data(updated_question, 'sample_data/question.csv')
+
+        return redirect(f'/question/{updated_question["id"]}')
+
+
+
+    return render_template('edit_question.html', question_to_edit=question_to_edit)
+
 
 @app.route('/question/<question_id>/new-answer', methods=['GET', 'POST'])
 def route_new_answer(question_id):
