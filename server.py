@@ -26,7 +26,6 @@ def route_question(question_id):
 
     question = data_handler.show_question(question_id, voted)
     answers_to_question = data_handler.get_answers_to_question(question_id)
-    print(answers_to_question)
 
     return render_template('question_details.html', question=question, answers_to_question=answers_to_question)
 
@@ -74,6 +73,7 @@ def route_new_answer(question_id):
 
         return redirect(f'/question/{new_answer["question_id"]}')
 
+
 @app.route('/question/<question_id>/delete')
 def delete_question(question_id):
     question_to_delete = data_handler.get_question(question_id)
@@ -84,29 +84,36 @@ def delete_question(question_id):
 
 @app.route('/question/<question_id>/vote-up')
 @app.route('/question/<question_id>/vote-down')
-@app.route('/question/<question_id>/answer/<answer_id>/vote-up')
-@app.route('/question/<question_id>/answer/<answer_id>/vote-down')
-def question(question_id, answer_id=None):
+def question_voting(question_id):
     url = request.url_rule
 
-    vote = 0
+    if "vote-up" in url.rule:
+        vote = 1
+    elif "vote-down" in url.rule:
+        vote = -1
+
+    question = data_handler.get_question(question_id)
+    new_vote = int(question['vote_number']) + vote
+    question['vote_number'] = new_vote
+    data_handler.update_entry_in_data(question, 'sample_data/question.csv')
+
+    return redirect(f'/question/{question_id}/voted')
+
+
+@app.route('/question/<question_id>/answer/<answer_id>/vote-up')
+@app.route('/question/<question_id>/answer/<answer_id>/vote-down')
+def answer_voting(question_id, answer_id):
+    url = request.url_rule
 
     if "vote-up" in url.rule:
-        vote += 1
+        vote = 1
     elif "vote-down" in url.rule:
-        vote -= 1
+        vote = -1
 
-    if "answer" in url.rule:
-        answer = data_handler.get_answer_by_id(question_id, answer_id)
-        new_vote = int(answer['vote_number']) + vote
-        answer['vote_number'] = new_vote
-        data_handler.update_entry_in_data(answer, 'sample_data/answer.csv')
-
-    elif "answer" not in url.rule:
-        question = data_handler.get_question(question_id)
-        new_vote = int(question['vote_number']) + vote
-        question['vote_number'] = new_vote
-        data_handler.update_entry_in_data(question, 'sample_data/question.csv')
+    answer = data_handler.get_answer_by_id(question_id, answer_id)
+    new_vote = int(answer['vote_number']) + vote
+    answer['vote_number'] = new_vote
+    data_handler.update_entry_in_data(answer, 'sample_data/answer.csv')
 
     return redirect(f'/question/{question_id}/voted')
 
