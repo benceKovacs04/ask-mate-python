@@ -9,7 +9,7 @@ app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/list', methods=['GET', 'POST'])
 def route_list():
-    all_questions = connection.get_all_data_from_file('sample_data/question.csv')
+    all_questions = data_handler.get_all_questions()
 
     return render_template('list.html', all_questions=all_questions)
 
@@ -64,6 +64,7 @@ def route_new_answer(question_id):
         connection.append_to_csv('sample_data/answer.csv', new_answer)
 
         return redirect(f'/question/{new_answer["question_id"]}')
+
 
 @app.route('/question/<question_id>/delete')
 def delete_question(question_id):
