@@ -16,10 +16,10 @@ def route_list():
 
 @app.route('/question/<question_id>')
 def route_question(question_id):
-    question = data_handler.show_question(question_id)
+    question_details = data_handler.show_question(question_id)
     answers_to_question = data_handler.get_answers_to_question(question_id)
 
-    return render_template('question_details.html', question=question, answers_to_question=answers_to_question)
+    return render_template('question_details.html', question=question_details, answers_to_question=answers_to_question)
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
