@@ -47,18 +47,15 @@ def route_edit_question(question_id):
 
 @app.route('/question/<question_id>/new-answer', methods=['GET', 'POST'])
 def route_new_answer(question_id):
-    if request.method == 'GET':
-        new_id = data_handler.get_new_answer_id(question_id)
-        timestamp = time.time()
-
-        return render_template('add_answer.html',question_id=question_id, new_id=new_id, timestamp=timestamp)
-
     if request.method == 'POST':
-        new_answer = dict(request.form)
+        new_answer = request.form
+        data_handler.add_new_answer(question_id, new_answer)
 
-        connection.append_to_csv('sample_data/answer.csv', new_answer)
+        return redirect(f'/question/{question_id}')
 
-        return redirect(f'/question/{new_answer["question_id"]}')
+
+
+    return render_template('add_answer.html', question_id=question_id)
 
 
 @app.route('/question/<question_id>/delete')
