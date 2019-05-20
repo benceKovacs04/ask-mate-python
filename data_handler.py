@@ -68,11 +68,19 @@ def update_entry_in_data(updated_data, file_name):
 @connection.connection_handler
 def delete_question(cursor, id):
     cursor.execute("""
+                   DELETE FROM answer
+                   WHERE question_id = %(id)s;
+                           """,
+                   {'id': id}
+                   )
+
+    cursor.execute("""
                    DELETE FROM question
                    WHERE id = %(id)s;
                    """,
                    {'id':id}
                    )
+
 
 
 @connection.connection_handler
