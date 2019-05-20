@@ -5,7 +5,7 @@ import time
 @connection.connection_handler
 def get_all_questions(cursor):
     cursor.execute("""
-                        SELECT title FROM question
+                        SELECT title, id FROM question
                         ORDER BY submission_time DESC;
                        """)
 
@@ -21,14 +21,15 @@ def get_question(id):
             return question
 
 
-def get_answers_to_question(question_id):
-    all_answers = connection.get_all_data_from_file('sample_data/answer.csv')
-    answers = []
+@connection.connection_handler
+def get_answers_to_question(cursor, question_id):
+    cursor.execute("""
+                            SELECT * FROM answer
+                            WHERE question_id = %(question_id)s;
+                               """,
+                   {'question_id': question_id})
 
-    for answer in all_answers:
-        if answer['question_id'] == question_id:
-            answers.append(answer)
-
+    answers = cursor.fetchall()
     return answers
 
 
@@ -72,13 +73,16 @@ def delete_question_from_data(question_to_delete):
     connection.write_to_csv('sample_data/question.csv', all_questions)
 
 
+@connection.connection_handler
+def show_question(cursor, id):
+    cursor.execute("""
+                            SELECT * FROM question
+                            WHERE id = %(id)s;
+                           """,
+                   {'id': id})
 
-def show_question(id):
-    question = get_question(id)
-    question['view_number'] = str(int(question['view_number']) + 1)
-    update_entry_in_data(question, 'sample_data/question.csv')
-
-    return question
+    question = cursor.fetchall()
+    return question[0]
 
 
 def get_new_answer_id(question_id):
