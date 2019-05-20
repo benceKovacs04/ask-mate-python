@@ -16,14 +16,14 @@ def route_list():
 
 @app.route('/question/<question_id>')
 def route_question(question_id):
-    question_details = data_handler.show_question(question_id)
+    question_details = data_handler.get_question_details(question_id)
     answers_to_question = data_handler.get_answers_to_question(question_id)
 
     return render_template('question_details.html', question=question_details, answers_to_question=answers_to_question)
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
-def add_question():
+def route_add_question():
 
     if request.method == 'POST':
         story_details = request.form
@@ -35,14 +35,13 @@ def add_question():
 
 @app.route('/edit-question/<question_id>', methods=['GET', 'POST'])
 def route_edit_question(question_id):
-    question_to_edit = data_handler.get_question(question_id)
-
     if request.method == 'POST':
-        updated_question = dict(request.form)
-        data_handler.update_entry_in_data(updated_question, 'sample_data/question.csv')
+        updated_question = request.form
+        data_handler.update_question(question_id, updated_question)
 
-        return redirect(f'/question/{updated_question["id"]}')
+        return redirect(f'/question/{question_id}')
 
+    question_to_edit = data_handler.get_question_details(question_id)
     return render_template('edit_question.html', question_to_edit=question_to_edit)
 
 
@@ -63,7 +62,7 @@ def route_new_answer(question_id):
 
 
 @app.route('/question/<question_id>/delete')
-def delete_question(question_id):
+def route_delete_question(question_id):
     data_handler.delete_question(question_id)
 
     return redirect('/')

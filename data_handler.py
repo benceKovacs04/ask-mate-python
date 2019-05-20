@@ -45,25 +45,18 @@ def add_new_question_and_return_its_id(cursor, details):
 
     return last_id[0]['id']
 
-
-
-def get_answer_by_id(question_id, answer_id):
-
-    answers = get_answers_to_question(question_id)
-    for answer in answers:
-        if answer['id'] == answer_id:
-            return answer
-
-
-def update_entry_in_data(updated_data, file_name):
-    all_data = connection.get_all_data_from_file(file_name)
-
-    for index in range(len(all_data)):
-        if all_data[index]['id'] == updated_data['id']:
-            all_data[index] = updated_data
-            break
-
-    connection.write_to_csv(file_name, all_data)
+@connection.connection_handler
+def update_question(cursor, question_id, updated_details):
+    cursor.execute("""
+                   UPDATE question
+                   SET title = %(title)s, message = %(message)s, image = %(image)s
+                   WHERE id = %(question_id)s;    
+                   """,
+                   {'title': updated_details['title'],
+                    'message': updated_details['message'],
+                    'image': updated_details['image'],
+                    'question_id': question_id}
+                   )
 
 @connection.connection_handler
 def delete_question(cursor, id):
@@ -82,9 +75,8 @@ def delete_question(cursor, id):
                    )
 
 
-
 @connection.connection_handler
-def show_question(cursor, id):
+def get_question_details(cursor, id):
     cursor.execute("""
                             SELECT * FROM question
                             WHERE id = %(id)s;
@@ -94,25 +86,3 @@ def show_question(cursor, id):
     question = cursor.fetchall()
     return question[0]
 
-
-def get_new_answer_id(question_id):
-    question_answers = connection.get_all_data_from_file('sample_data/answer.csv')
-    if len(question_answers) != 0:
-        new_id = str(int(question_answers[-1]['id']) + 1)
-    else:
-        new_id = 0
-
-    return new_id
-
-
-
-
-def generate_id(file_name):
-    all_questions = connection.get_all_data_from_file(file_name)
-    if len(all_questions) == 0:
-        new_id = 0
-    else:
-        last_id = all_questions[-1]['id']
-        new_id = int(last_id) + 1
-
-    return new_id
