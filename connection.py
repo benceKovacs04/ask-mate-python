@@ -1,43 +1,40 @@
-import csv
+import os
+import psycopg2
+import psycopg2.extras
 
-HEADER = ['id','submission_time','view_number','vote_number','title','message','image']
-ANSWER_HEADER = ["id","submission_time","vote_number","question_id","message","image"]
+def get_connection_string():
+    user_name = os.environ.get('PSQL_USER_NAME')
+    password = os.environ.get('PSQL_PASSWORD')
+    host = os.environ.get('PSQL_HOST')
+    database_name = os.environ.get('PSQL_DB_NAME')
 
+    env_variables_defined = user_name and password and host and database_name
 
-def get_all_questions():
-    return get_all_data_from_file("q.csv")
+    if env_variables_defined:
+        return f'postgresql://{user_name}:{password}@{host}/{database_name}'
 
-
-def get_all_data_from_file(file_name):
-    with open(file_name, "r") as file:
-        all_data = list(csv.DictReader(file))
-
-    return all_data
-
-
-def write_to_csv(file_name, data):
-    if file_name == 'sample_data/answer.csv':
-        header = ANSWER_HEADER
     else:
-        header = HEADER
-
-    with open(file_name, "w") as file:
-        dict_writer = csv.DictWriter(file, header)
-        dict_writer.writeheader()
-        dict_writer.writerows(data)
+        raise KeyError('Some necessary enviromental variable(s) are not defined')
 
 
-def append_to_csv(file_name, data):
-    writeable_format = []
-    writeable_format.append(data)
-    with open(file_name, "a") as file:
-        dict_writer = csv.DictWriter(file, ANSWER_HEADER)
-        dict_writer.writerows(writeable_format)
+def open_database():
+    try:
+        connection_string = get_connection_string()
+        connection = psycopg2.connect(connection_string)
+        connection.autocommit = True
+    except psycopg2.DatabaseError as exception:
+        print('Database connection problem')
+        raise exception
+    return connection
 
 
-def add_question(new_question):
-    file_name = 'sample_data/question.csv'
+def connection_handler(function):
+    def wrapper(*args, **kwargs):
+        connection = open.database()
+        dict_cur = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        ret_value = function(dict_cur, *args, **kwargs)
+        dict_cur.close()
+        connection.close()
+        return ret_value
 
-    with open(file_name, 'a') as file:
-        dict_writer = csv.DictWriter(file, HEADER)
-        dict_writer.writerow(new_question)
+    return wrapper
