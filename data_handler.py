@@ -2,6 +2,17 @@ import connection
 import time
 
 
+@connection.connection_handler
+def get_all_questions(cursor):
+    cursor.execute("""
+                        SELECT title FROM question
+                        ORDER BY submission_time DESC;
+                       """)
+
+    questions = cursor.fetchall()
+    return questions
+
+
 def get_question(id):
     all_questions = connection.get_all_data_from_file('sample_data/question.csv')
 
@@ -59,6 +70,7 @@ def delete_question_from_data(question_to_delete):
             break
 
     connection.write_to_csv('sample_data/question.csv', all_questions)
+
 
 
 def show_question(id):
