@@ -1,5 +1,5 @@
 import connection
-import time
+from datetime import datetime
 
 
 @connection.connection_handler
@@ -13,14 +13,6 @@ def get_all_questions(cursor):
     return questions
 
 
-def get_question(id):
-    all_questions = connection.get_all_data_from_file('sample_data/question.csv')
-
-    for question in all_questions:
-        if question['id'] == id:
-            return question
-
-
 @connection.connection_handler
 def get_answers_to_question(cursor, question_id):
     cursor.execute("""
@@ -31,6 +23,28 @@ def get_answers_to_question(cursor, question_id):
 
     answers = cursor.fetchall()
     return answers
+
+
+@connection.connection_handler
+def add_new_question_and_return_its_id(cursor, details):
+    dt = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    sql_query = """
+                    INSERT INTO question (submission_time, view_number, vote_number, title, message, image) 
+                    VALUES (%(submission_time)s, %(view_number)s, %(vote_number)s, %(title)s, %(message)s, %(image)s)
+                    RETURNING id"""
+
+    cursor.execute(sql_query,
+                   {'submission_time': dt,
+                    'view_number': 0,
+                    'vote_number': 0,
+                    'title': details['title'],
+                    'message': details['message'],
+                    'image': details['image']})
+
+    last_id = cursor.fetchall()
+
+    return last_id[0]['id']
+
 
 
 def get_answer_by_id(question_id, answer_id):
@@ -95,10 +109,6 @@ def get_new_answer_id(question_id):
     return new_id
 
 
-def add_time_stamp():
-    time_stamp = time.time()
-
-    return round(time_stamp)
 
 
 def generate_id(file_name):

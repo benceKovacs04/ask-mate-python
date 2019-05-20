@@ -24,17 +24,13 @@ def route_question(question_id):
 
 @app.route('/add-question', methods=['GET', 'POST'])
 def add_question():
-    file_name = 'sample_data/question.csv'
-    id = data_handler.generate_id(file_name)
-    time_stamp = data_handler.add_time_stamp()
 
     if request.method == 'POST':
-        new_question = dict(request.form)
-        question_id = new_question['id']
-        connection.add_question(new_question, file_name)
-        return redirect(f'/question/{question_id}')
+        story_details = request.form
+        new_question_id = data_handler.add_new_question_and_return_its_id(story_details)
+        return redirect(f'/question/{new_question_id}')
 
-    return render_template("add_question.html", id=id, time_stamp=time_stamp)
+    return render_template("add_question.html")
 
 
 @app.route('/edit-question/<question_id>', methods=['GET', 'POST'])
