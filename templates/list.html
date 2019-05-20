@@ -7,7 +7,21 @@
     <body>
         <p><h1>AskMate</h1>
         <br style="line-height:1"><br></p>
-        <p><a href="/add-question"><button>Ask new question</button></a></p>
+        <p><a href="/add-question"><button>Ask new question</button></a>
+        <form action="/list" method="get">
+            <select name="order">
+                <option value="id">ID</option>
+                <option value="submissin_time">Submission time</option>
+                <option value="view_number">View number</option>
+                <option value="vote_number">Vote number</option>
+                <option value="title">Alphabetical</option>
+            </select>
+            <select name="order_dir">
+                <option value="desc">Descending</option>
+                <option value="asc">Ascending</option>
+            </select>
+            <button type="submit">Sort!</button>
+        </form>
         {% if all_questions|length != 0 %}
             <table border="1" frame="1" cellpadding="5">
                 <thead>
@@ -32,4 +46,6 @@
 
     </body>
 </html>
+
+
 
