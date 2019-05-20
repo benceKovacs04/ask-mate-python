@@ -19,7 +19,6 @@ def route_question(question_id):
     question = data_handler.show_question(question_id)
     answers_to_question = data_handler.get_answers_to_question(question_id)
 
-
     return render_template('question_details.html', question=question, answers_to_question=answers_to_question)
 
 
@@ -65,6 +64,7 @@ def route_new_answer(question_id):
         connection.append_to_csv('sample_data/answer.csv', new_answer)
 
         return redirect(f'/question/{new_answer["question_id"]}')
+
 
 @app.route('/question/<question_id>/delete')
 def delete_question(question_id):
