@@ -4,6 +4,10 @@ HEADER = ['id','submission_time','view_number','vote_number','title','message','
 ANSWER_HEADER = ["id","submission_time","vote_number","question_id","message","image"]
 
 
+def get_all_questions():
+    return get_all_data_from_file("q.csv")
+
+
 def get_all_data_from_file(file_name):
     with open(file_name, "r") as file:
         all_data = list(csv.DictReader(file))
@@ -31,7 +35,9 @@ def append_to_csv(file_name, data):
         dict_writer.writerows(writeable_format)
 
 
-def add_question(new_question, file_name):
+def add_question(new_question):
+    file_name = 'sample_data/question.csv'
+
     with open(file_name, 'a') as file:
         dict_writer = csv.DictWriter(file, HEADER)
         dict_writer.writerow(new_question)

@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 
 @app.route('/', methods=['GET', 'POST'])
-@app.route('/list')
+@app.route('/list', methods=['GET', 'POST'])
 def route_list():
     all_questions = connection.get_all_data_from_file('sample_data/question.csv')
 
@@ -18,7 +18,6 @@ def route_list():
 def route_question(question_id):
     question = data_handler.show_question(question_id)
     answers_to_question = data_handler.get_answers_to_question(question_id)
-
 
     return render_template('question_details.html', question=question, answers_to_question=answers_to_question)
 
@@ -91,7 +90,7 @@ def route_edit_answer(question_id, answer_id):
 @app.route('/question/<question_id>/vote-down')
 @app.route('/question/<question_id>/answer/<answer_id>/vote-up')
 @app.route('/question/<question_id>/answer/<answer_id>/vote-down')
-def question(question_id, answer_id=None):
+def voting(question_id, answer_id=None):
     url = request.url_rule
 
     vote = 0
