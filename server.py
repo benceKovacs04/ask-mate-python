@@ -1,7 +1,6 @@
 from flask import Flask, render_template, redirect, request
 import data_handler
-import connection
-import time
+
 
 app = Flask(__name__)
 
@@ -16,7 +15,7 @@ def route_list():
     else:
         all_questions = data_handler.get_all_questions()
 
-    return render_template('list.html', all_questions=all_questions)
+    return render_template('list.html', all_questions=all_questions, order=order, order_dir=order_dir)
 
 
 @app.route('/question/<question_id>')
@@ -24,7 +23,14 @@ def route_question(question_id):
     question_details = data_handler.get_question_details(question_id)
     answers_to_question = data_handler.get_answers_to_question(question_id)
 
-    return render_template('question_details.html', question=question_details, answers_to_question=answers_to_question)
+    return render_template('answers.html', question=question_details, answers_to_question=answers_to_question)
+
+@app.route('/question/<question_id>/new-tag', methods=['GET', 'POST'])
+def route_new_tag(question_id):
+    all_question_tags = data_handler.get_all_question_tags()
+    question = data_handler.get_question_details(question_id)
+
+    return render_template('add_new_tag.html', all_question_tags = all_question_tags, question=question)
 
 
 @app.route('/add-question', methods=['GET', 'POST'])

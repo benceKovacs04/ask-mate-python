@@ -98,3 +98,12 @@ def add_new_answer(cursor, question_id, new_answer):
                     'question_id': question_id,
                     'message': new_answer['message'],
                     'image': new_answer['image']})
+
+
+@connection.connection_handler
+def get_all_question_tags(cursor):
+    cursor.execute("""
+                    SELECT name FROM tag""")
+
+    all_tags = cursor.fetchall()
+    return all_tags

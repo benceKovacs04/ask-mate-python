@@ -30,50 +30,12 @@
     {% endif %}
     <p><h2>Message</h2></p>
     <p>{{ question['message'] }}</p><br>
-    <a href="/edit-question/{{ question['id'] }}"><button>Edit question</button></a></p>
+    <a href="/edit-question/{{ question['id'] }}"><button>Edit question</button></a>
 
     <button type="button"><a href="/question/{{ question['id'] }}/vote-up">Like</a></button>
     <button type="button"><a href='/question/{{ question['id'] }}/vote-down'>Dislike</a></button>
 
-    <p><h3>Answers</h3></p>
-    <p><a href="/question/{{ question['id'] }}/new-answer"><button>Add new answer</button></a>
+    {% block content %} {% endblock %}
 
-    {% if answers_to_question %}
-        <table border="1" frame="1" cellpadding="10">
-            <thead>
-                <tr>
-                    <td align="center"><strong>Answer</strong></td>
-                    <td align="center" width="10"><strong>Votes</strong></td>
-                    <td colspan="2" align="center"><strong>Voting</strong></td>
-                    <td align="center" width="10"><strong>Image</strong></td>
-                    <td align="center" width="10"><strong>Edit</strong></td>
-                </tr>
-            </thead>
-            <tbody>
-                {% for answer in answers_to_question %}
-                    <tr>
-                        <td>{{ answer['message'] }}</td>
-                        <td align="center">{{ answer['vote_number'] }}</td>
-
-                        <td align="center"><button type="button"><a href="/question/{{ question['id'] }}/answer/{{ answer['id'] }}/vote-up">Like</button></td>
-                        <td align="center"><button type="button"><a href='/question/{{ question['id'] }}/answer/{{ answer['id'] }}/vote-down'>Dislike</button></td>
-
-                        {% if answer['image'] %}
-                            <td><img src="{{ answer['image'] }}" height="200px" width="200px" alt="Invalid image URL"></td>
-                        {% else %}
-                            <td>No image added</td>
-                        {% endif %}
-
-                        <td align="center"><a href="/question/{{ question['id'] }}/edit-answer/{{ answer['id'] }}"><button>Edit Answer</button></a></td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <br>
-        <button style="height:30px"><a href="/" action="post">Go back to question page</a></button>
-    {% else %}
-        <p>There are no answers to this question yet.</p>
-        <button style="height:30px"><a href="/" action="post">Go back to question page</a></button>
-    {% endif %}
 </body>
 </html>
