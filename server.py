@@ -14,8 +14,6 @@ def route_list():
     else:
         limit = 5
 
-    print(request.url_rule)
-
     order = request.args.get('order')
     order_dir = request.args.get('order_dir')
     if order and order_dir:
@@ -23,7 +21,15 @@ def route_list():
     else:
         all_questions = data_handler.get_all_questions(limit)
 
-    return render_template('list.html', questions=all_questions, limit=limit)
+    return render_template('list.html', questions=all_questions, limit=limit, order=order, order_dir=order_dir)
+
+
+@app.route('/search', methods=["POST"])
+def route_search():
+    searched_question = request.form
+    found_questions = data_handler.search_question(searched_question)
+
+    return render_template('list.html', questions=found_questions)
 
 
 @app.route('/question/<question_id>')

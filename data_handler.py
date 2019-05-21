@@ -30,6 +30,21 @@ def get_latest_questions(cursor):
 
 
 @connection.connection_handler
+def search_question(cursor, searched_question):
+    searched_question = '%' + searched_question['search'] + '%'
+    cursor.execute("""
+                   SELECT title, id FROM question
+                   WHERE title LIKE %(title)s
+                   OR message LIKE %(message)s;
+                   """,
+                   {'title': searched_question,
+                    'message': searched_question}
+                    )
+    found_questions = cursor.fetchall()
+    return found_questions
+
+
+@connection.connection_handler
 def get_answers_to_question(cursor, question_id):
     cursor.execute("""
                             SELECT * FROM answer
