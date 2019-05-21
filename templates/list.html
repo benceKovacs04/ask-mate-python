@@ -7,50 +7,62 @@
     <body>
         <p><h1>AskMate</h1>
         <br style="line-height:1"><br></p>
-        <p><a href="/add-question"><button>Ask new question</button></a>
+
+        <table width="500">
+            <tr>
+                <td><a href="/add-question"><button>Ask new question</button></a></td>
+
+                <td><form action="/search" method="post">
+                    <input type="text" name="search" placeholder="Search question " />
+                    <button type="submit">Search</button>
+                </form></td>
+            </tr>
+        </table>
+        <br>
         <form action="/list" method="get">
             <select name="order">
+                <option value="">--Choose an order--</option>
                 <option value="submission_time">Submission time</option>
                 <option value="view_number">View number</option>
                 <option value="vote_number">Vote number</option>
                 <option value="title">Alphabetical</option>
             </select>
             <select name="order_dir">
+                <option value="">--Choose order direction</option>
                 <option value="DESC">Descending</option>
                 <option value="ASC">Ascending</option>
             </select>
             <button type="submit">Sort!</button>
         </form>
-        {% if questions|length != 0 %}
-            <table border="1" frame="1" cellpadding="5">
-                <thead>
-                    <tr>
-                        <p><th>Question titles</th></p>
-                    </tr>
-                </thead>
-                <tbody>
-
-                    {% for question in questions[::-1] %}
+        {% if questions %}
+            {% if questions|length == 0 %}
+                <p>There are no questions yet.</p>
+            {% else %}
+                <table border="1" frame="1" cellpadding="5">
+                    <thead>
                         <tr>
-                            <td><a href="/question/{{ question['id'] }}">{{ question['title'] }}</a></td>
-                            <td><a href="/question/{{ question['id'] }}/delete"><button>Delete this question</button></a></td>
+                            <p><th>Question titles</th></p>
                         </tr>
-                    {% endfor %}
+                    </thead>
+                    <tbody>
 
-                </tbody>
-            </table>
+                        {% for question in questions[::-1] %}
+                            <tr>
+                                <td><a href="/question/{{ question['id'] }}">{{ question['title'] }}</a></td>
+                                <td><a href="/question/{{ question['id'] }}/delete"><button>Delete this question</button></a></td>
+                            </tr>
+                        {% endfor %}
 
-        {% if limit %}
-            <p><a href="{{ url_for('route_list') }}">List all questions</a></p>
+                    </tbody>
+                </table>
+            {% endif %}
+
         {% else %}
-            <p><a href="/">Show latest questions only</a></p>
-        {% endif %}
-
-        {% else %}
-            <p>There are no questions yet.</p>
+            <p>There are no such questions.</p>
         {% endif %}
 
     </body>
+    {% include 'footer.html' %}
 </html>
 
 

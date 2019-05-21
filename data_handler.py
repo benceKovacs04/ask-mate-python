@@ -20,11 +20,28 @@ def get_all_questions(cursor, limit, order_by='submission_time', order_direction
     questions = cursor.fetchall()
     return questions
 
+
 @connection.connection_handler
 def get_latest_questions(cursor):
     cursor.execute("""
                    SELECT title, id FROM question
                    """)
+
+
+@connection.connection_handler
+def search_question(cursor, searched_question):
+    searched_question = '%' + searched_question['search'] + '%'
+    cursor.execute("""
+                   SELECT title, id FROM question
+                   WHERE title LIKE %(title)s
+                   OR message LIKE %(message)s;
+                   """,
+                   {'title': searched_question,
+                    'message': searched_question}
+                    )
+    found_questions = cursor.fetchall()
+    return found_questions
+
 
 @connection.connection_handler
 def get_answers_to_question(cursor, question_id):
@@ -58,6 +75,7 @@ def add_new_question_and_return_its_id(cursor, details):
 
     return last_id[0]['id']
 
+
 @connection.connection_handler
 def update_question(cursor, question_id, updated_details):
     cursor.execute("""
@@ -70,6 +88,7 @@ def update_question(cursor, question_id, updated_details):
                     'image': updated_details['image'],
                     'question_id': question_id}
                    )
+
 
 @connection.connection_handler
 def delete_question(cursor, id):
