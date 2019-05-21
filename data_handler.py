@@ -93,6 +93,20 @@ def update_question(cursor, question_id, updated_details):
 @connection.connection_handler
 def delete_question(cursor, id):
     cursor.execute("""
+                       DELETE FROM question_tag
+                       WHERE question_id = %(id)s;
+                               """,
+                   {'id': id}
+                   )
+
+    cursor.execute("""
+                    DELETE FROM comment
+                    WHERE question_id = %(id)s;
+                                   """,
+                   {'id': id}
+                   )
+
+    cursor.execute("""
                    DELETE FROM answer
                    WHERE question_id = %(id)s;
                            """,
