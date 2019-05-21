@@ -1,5 +1,6 @@
 import connection
 from datetime import datetime
+from psycopg2 import sql
 
 
 @connection.connection_handler
@@ -58,6 +59,7 @@ def update_question(cursor, question_id, updated_details):
                     'question_id': question_id}
                    )
 
+
 @connection.connection_handler
 def delete_question(cursor, id):
     cursor.execute("""
@@ -98,3 +100,21 @@ def add_new_answer(cursor, question_id, new_answer):
                     'question_id': question_id,
                     'message': new_answer['message'],
                     'image': new_answer['image']})
+
+
+@connection.connection_handler
+def increase_view_number(cursor, question_id):
+    cursor.execute("""
+                    UPDATE question 
+                    SET view_number = view_number + 1
+                    WHERE id = %(question_id)s""",
+                   {'question_id': question_id})
+
+
+@connection.connection_handler
+def change_vote_number(cursor, table, vote, id):
+
+    cursor.execute(
+        sql.SQL("update {table} set vote_number = vote_number + %(vote)s WHERE id = %(id)s").
+            format(table=sql.Identifier(str(table))), {'vote': vote, 'id': id})
+

@@ -15,9 +15,14 @@ def route_list():
 
 
 @app.route('/question/<question_id>')
+@app.route('/question/<question_id>/vote')
 def route_question(question_id):
+    url = request.url_rule
     question_details = data_handler.get_question_details(question_id)
     answers_to_question = data_handler.get_answers_to_question(question_id)
+
+    if "vote" not in url.rule:
+        data_handler.increase_view_number(question_id)
 
     return render_template('question_details.html', question=question_details, answers_to_question=answers_to_question)
 
@@ -53,8 +58,6 @@ def route_new_answer(question_id):
 
         return redirect(f'/question/{question_id}')
 
-
-
     return render_template('add_answer.html', question_id=question_id)
 
 
@@ -84,27 +87,22 @@ def route_edit_answer(question_id, answer_id):
 @app.route('/question/<question_id>/answer/<answer_id>/vote-down')
 def voting(question_id, answer_id=None):
     url = request.url_rule
-
     vote = 0
 
     if "vote-up" in url.rule:
-        vote += 1
+        vote = 1
     elif "vote-down" in url.rule:
-        vote -= 1
+        vote = -1
 
     if "answer" in url.rule:
-        answer = data_handler.get_answer_by_id(question_id, answer_id)
-        new_vote = int(answer['vote_number']) + vote
-        answer['vote_number'] = new_vote
-        data_handler.update_entry_in_data(answer, 'sample_data/answer.csv')
+        table = 'answer'
+        data_handler.change_vote_number(table, vote, answer_id)
 
     elif "answer" not in url.rule:
-        question = data_handler.get_question(question_id)
-        new_vote = int(question['vote_number']) + vote
-        question['vote_number'] = new_vote
-        data_handler.update_entry_in_data(question, 'sample_data/question.csv')
+        table = 'question'
+        data_handler.change_vote_number(table, vote, question_id)
 
-    return redirect(f'/question/{question_id}')
+    return redirect(f'/question/{question_id}/vote')
 
 
 if __name__ == '__main__':
