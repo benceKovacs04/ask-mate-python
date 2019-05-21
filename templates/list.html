@@ -21,7 +21,7 @@
             </select>
             <button type="submit">Sort!</button>
         </form>
-        {% if all_questions|length != 0 %}
+        {% if questions|length != 0 %}
             <table border="1" frame="1" cellpadding="5">
                 <thead>
                     <tr>
@@ -30,7 +30,7 @@
                 </thead>
                 <tbody>
 
-                    {% for question in all_questions[::-1] %}
+                    {% for question in questions[::-1] %}
                         <tr>
                             <td><a href="/question/{{ question['id'] }}">{{ question['title'] }}</a></td>
                             <td><a href="/question/{{ question['id'] }}/delete"><button>Delete this question</button></a></td>
@@ -39,6 +39,13 @@
 
                 </tbody>
             </table>
+
+        {% if limit %}
+            <p><a href="{{ url_for('route_list') }}">List all questions</a></p>
+        {% else %}
+            <p><a href="/">Show latest questions only</a></p>
+        {% endif %}
+
         {% else %}
             <p>There are no questions yet.</p>
         {% endif %}
