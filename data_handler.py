@@ -3,11 +3,11 @@ from datetime import datetime
 
 
 @connection.connection_handler
-def get_all_questions(cursor):
-    cursor.execute("""
-                        SELECT title, id FROM question
-                        ORDER BY submission_time DESC;
-                       """)
+def get_all_questions(cursor, order_by='submission_time', order_direction='DESC'):
+    sql_query = f"""
+                SELECT title, id FROM question
+                ORDER BY {order_by} {order_direction}"""
+    cursor.execute(sql_query)
 
     questions = cursor.fetchall()
     return questions

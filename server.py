@@ -6,10 +6,15 @@ import time
 app = Flask(__name__)
 
 
-@app.route('/', methods=['GET', 'POST'])
-@app.route('/list', methods=['GET', 'POST'])
+@app.route('/')
+@app.route('/list')
 def route_list():
-    all_questions = data_handler.get_all_questions()
+    order = request.args.get('order')
+    order_dir = request.args.get('order_dir')
+    if order and order_dir:
+        all_questions = data_handler.get_all_questions(order, order_dir)
+    else:
+        all_questions = data_handler.get_all_questions()
 
     return render_template('list.html', all_questions=all_questions)
 
@@ -61,9 +66,11 @@ def route_new_answer(question_id):
 @app.route('/question/<question_id>/delete')
 def route_delete_question(question_id):
     data_handler.delete_question(question_id)
-
-    return redirect('/')
-
+    referrer = request.referrer
+    if referrer:
+        return redirect(referrer)
+    else:
+        return redirect('/')
 
 @app.route('/question/<question_id>/edit-answer/<answer_id>', methods=['GET', 'POST'])
 def route_edit_answer(question_id, answer_id):
@@ -78,33 +85,7 @@ def route_edit_answer(question_id, answer_id):
     return render_template('edit_answer.html', answer_to_edit=answer_to_edit)
 
 
-@app.route('/question/<question_id>/vote-up')
-@app.route('/question/<question_id>/vote-down')
-@app.route('/question/<question_id>/answer/<answer_id>/vote-up')
-@app.route('/question/<question_id>/answer/<answer_id>/vote-down')
-def voting(question_id, answer_id=None):
-    url = request.url_rule
 
-    vote = 0
-
-    if "vote-up" in url.rule:
-        vote += 1
-    elif "vote-down" in url.rule:
-        vote -= 1
-
-    if "answer" in url.rule:
-        answer = data_handler.get_answer_by_id(question_id, answer_id)
-        new_vote = int(answer['vote_number']) + vote
-        answer['vote_number'] = new_vote
-        data_handler.update_entry_in_data(answer, 'sample_data/answer.csv')
-
-    elif "answer" not in url.rule:
-        question = data_handler.get_question(question_id)
-        new_vote = int(question['vote_number']) + vote
-        question['vote_number'] = new_vote
-        data_handler.update_entry_in_data(question, 'sample_data/question.csv')
-
-    return redirect(f'/question/{question_id}')
 
 
 if __name__ == '__main__':
