@@ -8,14 +8,21 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/list')
 def route_list():
+    if str(request.url_rule) == '/list':
+        limit = None
+    else:
+        limit = 5
+
+    print(request.url_rule)
+
     order = request.args.get('order')
     order_dir = request.args.get('order_dir')
     if order and order_dir:
-        all_questions = data_handler.get_all_questions(order, order_dir)
+        all_questions = data_handler.get_all_questions(limit, order, order_dir)
     else:
-        all_questions = data_handler.get_all_questions()
+        all_questions = data_handler.get_all_questions(limit)
 
-    return render_template('list.html', all_questions=all_questions, order=order, order_dir=order_dir)
+    return render_template('list.html', questions=all_questions, limit=limit)
 
 
 @app.route('/question/<question_id>')
