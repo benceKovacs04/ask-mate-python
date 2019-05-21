@@ -1,5 +1,6 @@
 import connection
 from datetime import datetime
+from psycopg2 import sql
 
 
 @connection.connection_handler
@@ -50,6 +51,18 @@ def get_answers_to_question(cursor, question_id):
                             WHERE question_id = %(question_id)s;
                                """,
                    {'question_id': question_id})
+
+    answers = cursor.fetchall()
+    return answers
+
+
+@connection.connection_handler
+def get_single_answer_by_id(cursor, id):
+    cursor.execute("""
+                    SELECT * FROM answer
+                    WHERE id = %(id)s;
+                    """,
+                    {'id': id})
 
     answers = cursor.fetchall()
     return answers
@@ -144,3 +157,31 @@ def add_new_answer(cursor, question_id, new_answer):
                     'question_id': question_id,
                     'message': new_answer['message'],
                     'image': new_answer['image']})
+
+
+@connection.connection_handler
+def increase_view_number(cursor, question_id):
+    cursor.execute("""
+                    UPDATE question 
+                    SET view_number = view_number + 1
+                    WHERE id = %(question_id)s""",
+                   {'question_id': question_id})
+
+
+@connection.connection_handler
+def change_vote_number(cursor, table, vote, id):
+
+    cursor.execute(
+        sql.SQL("update {table} set vote_number = vote_number + %(vote)s WHERE id = %(id)s").
+            format(table=sql.Identifier(str(table))), {'vote': vote, 'id': id})
+
+
+@connection.connection_handler
+def edit_answer(cursor, answer_id, message, image):
+    cursor.execute("""
+                    UPDATE answer
+                    SET message = %(message)s, image = %(image)s
+                    WHERE id = %(answer_id)s""",
+                   {'message': message,
+                    'image': image,
+                   'answer_id': answer_id})
