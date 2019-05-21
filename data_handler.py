@@ -4,15 +4,28 @@ from psycopg2 import sql
 
 
 @connection.connection_handler
-def get_all_questions(cursor):
-    cursor.execute("""
-                        SELECT title, id FROM question
-                        ORDER BY submission_time DESC;
-                       """)
+def get_all_questions(cursor, limit, order_by='submission_time', order_direction='DESC'):
+    if limit is None:
+        sql_query = f"""
+                    SELECT title, id FROM question
+                    ORDER BY {order_by} {order_direction}"""
+        cursor.execute(sql_query)
+    else:
+        sql_query = f"""
+                    SELECT title, id FROM question
+                    ORDER BY {order_by} {order_direction}
+                    LIMIT {limit}
+                    """
+        cursor.execute(sql_query)
 
     questions = cursor.fetchall()
     return questions
 
+@connection.connection_handler
+def get_latest_questions(cursor):
+    cursor.execute("""
+                   SELECT title, id FROM question
+                   """)
 
 @connection.connection_handler
 def get_answers_to_question(cursor, question_id):
