@@ -82,17 +82,20 @@ def route_delete_question(question_id):
     else:
         return redirect('/')
 
-@app.route('/question/<question_id>/edit-answer/<answer_id>', methods=['GET', 'POST'])
-def route_edit_answer(question_id, answer_id):
-    if request.method == 'POST':
-        updated_answer = dict(request.form)
-        data_handler.update_entry_in_data(updated_answer, 'sample_data/answer.csv')
 
-        return redirect(f'/question/{question_id}')
+@app.route('/question/<question_id>/edit-answer/<answer_id>')
+def render_edit_answer_form(answer_id, question_id):
+    answer_to_edit = data_handler.get_single_answer_by_id(answer_id)
+    return render_template('edit_answer.html', answer_to_edit=answer_to_edit[0], question_id=question_id)
 
-    answer_to_edit = data_handler.get_answer_by_id(question_id, answer_id)
 
-    return render_template('edit_answer.html', answer_to_edit=answer_to_edit)
+@app.route('/question/<question_id>/edit-answer/<answer_id>/editing', methods=['POST'])
+def edit_answer(question_id, answer_id):
+    updated_message = request.form.get('message')
+    updated_image = request.form.get('image')
+    data_handler.edit_answer(answer_id, updated_message, updated_image)
+
+    return redirect(f'/question/{question_id}')
 
 
 @app.route('/question/<question_id>/vote-up')

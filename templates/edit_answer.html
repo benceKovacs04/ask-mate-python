@@ -7,12 +7,7 @@
     <body>
         <p><h1>Edit answer</h1></p>
 
-        <form action="/question/{{ answer_to_edit['question_id'] }}/edit-answer/{{ answer_to_edit['id'] }}" method="post">
-
-            <input type="hidden" name="id" value="{{ answer_to_edit['id'] }}">
-            <input type="hidden" name="submission_time" value="{{ answer_to_edit['timestamp'] }}">
-            <input type="hidden" name="vote_number" value="{{ answer_to_edit['vote_number'] }}">
-            <input type="hidden" name="question_id" value="{{ answer_to_edit['question_id'] }}">
+        <form action="/question/{{ answer_to_edit['question_id'] }}/edit-answer/{{ answer_to_edit['id'] }}/editing" method="post">
 
             <p><b><label for="new-message">New answer</label></b><br>
                 <textarea id="new-message" name="message" rows="8" cols="50" minlength="10" required>{{ answer_to_edit['message'] }}</textarea></p>
@@ -21,7 +16,6 @@
             <input id="img_url" name="image" placeholder="link">
 
             <p><button type="submit">Edit answer!</button></p>
-
 
         </form>
     </body>
