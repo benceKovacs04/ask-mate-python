@@ -4,7 +4,7 @@ from psycopg2 import sql
 
 
 @connection.connection_handler
-def get_all_questions(cursor, limit, order_by='submission_time', order_direction='ASC'):
+def get_all_questions(cursor, limit, order_by='submission_time', order_direction='DESC'):
     if limit is None:
         sql_query = f"""
                     SELECT title, id FROM question

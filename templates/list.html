@@ -46,7 +46,7 @@
                     </thead>
                     <tbody>
 
-                        {% for question in questions[::-1] %}
+                        {% for question in questions %}
                             <tr>
                                 <td><a href="/question/{{ question['id'] }}">{{ question['title'] }}</a></td>
                                 <td><a href="/question/{{ question['id'] }}/delete"><button>Delete this question</button></a></td>
