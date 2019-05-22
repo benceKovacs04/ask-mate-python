@@ -300,7 +300,11 @@ def add_question_tag_handler(question_id, tags_from_form):
     for tag in ids_of_names:
         ids_to_insert_to_question_tag.append(tag['id'])
 
-    add_new_question_tag(question_id, ids_to_insert_to_question_tag)
+    try:
+        add_new_question_tag(question_id, ids_to_insert_to_question_tag)
+    except:
+        pass
+
 
 
 
