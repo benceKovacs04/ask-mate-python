@@ -44,6 +44,8 @@ def route_new_tag(question_id):
         form_values = request.form
         data_handler.add_question_tag_handler(question_id, form_values)
 
+        return redirect(f'/question/{question_id}')
+
     all_question_tags = data_handler.get_all_question_tags()
     question = data_handler.get_question_details(question_id)
 
@@ -80,8 +82,6 @@ def route_new_answer(question_id):
         data_handler.add_new_answer(question_id, new_answer)
 
         return redirect(f'/question/{question_id}')
-
-
 
     return render_template('add_answer.html', question_id=question_id)
 
