@@ -3,4 +3,26 @@
 {% block content %}
     <br><br><a href="/question/{{ question['id'] }}"><button>Show answers</button></a>
 
+    <p><h3>Select an existing one, or create a new one. Or both</h3></p>
+
+    <form action="/question/{{ question['id'] }}/new-tag" method="post">
+        <p><select name="existing_tag">
+            <option></option>
+            {% for tag in all_question_tags %}
+            <option value="{{ tag['name'] }}">{{ tag['name'] }}</option>
+            {% endfor %}
+        </select>
+        </p>
+
+        <p>
+            <label for="new-tag"><strong>New tag</strong></label><br>
+            <input id="new-tag" name="new_tag">
+        </p>
+        <p>
+            <button type="submit">Add tag(s)</button>
+        </p>
+
+    </form>
+
+
 {% endblock %}

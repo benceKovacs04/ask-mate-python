@@ -13,8 +13,6 @@ def route_list():
     else:
         limit = 5
 
-    print(request.url_rule)
-
     order = request.args.get('order')
     order_dir = request.args.get('order_dir')
     if order and order_dir:
@@ -29,11 +27,23 @@ def route_list():
 def route_question(question_id):
     question_details = data_handler.get_question_details(question_id)
     answers_to_question = data_handler.get_answers_to_question(question_id)
+    tag_ids_dict = data_handler.get_question_tag_ids(question_id)
+    tag_ids_list = []
+    for tag_id in tag_ids_dict:
+        tag_ids_list.append(tag_id.get('tag_id'))
+    question_tags = data_handler.get_question_tags(tag_ids_list)
 
-    return render_template('answers.html', question=question_details, answers_to_question=answers_to_question)
+    return render_template('answers.html',
+                           question=question_details,
+                           answers_to_question=answers_to_question,
+                           question_tags=question_tags)
 
 @app.route('/question/<question_id>/new-tag', methods=['GET', 'POST'])
 def route_new_tag(question_id):
+    if request.method == 'POST':
+        form_values = request.form
+        data_handler.add_question_tag_handler(question_id, form_values)
+
     all_question_tags = data_handler.get_all_question_tags()
     question = data_handler.get_question_details(question_id)
 

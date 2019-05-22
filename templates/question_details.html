@@ -6,6 +6,11 @@
 </head>
 <body>
     <h1>{{ question['title'] }}</h1>
+    <p class="question-tags">
+        {% for tag in question_tags %}
+        {{ tag['name'] }}
+        {% endfor %}
+    </p>
     <table>
         <thead>
             <tr>
