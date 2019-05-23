@@ -35,7 +35,7 @@
     margin-right: auto;
 }
 
-#question-title-list {
+#question-title {
     font-size: 30px;
     padding-bottom: 20px;
 }
@@ -126,4 +126,12 @@
     padding-left: 10px;
     padding-right: 10px;
     font-size: 18px;
+}
+
+.question-detail {
+    background-color: paleturquoise;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 18px;
+    text-align: center;
 }
