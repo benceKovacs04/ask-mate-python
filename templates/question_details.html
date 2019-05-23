@@ -31,14 +31,14 @@
     </table>
     <br>
     {%  if question['image'] %}
-        <p><img src="{{  question['image'] }}" height="200px" width="200px" alt="Invalid image URL"</p>
+        <p><img src="{{  question['image'] }}" height="200px" width="200px" alt="Invalid image URL"/></p>
     {% endif %}
     <p><h2>Message</h2></p>
     <p>{{ question['message'] }}</p><br>
     <a href="/edit-question/{{ question['id'] }}"><button>Edit question</button></a>
 
-    <button type="button"><a href="/question/{{ question['id'] }}/vote-up">Like</a></button>
-    <button type="button"><a href='/question/{{ question['id'] }}/vote-down'>Dislike</a></button>
+    <button type="button"><a href="/question/{{ question['id'] }}/voting?direction=up&target=question">Like</a></button>
+    <button type="button"><a href='/question/{{ question['id'] }}/voting?direction=down&target=question'>Dislike</a></button>
 
     {% block content %} {% endblock %}
 

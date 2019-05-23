@@ -171,11 +171,18 @@ def increase_view_number(cursor, question_id):
 
 
 @connection.connection_handler
-def change_vote_number(cursor, table, vote, id):
+def change_vote_number(cursor, target_table, vote_direction, id):
+    vote = 0
+
+    if vote_direction == 'up':
+        vote = 1
+    elif vote_direction == 'down':
+        vote = -1
 
     cursor.execute(
-        sql.SQL("update {table} set vote_number = vote_number + %(vote)s WHERE id = %(id)s").
-            format(table=sql.Identifier(str(table))), {'vote': vote, 'id': id})
+        sql.SQL("update {target_table} set vote_number = vote_number + %(vote)s WHERE id = %(id)s").
+            format(target_table=sql.Identifier(str(target_table))), {'vote': vote, 'id': id})
+
 
 
 @connection.connection_handler
@@ -306,8 +313,5 @@ def add_question_tag_handler(question_id, tags_from_form):
         add_new_question_tag(question_id, ids_to_insert_to_question_tag)
     except IntegrityError:
         pass
-
-
-
 
 

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, url_for
 import data_handler
 
 
@@ -32,21 +32,38 @@ def route_search():
 
 
 @app.route('/question/<question_id>')
-@app.route('/question/<question_id>/vote')
 def route_question(question_id):
-    url = request.url_rule
+    voted = request.args.get('voted')
+
+    if voted != 'yes':
+        data_handler.increase_view_number(question_id)
+
     question_details = data_handler.get_question_details(question_id)
     answers_to_question = data_handler.get_answers_to_question(question_id)
+
     tag_ids_dict = data_handler.get_question_tag_ids(question_id)
     tag_ids_list = [tag['tag_id'] for tag in tag_ids_dict]
     question_tags = data_handler.get_question_tag_names(tag_ids_list)
 
-    if "vote" not in url.rule:
-        data_handler.increase_view_number(question_id)
     return render_template('answers.html',
                            question=question_details,
                            answers_to_question=answers_to_question,
                            question_tags=question_tags)
+
+
+@app.route('/question/<question_id>/voting')
+@app.route('/question/<question_id>/answer/<answer_id>/voting')
+def voting(question_id, answer_id=None):
+    target_table = request.args.get('target')
+    vote_direction = request.args.get('direction')
+
+    if target_table == 'question':
+        data_handler.change_vote_number(target_table, vote_direction, question_id)
+    elif target_table == 'answer':
+        data_handler.change_vote_number(target_table, vote_direction, answer_id)
+
+    return redirect(f'/question/{question_id}?voted=yes')
+
 
 @app.route('/question/<question_id>/new-tag', methods=['GET', 'POST'])
 def route_new_tag(question_id):
@@ -60,6 +77,7 @@ def route_new_tag(question_id):
     tag_ids_list = [tag['tag_id'] for tag in tag_ids_dict]
     question_tags = data_handler.get_question_tag_names(tag_ids_list)
     all_question_tags = data_handler.get_all_question_tags()
+
     question = data_handler.get_question_details(question_id)
 
     return render_template('add_new_tag.html', question_tags=question_tags, all_question_tags = all_question_tags, question=question)
@@ -123,29 +141,6 @@ def edit_answer(question_id, answer_id):
 
     return redirect(f'/question/{question_id}')
 
-
-@app.route('/question/<question_id>/vote-up')
-@app.route('/question/<question_id>/vote-down')
-@app.route('/question/<question_id>/answer/<answer_id>/vote-up')
-@app.route('/question/<question_id>/answer/<answer_id>/vote-down')
-def voting(question_id, answer_id=None):
-    url = request.url_rule
-    vote = 0
-
-    if "vote-up" in url.rule:
-        vote = 1
-    elif "vote-down" in url.rule:
-        vote = -1
-
-    if "answer" in url.rule:
-        table = 'answer'
-        data_handler.change_vote_number(table, vote, answer_id)
-
-    elif "answer" not in url.rule:
-        table = 'question'
-        data_handler.change_vote_number(table, vote, question_id)
-
-    return redirect(f'/question/{question_id}/vote')
 
 
 if __name__ == '__main__':
