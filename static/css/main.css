@@ -4,6 +4,7 @@
     text-align: center;
 }
 
+
 #header {
     margin-left: auto;
     margin-right: auto;
@@ -16,6 +17,7 @@
     margin-right: auto;
 }
 
+
 #ask-new-question {
   background-color: #4CAF50; /* Green */
   border: none;
@@ -27,6 +29,7 @@
   font-size: 16px;
 }
 
+
 #question-list {
     margin-left: auto;
     margin-right: auto;
@@ -37,6 +40,7 @@
     padding-bottom: 20px;
 }
 
+
 .button {
     background-color: #4CAF50; /* Green */
     border: none;
@@ -46,9 +50,39 @@
     font-size: 16px;
 }
 
+
 .button:hover {
     background-color: #555555;
 }
+
+
+.footer {
+    background-color: lightblue;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 7px 32px;
+    text-align: center;
+}
+
+
+.footer_link {
+    width: 100px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+
+.footer:hover {
+    background-color: #555555;
+}
+
+
+#footer_table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 
 .question-list-link-text {
     width: 100px;
@@ -58,6 +92,7 @@
     font-size: 18px;
 }
 
+
 .delete-button {
     background-color: lightcoral; /* Green */
     border: none;
@@ -66,6 +101,7 @@
     text-decoration: none;
     font-size: 16px;
 }
+
 
 .delete-button:hover {
     background-color: rgba(255,7,7,0.72)
