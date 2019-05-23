@@ -23,8 +23,8 @@
                             <td>{{ answer['message'] }}</td>
                             <td align="center">{{ answer['vote_number'] }}</td>
 
-                            <td align="center"><button type="button"><a href="/question/{{ question['id'] }}/answer/{{ answer['id'] }}/vote-up">Like</button></td>
-                            <td align="center"><button type="button"><a href='/question/{{ question['id'] }}/answer/{{ answer['id'] }}/vote-down'>Dislike</button></td>
+                            <td align="center"><button type="button"><a href="/question/{{ question['id'] }}/answer/{{ answer['id'] }}/voting?direction=up&target=answer">Like</a></button></td>
+                            <td align="center"><button type="button"><a href='/question/{{ question['id'] }}/answer/{{ answer['id'] }}/voting?direction=down&target=answer'>Dislike</a></button></td>
 
                             {% if answer['image'] %}
                                 <td><img src="{{ answer['image'] }}" height="200px" width="200px" alt="Invalid image URL"></td>
