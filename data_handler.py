@@ -1,6 +1,9 @@
+from psycopg2._psycopg import IntegrityError
+
 import connection
 from datetime import datetime
 from psycopg2 import sql
+
 
 
 @connection.connection_handler
@@ -38,8 +41,7 @@ def search_question(cursor, searched_question):
                    OR message LIKE %(message)s;
                    """,
                    {'title': searched_question,
-                    'message': searched_question}
-                    )
+                    'message': searched_question})
     found_questions = cursor.fetchall()
     return found_questions
 
@@ -235,10 +237,10 @@ def add_new_tag(cursor, new_tag):
 
 @connection.connection_handler
 def check_if_tag_exists(cursor, tag_name):
-    '''
+    """
     This function checks whether a potentially new tag already exists (by name).
     :return: True if it exists, False if it doesn't
-    '''
+    """
     cursor.execute("""
                     SELECT id FROM tag
                     WHERE name = %(tag_name)s""",
@@ -253,12 +255,12 @@ def check_if_tag_exists(cursor, tag_name):
 
 
 @connection.connection_handler
-def get_id_from_tag_table(cursor, tag_names):
-    '''
+def get_tag_id_from_tag_table(cursor, tag_names):
+    """
     This function recieves tag names and returns the IDs of the corresponding
     tags, so they can be added to question_tag table
     :return:
-    '''
+    """
     cursor.execute("""
                     SELECT id FROM tag
                     WHERE name = ANY(%(tag_names)s)""",
@@ -279,7 +281,7 @@ def add_new_question_tag(cursor, question_id, tag_ids):
 
 
 def add_question_tag_handler(question_id, tags_from_form):
-    '''
+    """
     Whan we add a tag to a question we can add an existing tag to it and/or
     define a new one.
     This function separates the user input then handles SQL insert calls with the right
@@ -288,7 +290,7 @@ def add_question_tag_handler(question_id, tags_from_form):
     :param question_id: The ID of the question where the added tags belong
     :param tags_from_form: The tags we get from the request.form
     :return: Nothing
-    '''
+    """
     new_tag = tags_from_form['new_tag']
 
     if new_tag:
@@ -302,14 +304,14 @@ def add_question_tag_handler(question_id, tags_from_form):
             tags_to_add_to_question_tags.append(tag)
 
     # I need to create a list of values here
-    ids_of_names = get_id_from_tag_table(tags_to_add_to_question_tags)
+    ids_of_names = get_tag_id_from_tag_table(tags_to_add_to_question_tags)
     ids_to_insert_to_question_tag = []
     for tag in ids_of_names:
         ids_to_insert_to_question_tag.append(tag['id'])
 
     try:
         add_new_question_tag(question_id, ids_to_insert_to_question_tag)
-    except:
+    except IntegrityError:
         pass
 
 

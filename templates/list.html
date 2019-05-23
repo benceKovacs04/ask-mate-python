@@ -3,15 +3,15 @@
     <head>
         <meta charset="UTF-8">
         <title>AskMate</title>
-        <link rel="stylesheet" href="../static/style.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     </head>
     <body>
-        <p><h1>AskMate</h1>
+        <p><h1 id="title">AskMate</h1>
         <br style="line-height:1"><br></p>
 
-        <table width="500">
+        <table id="header">
             <tr>
-                <td><a href="/add-question"><button>Ask new question</button></a></td>
+                <td><a href="/add-question" id="ask-new-question">Ask new question</a></td>
 
                 <td><form action="/search" method="post">
                     <input type="text" name="search" placeholder="Search question " />
@@ -20,37 +20,39 @@
             </tr>
         </table>
         <br>
-        <form action="/list" method="get">
-            <select name="order">
-                <option value="">--Choose an order--</option>
-                <option value="submission_time">Submission time</option>
-                <option value="view_number">View number</option>
-                <option value="vote_number">Vote number</option>
-                <option value="title">Alphabetical</option>
-            </select>
-            <select name="order_dir">
-                <option value="">--Choose order direction</option>
-                <option value="DESC">Descending</option>
-                <option value="ASC">Ascending</option>
-            </select>
-            <button type="submit">Sort!</button>
-        </form>
+        <div id="sorting">
+            <form action="/list" method="get">
+                <select name="order">
+                    <option value="">--Choose an order--</option>
+                    <option value="submission_time">Submission time</option>
+                    <option value="view_number">View number</option>
+                    <option value="vote_number">Vote number</option>
+                    <option value="title">Alphabetical</option>
+                </select>
+                <select name="order_dir">
+                    <option value="">--Choose order direction</option>
+                    <option value="DESC">Descending</option>
+                    <option value="ASC">Ascending</option>
+                </select>
+                <button type="submit">Sort!</button>
+            </form>
+        </div>
         {% if questions %}
             {% if questions|length == 0 %}
                 <p>There are no questions yet.</p>
             {% else %}
-                <table border="1" frame="1" cellpadding="5">
+                <table id="question-list">
                     <thead>
                         <tr>
-                            <p><th>Question titles</th></p>
+                            <p><th id="question-titles" colspan="2">Question titles</th></p>
                         </tr>
                     </thead>
                     <tbody>
 
                         {% for question in questions %}
-                            <tr>
-                                <td><a href="/question/{{ question['id'] }}">{{ question['title'] }}</a></td>
-                                <td><a href="/question/{{ question['id'] }}/delete"><button>Delete this question</button></a></td>
+                            <tr id="question-row">
+                                <td id="question"><a href="/question/{{ question['id'] }}">{{ question['title'] }}</a></td>
+                                <td id="delete-button"><a href="/question/{{ question['id'] }}/delete"><button>Delete this question</button></a></td>
                             </tr>
                         {% endfor %}
 
