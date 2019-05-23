@@ -44,15 +44,15 @@
                 <table id="question-list">
                     <thead>
                         <tr>
-                            <p><th id="question-titles" colspan="2">Question titles</th></p>
+                            <p><th class="question-title" colspan="2">Question titles</th></p>
                         </tr>
                     </thead>
                     <tbody>
 
                         {% for question in questions %}
-                            <tr id="question-row">
-                                <td id="question"><a href="/question/{{ question['id'] }}">{{ question['title'] }}</a></td>
-                                <td id="delete-button"><a href="/question/{{ question['id'] }}/delete"><button>Delete this question</button></a></td>
+                            <tr>
+                                <td><a class="question-link" href="/question/{{ question['id'] }}"><div class="question">{{ question['title'] }}</div></a></td>
+                                <td class="delete-button"><a href="/question/{{ question['id'] }}/delete">Delete this question</a></td>
                             </tr>
                         {% endfor %}
 
