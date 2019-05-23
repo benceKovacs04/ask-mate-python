@@ -3,21 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ question['title'] }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 <body>
-    <h1>{{ question['title'] }}</h1>
-    <p class="question-tags">
+    <h1 class="details-title">{{ question['title'] }}</h1>
+    <p>
         {% for tag in question_tags %}
-        {{ tag['name'] }}
+            <p id="question-tags">{{ tag['name'] }}</p>
         {% endfor %}
     </p>
     <table>
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Submission Time</th>
-                <th>View</th>
-                <th>Vote Number</th>
+                <th class="question-detail-header">ID</th>
+                <th class="question-detail-header">Submission Time</th>
+                <th class="question-detail-header">View</th>
+                <th class="question-detail-header">Vote Number</th>
             </tr>
         </thead>
         <tbody>

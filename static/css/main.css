@@ -1,4 +1,4 @@
-#title {
+#main-title {
     background-color: mediumturquoise;
     font-size: 50px;
     text-align: center;
@@ -32,7 +32,7 @@
     margin-right: auto;
 }
 
-.question-title {
+#question-title-list {
     font-size: 30px;
     padding-bottom: 20px;
 }
@@ -71,3 +71,23 @@
     background-color: rgba(255,7,7,0.72)
 }
 
+
+.details-title {
+    background-color: mediumturquoise;
+    padding: 10px;
+}
+
+#question-tags {
+    background-color: rgba(9,255,91,0.72);
+    display: inline-block;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin: auto;
+}
+
+.question-detail-header {
+    background-color: paleturquoise;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 18px;
+}
