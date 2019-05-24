@@ -6,13 +6,16 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 <body>
-    <h1 class="details-title">{{ question['title'] }}</h1>
+    <h1 class="main-title">AskMate</h1>
+
+    <h2 class="details-title">{{ question['title'] }}</h2>
+
     <p>
         {% for tag in question_tags %}
             <p id="question-tags">{{ tag['name'] }}</p>
         {% endfor %}
     </p>
-    <table>
+    <table class="table">
         <thead>
             <tr>
                 <th class="question-detail-header">ID</th>
@@ -34,8 +37,8 @@
     {%  if question['image'] %}
         <p><img src="{{  question['image'] }}" height="200px" width="200px" alt="Invalid image URL"/></p>
     {% endif %}
-    <p><h2>Message</h2></p>
-    <p>{{ question['message'] }}</p><br>
+    <p><h2 class="message">Message</h2></p>
+    <p id="question-message">{{ question['message'] }}</p><br>
     <a href="/edit-question/{{ question['id'] }}"><button>Edit question</button></a>
 
     <button type="button"><a href="/question/{{ question['id'] }}/voting?direction=up&target=question">Like</a></button>
