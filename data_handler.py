@@ -5,7 +5,6 @@ from datetime import datetime
 from psycopg2 import sql
 
 
-
 @connection.connection_handler
 def get_all_questions(cursor, limit, order_by='submission_time', order_direction='DESC'):
     if limit is None:
@@ -184,7 +183,6 @@ def change_vote_number(cursor, target_table, vote_direction, id):
             format(target_table=sql.Identifier(str(target_table))), {'vote': vote, 'id': id})
 
 
-
 @connection.connection_handler
 def edit_answer(cursor, answer_id, message, image):
     cursor.execute("""
@@ -270,6 +268,7 @@ def get_tag_id_from_tag_table(cursor, tag_names):
 
     return ids
 
+
 @connection.connection_handler
 def add_new_question_tag(cursor, question_id, tag_ids):
     cursor.execute("""
@@ -277,7 +276,6 @@ def add_new_question_tag(cursor, question_id, tag_ids):
                     VALUES (%(question_id)s, unnest(%(tag_ids)s))""",
                    {'question_id': question_id,
                     'tag_ids': tag_ids})
-
 
 
 def add_question_tag_handler(question_id, tags_from_form):
@@ -309,9 +307,8 @@ def add_question_tag_handler(question_id, tags_from_form):
     for tag in ids_of_names:
         ids_to_insert_to_question_tag.append(tag['id'])
 
-    try:
-        add_new_question_tag(question_id, ids_to_insert_to_question_tag)
-    except IntegrityError:
-        pass
+
+    add_new_question_tag(question_id, ids_to_insert_to_question_tag)
+
 
 
