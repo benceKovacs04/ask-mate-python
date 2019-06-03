@@ -8,10 +8,10 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/list')
 def route_list():
-    if str(request.url_rule) == '/list':
-        limit = None
-    else:
+    if str(request.url_rule) == '/':
         limit = 5
+    else:
+        limit = None
 
     order = request.args.get('order')
     order_dir = request.args.get('order_dir')
