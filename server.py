@@ -41,9 +41,7 @@ def route_question(question_id):
     question_details = data_handler.get_question_details(question_id)
     answers_to_question = data_handler.get_answers_to_question(question_id)
 
-    tag_ids_dict = data_handler.get_question_tag_ids(question_id)
-    tag_ids_list = [tag['tag_id'] for tag in tag_ids_dict]
-    question_tags = data_handler.get_question_tag_names(tag_ids_list)
+    question_tags = data_handler.get_tag_name_by_question_id(question_id)
 
     return render_template('answers.html',
                            question=question_details,
@@ -77,11 +75,8 @@ def route_new_tag(question_id):
             pass
         return redirect(f'/question/{question_id}')
 
-    tag_ids_dict = data_handler.get_question_tag_ids(question_id)
-    tag_ids_list = [tag['tag_id'] for tag in tag_ids_dict]
-    question_tags = data_handler.get_question_tag_names(tag_ids_list)
+    question_tags = data_handler.get_tag_name_by_question_id(question_id)
     all_question_tags = data_handler.get_all_question_tags()
-
     question = data_handler.get_question_details(question_id)
 
     return render_template('add_new_tag.html', question_tags=question_tags, all_question_tags = all_question_tags, question=question)

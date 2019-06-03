@@ -194,6 +194,14 @@ def edit_answer(cursor, answer_id, message, image):
                    'answer_id': answer_id})
 
 
+def get_tag_name_by_question_id(question_id):
+    tag_ids_dict = get_question_tag_ids(question_id)
+    tag_ids_list = [tag['tag_id'] for tag in tag_ids_dict]
+    question_tags = get_question_tag_names(tag_ids_list)
+
+    return question_tags
+
+
 @connection.connection_handler
 def get_all_question_tags(cursor):
     cursor.execute("""
