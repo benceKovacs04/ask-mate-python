@@ -147,7 +147,6 @@ def edit_answer(question_id, answer_id):
     return redirect(f'/question/{question_id}')
 
 
-
 if __name__ == '__main__':
     app.run(
         host='0.0.0.0',
