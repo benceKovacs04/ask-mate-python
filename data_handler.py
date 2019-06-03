@@ -1,5 +1,3 @@
-from psycopg2._psycopg import IntegrityError
-
 import connection
 from datetime import datetime
 from psycopg2 import sql
@@ -7,20 +5,23 @@ from psycopg2 import sql
 
 @connection.connection_handler
 def get_all_questions(cursor, limit, order_by='submission_time', order_direction='DESC'):
-    if limit is None:
-        sql_query = f"""
-                    SELECT title, id FROM question
-                    ORDER BY {order_by} {order_direction}"""
-        cursor.execute(sql_query)
-    else:
-        sql_query = f"""
-                    SELECT title, id FROM question
-                    ORDER BY {order_by} {order_direction}
-                    LIMIT {limit}
-                    """
-        cursor.execute(sql_query)
 
+    sql_query = """
+                SELECT title, id FROM question
+                ORDER BY {order_by} """
+
+    if order_direction == "DESC":
+        sql_query = sql_query + "DESC"
+    else:
+        sql_query = sql_query + "ASC"
+
+    if limit:
+        sql_query = sql_query + f" LIMIT {limit}"
+
+    sql_query = sql.SQL(sql_query).format(order_by=sql.Identifier(order_by))
+    cursor.execute(sql_query)
     questions = cursor.fetchall()
+
     return questions
 
 
@@ -171,6 +172,14 @@ def edit_answer(cursor, answer_id, message, image):
                    {'message': message,
                     'image': image,
                    'answer_id': answer_id})
+
+
+def get_tag_name_by_question_id(question_id):
+    tag_ids_dict = get_question_tag_ids(question_id)
+    tag_ids_list = [tag['tag_id'] for tag in tag_ids_dict]
+    question_tags = get_question_tag_names(tag_ids_list)
+
+    return question_tags
 
 
 @connection.connection_handler
