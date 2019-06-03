@@ -58,9 +58,11 @@ def voting(question_id, answer_id=None):
     vote_direction = request.args.get('direction')
 
     if target_table == 'question':
-        data_handler.change_vote_number(target_table, vote_direction, question_id)
+        entity_id = question_id
     elif target_table == 'answer':
-        data_handler.change_vote_number(target_table, vote_direction, answer_id)
+        entity_id = answer_id
+
+    data_handler.change_vote_number(target_table, vote_direction, entity_id)
 
     return redirect(f'/question/{question_id}?voted=yes')
 
@@ -69,8 +71,10 @@ def voting(question_id, answer_id=None):
 def route_new_tag(question_id):
     if request.method == 'POST':
         form_values = request.form
-        data_handler.add_question_tag_handler(question_id, form_values)
-
+        try:
+            data_handler.add_question_tag_handler(question_id, form_values)
+        except:
+            pass
         return redirect(f'/question/{question_id}')
 
     tag_ids_dict = data_handler.get_question_tag_ids(question_id)
@@ -83,15 +87,16 @@ def route_new_tag(question_id):
     return render_template('add_new_tag.html', question_tags=question_tags, all_question_tags = all_question_tags, question=question)
 
 
-@app.route('/add-question', methods=['GET', 'POST'])
-def route_add_question():
-
-    if request.method == 'POST':
-        story_details = request.form
-        new_question_id = data_handler.add_new_question_and_return_its_id(story_details)
-        return redirect(f'/question/{new_question_id}')
-
+@app.route('/add-question')
+def route_new_question():
     return render_template("add_question.html")
+
+
+@app.route('/add-question', methods=['POST'])
+def route_create_question():
+    story_details = request.form
+    new_question_id = data_handler.add_new_question_and_return_its_id(story_details)
+    return redirect(f'/question/{new_question_id}')
 
 
 @app.route('/edit-question/<question_id>', methods=['GET', 'POST'])
