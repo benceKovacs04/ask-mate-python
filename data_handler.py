@@ -5,7 +5,6 @@ from datetime import datetime
 from psycopg2 import sql
 
 
-
 @connection.connection_handler
 def get_all_questions(cursor, limit, order_by='submission_time', order_direction='DESC'):
     if limit is None:
@@ -108,27 +107,6 @@ def update_question(cursor, question_id, updated_details):
 @connection.connection_handler
 def delete_question(cursor, id):
     cursor.execute("""
-                       DELETE FROM question_tag
-                       WHERE question_id = %(id)s;
-                               """,
-                   {'id': id}
-                   )
-
-    cursor.execute("""
-                    DELETE FROM comment
-                    WHERE question_id = %(id)s;
-                                   """,
-                   {'id': id}
-                   )
-
-    cursor.execute("""
-                   DELETE FROM answer
-                   WHERE question_id = %(id)s;
-                           """,
-                   {'id': id}
-                   )
-
-    cursor.execute("""
                    DELETE FROM question
                    WHERE id = %(id)s;
                    """,
@@ -182,7 +160,6 @@ def change_vote_number(cursor, target_table, vote_direction, id):
     cursor.execute(
         sql.SQL("update {target_table} set vote_number = vote_number + %(vote)s WHERE id = %(id)s").
             format(target_table=sql.Identifier(str(target_table))), {'vote': vote, 'id': id})
-
 
 
 @connection.connection_handler
@@ -282,7 +259,7 @@ def add_new_question_tag(cursor, question_id, tag_ids):
 
 def add_question_tag_handler(question_id, tags_from_form):
     """
-    Whan we add a tag to a question we can add an existing tag to it and/or
+    When we add a tag to a question we can add an existing tag to it and/or
     define a new one.
     This function separates the user input then handles SQL insert calls with the right
     parameters
