@@ -1,10 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'layout.html' %}
+{% block content %}
 
-</body>
-</html>
+    {% if session['username'] %}
+
+        <table id="user_questions_table">
+            <thead>
+                <tr>
+                    <th>User questions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user_question in user_activities[0] %}
+                    <tr>
+                        <td><a href="/question/{{ user_question['id'] }}">{{ user_question['title'] }}</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <table id="user_answers_table">
+            <thead>
+                <tr>
+                    <th>User answers</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user_answer in user_activities[1] %}
+                    <tr>
+                        <td>{{ user_answer['message'] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Please login!</p>
+    {% endif %}
+
+{% endblock %}
+
