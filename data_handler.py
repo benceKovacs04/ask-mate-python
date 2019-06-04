@@ -67,7 +67,7 @@ def get_single_answer_by_id(cursor, id):
                     """,
                     {'id': id})
 
-    answers = cursor.fetchall()
+    answers = cursor.fetchone()
     return answers
 
 

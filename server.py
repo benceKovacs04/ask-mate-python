@@ -111,26 +111,31 @@ def route_edit_question(question_id):
 
 @app.route('/question/<question_id>/new-answer', methods=['GET', 'POST'])
 def route_new_answer(question_id):
-    if request.method == 'POST':
-        new_answer = request.form
-        data_handler.add_new_answer(question_id, new_answer)
+    try:
+        if session['username']:
+            if request.method == 'POST':
+                new_answer = request.form
+                data_handler.add_new_answer(question_id, new_answer)
 
-        return redirect(f'/question/{question_id}')
+                return redirect(f'/question/{question_id}')
 
-    return render_template('add_answer.html', question_id=question_id, title='add new answer')
-
+            return render_template('add_answer.html', question_id=question_id, title='add new answer')
+    except KeyError:
+        return redirect(url_for('route_list'))
 
 @app.route('/delete-answer/<answer_id>')
 def route_delete_answer(answer_id):
-    answer_to_delete = data_handler.get_single_answer_by_id(answer_id)
-    if session['username'] and session['userid'] == answer_to_delete[0]['user_id']:
-        referrer = request.referrer
-        data_handler.delete_answer(answer_id)
+    try:
+        answer_to_delete = data_handler.get_single_answer_by_id(answer_id)
+        if session['username'] and session['userid'] == answer_to_delete['user_id']:
+            referrer = request.referrer
+            data_handler.delete_answer(answer_id)
 
-        return redirect(referrer)
-    else:
-        return url_for('route_list')
-
+            return redirect(referrer)
+        else:
+            return url_for('route_list')
+    except KeyError:
+        return redirect(url_for('route_list'))
 
 @app.route('/question/<question_id>/delete')
 def route_delete_question(question_id):
@@ -144,17 +149,19 @@ def route_delete_question(question_id):
 
 @app.route('/question/<question_id>/edit-answer/<answer_id>')
 def render_edit_answer_form(answer_id, question_id):
-    answer_to_edit = data_handler.get_single_answer_by_id(answer_id)
-    if session['username'] and session['userid'] == answer_to_edit[0]['user_id']:
-        return render_template('edit_answer.html', answer_to_edit=answer_to_edit[0], question_id=question_id, title='edit answer')
-    else:
+    try:
+        answer_to_edit = data_handler.get_single_answer_by_id(answer_id)
+        if session['username'] and session['userid'] == answer_to_edit['user_id']:
+            return render_template('edit_answer.html', answer_to_edit=answer_to_edit, question_id=question_id, title='edit answer')
+        else:
+            return redirect(url_for('route_list'))
+    except KeyError:
         return redirect(url_for('route_list'))
-
 
 @app.route('/question/<question_id>/edit-answer/<answer_id>/editing', methods=['POST'])
 def edit_answer(question_id, answer_id):
     answer_to_update = data_handler.get_single_answer_by_id(answer_id)
-    if session['username'] and session['userid'] == answer_to_update[0]['user_id']:
+    if session['username'] and session['userid'] == answer_to_update['user_id']:
         updated_message = request.form.get('message')
         updated_image = request.form.get('image')
         data_handler.edit_answer(answer_id, updated_message, updated_image)
