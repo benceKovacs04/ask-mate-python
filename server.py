@@ -1,9 +1,11 @@
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, session, flash, url_for
 import data_handler
+import utility
 
 
 app = Flask(__name__)
 
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 @app.route('/')
 @app.route('/list')
@@ -21,6 +23,7 @@ def route_list():
         all_questions = data_handler.get_all_questions(limit)
 
     return render_template('list.html', questions=all_questions, limit=limit, order=order, order_dir=order_dir)
+
 
 
 @app.route('/search', methods=["POST"])
@@ -140,6 +143,46 @@ def edit_answer(question_id, answer_id):
     data_handler.edit_answer(answer_id, updated_message, updated_image)
 
     return redirect(f'/question/{question_id}')
+
+
+@app.route('/registration')
+def route_registration():
+    return render_template('registration_template.html')
+
+
+@app.route('/registration', methods=['POST'])
+def route_register_user():
+    username = request.form['username']
+    password = request.form['password']
+    hashed_password = utility.hash_password(password)
+    try:
+        data_handler.save_registration(username, hashed_password)
+    except:
+        return render_template('registration_template.html', invalid_username=True, background_color="e53935")
+
+    return redirect('/')
+
+@app.route('/login', methods=['POST'])
+def route_login():
+    referrer = request.referrer
+    userinput_username = request.form['username']
+    userinput_password = request.form['password']
+    user_to_verify = data_handler.get_hashed_pw(userinput_username)
+    verify_user = utility.verify_password(userinput_password, user_to_verify[0]['pw_hash'])
+    if verify_user:
+        session['userid'] = user_to_verify[0]['id']
+        session['username'] = userinput_username
+        return redirect(referrer)
+    else:
+        flash("Invalid username/password")
+        return redirect(referrer)
+
+@app.route('/logout')
+def route_logout():
+    referrer = request.referrer
+    session.clear()
+    #return redirect(url_for('route_list'))
+    return redirect(referrer)
 
 
 if __name__ == '__main__':
