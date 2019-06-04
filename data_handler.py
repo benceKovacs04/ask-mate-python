@@ -1,6 +1,7 @@
 import connection
 from datetime import datetime
 from psycopg2 import sql
+from flask import session
 
 
 @connection.connection_handler
@@ -131,13 +132,14 @@ def get_question_details(cursor, id):
 def add_new_answer(cursor, question_id, new_answer):
     dt = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     cursor.execute("""
-                    INSERT INTO answer (submission_time, vote_number, question_id, message, image) 
-                    VALUES (%(submission_time)s, %(vote_number)s, %(question_id)s, %(message)s, %(image)s)""",
+                    INSERT INTO answer (submission_time, vote_number, question_id, message, image, user_id) 
+                    VALUES (%(submission_time)s, %(vote_number)s, %(question_id)s, %(message)s, %(image)s, %(user_id)s)""",
                    {'submission_time': dt,
                     'vote_number': 0,
                     'question_id': question_id,
                     'message': new_answer['message'],
-                    'image': new_answer['image']})
+                    'image': new_answer['image'],
+                    'user_id': session['userid']})
 
 
 @connection.connection_handler
