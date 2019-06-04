@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, url_for
+from flask import Flask, render_template, redirect, request, session
 import data_handler
 import utility
 
@@ -152,9 +152,12 @@ def route_register_user():
     username = request.form['username']
     password = request.form['password']
     hashed_password = utility.hash_password(password)
-    data_handler.save_registration(username, hashed_password)
+    try:
+        data_handler.save_registration(username, hashed_password)
+    except:
+        return render_template('registration_template.html', invalid_username=True, background_color="e53935")
 
-    return redirect(url_for('/'))
+    return redirect('/')
 
 
 if __name__ == '__main__':

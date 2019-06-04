@@ -5,10 +5,13 @@
     <title>Registration</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/registration.css') }}"
 </head>
-<body>
+<body bgcolor="{{ background_color }}">
     <div id="registration-card">
         <h1>Registration</h1>
         <form action="{{ url_for('route_register_user') }}" method="post">
+            {% if invalid_username %}
+                <p id="invalid-user">Username already taken</p>
+            {% endif %}
             <div id="username">
                 <label class="register-label" for="username">Username</label><br>
                 <textarea class="register-input" name="username"></textarea>
