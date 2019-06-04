@@ -17,6 +17,15 @@
     background-color: #555555;
 }
 
+.authentication {
+    text-align: center;
+    background-color: mediumturquoise;
+}
+
+.authorization form {
+    background-color: mediumturquoise;
+}
+
 #header {
     margin-left: auto;
     margin-right: auto;

@@ -20,8 +20,10 @@
 
     <div class="authorization">
         {% if session %}
-            <p>Welcome {{ session.username }}</p>
-            <button><a href="/logout">Logout</a></button>
+            <div class="authentication">
+                <p>Welcome {{ session.username }}</p>
+                <button><a href="/logout">Logout</a></button>
+            </div>
         {% else %}
             <div class="authentication">
                 <button>Registration</button>
