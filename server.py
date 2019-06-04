@@ -145,7 +145,8 @@ def edit_answer(question_id, answer_id):
 
 @app.route('/registration')
 def route_registration():
-     return render_template('registration_template.html')
+    return render_template('registration_template.html')
+
 
 @app.route('/registration', methods=['POST'])
 def route_register_user():
