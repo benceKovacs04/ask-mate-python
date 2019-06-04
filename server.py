@@ -183,7 +183,6 @@ def route_login():
 def route_logout():
     referrer = request.referrer
     session.clear()
-    #return redirect(url_for('route_list'))
     return redirect(referrer)
 
 
