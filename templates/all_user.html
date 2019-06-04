@@ -1,10 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'layout.html' %}
+{% block content %}
+
+    {% if session['username'] %}
+
+        <table id="all_user_table" class="table">
+            <thead>List of all Users</thead>
+            <tbody>
+                {% for record in all_user %}
+                    <tr>
+                        <td>{{ record['username'] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% else %}
+
+        <p>You can't see this, login first!</p>
+
+    {% endif %}
+
+{% endblock %}

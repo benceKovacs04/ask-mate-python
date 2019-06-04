@@ -290,6 +290,17 @@ def get_hashed_pw(cursor, username):
     return cursor.fetchall()
 
 
+@connection.connection_handler
+def get_all_user(cursor):
+    cursor.execute("""
+                    SELECT username 
+                    FROM users
+                    """)
+
+    all_user = cursor.fetchall()
+
+    return all_user
+
 
 def add_question_tag_handler(question_id, tags_from_form):
     """
