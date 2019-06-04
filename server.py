@@ -187,7 +187,7 @@ def route_logout():
 
 
 @app.route('/list_all_users')
-def render_all_user():
+def render_all_users():
     all_user_and_id = data_handler.get_all_user()
 
     return render_template('all_user.html', all_user=all_user_and_id)

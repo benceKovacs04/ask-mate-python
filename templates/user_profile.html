@@ -31,6 +31,7 @@
                 {% endfor %}
             </tbody>
         </table>
+        <p><a href="{{ url_for('render_all_users') }}">Back to all users</a></p>
     {% else %}
         <p>Please login!</p>
     {% endif %}
