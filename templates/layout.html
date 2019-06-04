@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% if title %}
+    <title>You wot m8 - {{ title }}</title>
+    {% else %}
+    <title>You wot m8</title>
+    {% endif %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+    <div class="main-title">
+        {% if title %}
+            <header id="logo"><a href="/"><p>You {{ title }} m8</p></a></header>
+        {% else %}
+            <header id="logo"><a href="/"><p>You wot m8</p></a> </header>
+        {% endif %}
+    </div>
+
+    <div class="authorization">
+        {% if session %}
+            <p>Welcome {{ session.username }}</p>
+            <button><a href="/logout">Logout</a></button>
+        {% else %}
+            <div class="authentication">
+                <button>Registration</button>
+                <form class="login" method="post">
+                    <input id="username" name="username" placeholder="username:">
+                    <input id="password" name="password" type="password" placeholder="password:">
+                    <button type="submit">Login</button>
+                </form>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="content-block">
+        {% block content %} {% endblock %}
+    </div>
+</body>
+</html>

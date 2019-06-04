@@ -1,6 +1,6 @@
 {% extends "question_details.html" %}
 
-{%  block content %}
+{%  block question %}
     <br><br><a href="/question/{{ question['id'] }}/new-tag"><button>Add new tag</button></a>
 
     <p><h3>Answers</h3></p>
@@ -38,10 +38,8 @@
                 </tbody>
             </table>
             <br>
-            <div><a href="/list" action="post">Go back to question page</a></div>
         {% else %}
             <p>There are no answers to this question yet.</p>
-            <div><a href="/list" action="post">Go back to question page</a></div>
         {% endif %}
 
 {% endblock %}

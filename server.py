@@ -85,7 +85,7 @@ def route_new_tag(question_id):
 
 @app.route('/add-question')
 def route_new_question():
-    return render_template("add_question.html")
+    return render_template("add_question.html", title='add new question')
 
 
 @app.route('/add-question', methods=['POST'])
@@ -104,7 +104,7 @@ def route_edit_question(question_id):
         return redirect(f'/question/{question_id}')
 
     question_to_edit = data_handler.get_question_details(question_id)
-    return render_template('edit_question.html', question_to_edit=question_to_edit)
+    return render_template('edit_question.html', question_to_edit=question_to_edit, title='edit question')
 
 
 @app.route('/question/<question_id>/new-answer', methods=['GET', 'POST'])
@@ -115,7 +115,7 @@ def route_new_answer(question_id):
 
         return redirect(f'/question/{question_id}')
 
-    return render_template('add_answer.html', question_id=question_id)
+    return render_template('add_answer.html', question_id=question_id, title='add new answer')
 
 
 @app.route('/question/<question_id>/delete')
@@ -131,7 +131,7 @@ def route_delete_question(question_id):
 @app.route('/question/<question_id>/edit-answer/<answer_id>')
 def render_edit_answer_form(answer_id, question_id):
     answer_to_edit = data_handler.get_single_answer_by_id(answer_id)
-    return render_template('edit_answer.html', answer_to_edit=answer_to_edit[0], question_id=question_id)
+    return render_template('edit_answer.html', answer_to_edit=answer_to_edit[0], question_id=question_id, title='edit answer')
 
 
 @app.route('/question/<question_id>/edit-answer/<answer_id>/editing', methods=['POST'])
