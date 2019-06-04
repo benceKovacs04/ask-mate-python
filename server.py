@@ -25,7 +25,6 @@ def route_list():
     return render_template('list.html', questions=all_questions, limit=limit, order=order, order_dir=order_dir)
 
 
-
 @app.route('/search', methods=["POST"])
 def route_search():
     searched_question = request.form
@@ -123,6 +122,7 @@ def route_new_answer(question_id):
     except KeyError:
         return redirect(url_for('route_list'))
 
+
 @app.route('/delete-answer/<answer_id>')
 def route_delete_answer(answer_id):
     try:
@@ -136,6 +136,7 @@ def route_delete_answer(answer_id):
             return url_for('route_list')
     except KeyError:
         return redirect(url_for('route_list'))
+
 
 @app.route('/question/<question_id>/delete')
 def route_delete_question(question_id):
@@ -157,6 +158,7 @@ def render_edit_answer_form(answer_id, question_id):
             return redirect(url_for('route_list'))
     except KeyError:
         return redirect(url_for('route_list'))
+
 
 @app.route('/question/<question_id>/edit-answer/<answer_id>/editing', methods=['POST'])
 def edit_answer(question_id, answer_id):
@@ -192,7 +194,7 @@ def route_register_user():
         return redirect('/')
     else:
         return render_template('registration_template.html', not_matching=True, background_color="e53935")
-    
+
 
 @app.route('/login', methods=['POST'])
 def route_login():
@@ -208,6 +210,7 @@ def route_login():
     else:
         flash("Invalid username/password")
         return redirect(referrer)
+
 
 @app.route('/logout')
 def route_logout():
