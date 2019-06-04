@@ -75,7 +75,7 @@ DROP TABLE IF EXISTS public.users;
 DROP SEQUENCE IF EXISTS public.user_id_seq;
 CREATE TABLE users (
     id serial NOT NULL,
-    username text,
+    username text UNIQUE,
     pw_hash  text
 );
 

@@ -7,6 +7,7 @@ app = Flask(__name__)
 
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
+
 @app.route('/')
 @app.route('/list')
 def route_list():
@@ -23,7 +24,6 @@ def route_list():
         all_questions = data_handler.get_all_questions(limit)
 
     return render_template('list.html', questions=all_questions, limit=limit, order=order, order_dir=order_dir)
-
 
 
 @app.route('/search', methods=["POST"])
@@ -162,6 +162,7 @@ def route_register_user():
 
     return redirect('/')
 
+
 @app.route('/login', methods=['POST'])
 def route_login():
     referrer = request.referrer
@@ -176,6 +177,7 @@ def route_login():
     else:
         flash("Invalid username/password")
         return redirect(referrer)
+
 
 @app.route('/logout')
 def route_logout():
