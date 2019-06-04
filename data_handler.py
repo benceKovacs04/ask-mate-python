@@ -278,6 +278,18 @@ def save_registration(cursor, username, hashed_password):
 
     cursor.execute(sql_query, sql_values)
 
+@connection.connection_handler
+def get_hashed_pw(cursor, username):
+    sql_query = """
+                SELECT id, pw_hash FROM users
+                WHERE username = %(username)s"""
+
+    cursor.execute(sql_query,
+                   {'username': username})
+
+    return cursor.fetchall()
+
+
 
 def add_question_tag_handler(question_id, tags_from_form):
     """
