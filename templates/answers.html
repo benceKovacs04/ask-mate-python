@@ -16,7 +16,10 @@
                         <td align="center" width="10"><strong>Votes</strong></td>
                         <td colspan="2" align="center"><strong>Voting</strong></td>
                         <td align="center" width="10"><strong>Image</strong></td>
-                        <td align="center" width="10"><strong>Edit</strong></td>
+                        {% if session.username %}
+                            <td align="center" width="10"><strong>Edit</strong></td>
+                            <td align="center" width="10"><strong>Delete</strong></td>
+                            {% endif %}
                     </tr>
                 </thead>
                 <tbody>
@@ -34,7 +37,13 @@
                                 <td>No image added</td>
                             {% endif %}
 
-                            <td align="center"><a href="/question/{{ question['id'] }}/edit-answer/{{ answer['id'] }}"><button>Edit Answer</button></a></td>
+                            {% if session.username and session.userid == answer['user_id'] %}
+                                <td align="center"><a href="/question/{{ question['id'] }}/edit-answer/{{ answer['id'] }}"><button>Edit Answer</button></a></td>
+                            {% endif %}
+
+                            {% if session.username and session.userid == answer['user_id'] %}
+                                <td align="center"><a href="/delete-answer/{{ answer['id'] }}"><button>Delete Answer</button></a></td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                 </tbody>

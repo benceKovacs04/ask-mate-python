@@ -166,6 +166,16 @@ def change_vote_number(cursor, target_table, vote_direction, id):
 
 
 @connection.connection_handler
+def delete_answer(cursor, answer_id):
+    sql_query = """
+                DELETE FROM answer
+                WHERE id = %(answer_id)s"""
+
+    cursor.execute(sql_query,
+                   {'answer_id': answer_id})
+
+
+@connection.connection_handler
 def edit_answer(cursor, answer_id, message, image):
     cursor.execute("""
                     UPDATE answer
