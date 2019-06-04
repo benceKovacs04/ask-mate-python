@@ -1,6 +1,7 @@
 import connection
 from datetime import datetime
 from psycopg2 import sql
+from flask import session
 
 
 @connection.connection_handler
@@ -74,8 +75,8 @@ def get_single_answer_by_id(cursor, id):
 def add_new_question_and_return_its_id(cursor, details):
     dt = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     sql_query = """
-                    INSERT INTO question (submission_time, view_number, vote_number, title, message, image) 
-                    VALUES (%(submission_time)s, %(view_number)s, %(vote_number)s, %(title)s, %(message)s, %(image)s)
+                    INSERT INTO question (submission_time, view_number, vote_number, title, message, image, user_id) 
+                    VALUES (%(submission_time)s, %(view_number)s, %(vote_number)s, %(title)s, %(message)s, %(image)s, %(user_id)s)
                     RETURNING id"""
 
     cursor.execute(sql_query,
@@ -84,7 +85,9 @@ def add_new_question_and_return_its_id(cursor, details):
                     'vote_number': 0,
                     'title': details['title'],
                     'message': details['message'],
-                    'image': details['image']})
+                    'image': details['image'],
+                    'user_id': session['userid']
+                    })
 
     last_id = cursor.fetchall()
 

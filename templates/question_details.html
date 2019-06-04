@@ -33,10 +33,15 @@
     {% endif %}
     <p><h2 class="message">Message</h2></p>
     <p id="question-message">{{ question['message'] }}</p><br>
-    <a href="/edit-question/{{ question['id'] }}"><button>Edit question</button></a>
 
-    <button type="button"><a href="/question/{{ question['id'] }}/voting?direction=up&target=question">Like</a></button>
-    <button type="button"><a href='/question/{{ question['id'] }}/voting?direction=down&target=question'>Dislike</a></button>
+    {% if session['userid'] == question['user_id'] %}
+        <a href="/edit-question/{{ question['id'] }}"><button>Edit question</button></a>
+    {% endif %}
+
+    {% if session['username'] and session['userid'] != question['user_id'] %}
+        <button type="button"><a href="/question/{{ question['id'] }}/voting?direction=up&target=question">Like</a></button>
+        <button type="button"><a href='/question/{{ question['id'] }}/voting?direction=down&target=question'>Dislike</a></button>
+    {% endif %}
 
     {% block question %} {% endblock %}
 
