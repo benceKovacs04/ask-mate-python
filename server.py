@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, url_for
+from flask import Flask, render_template, redirect, request
 import data_handler
 
 
@@ -114,7 +114,7 @@ def route_new_answer(question_id):
 
         return redirect(f'/question/{question_id}')
 
-    return render_template('add_answer.html', question_id=question_id)
+    return render_template('add_answer.html', question_id=question_id, title='add new answer')
 
 
 @app.route('/question/<question_id>/delete')

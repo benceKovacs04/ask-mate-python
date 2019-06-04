@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>AskMate</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    </head>
-    <body>
-        <p><h1 class="main-title">AskMate</h1>
-        <br style="line-height:1"><br></p>
+{% extends 'layout.html' %}
+{% block content %}
+
 
         <table id="header">
             <tr>
@@ -64,9 +57,7 @@
             <p>There are no such questions.</p>
         {% endif %}
 
-    </body>
-    {% include 'footer.html' %}
-</html>
+{% endblock %}
 
 
 

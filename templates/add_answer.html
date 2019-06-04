@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>New Answer</title>
-    </head>
-    <body>
-        <p><h1>Add new answer</h1></p>
+{% extends 'layout.html' %}
+{% block content %}
 
         <form action="/question/{{ question_id }}/new-answer" method="post">
 
@@ -20,7 +14,6 @@
 
 
         </form>
-    </body>
-</html>
 
+{% endblock %}
 

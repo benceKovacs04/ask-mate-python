@@ -1,9 +1,19 @@
 .main-title {
     background-color: mediumturquoise;
-    font-size: 50px;
     text-align: center;
 }
 
+.main-title a {
+    padding-top: 2em;
+    font-size: 3em;
+    letter-spacing: 3px;
+    text-decoration: none;
+    color: black;
+}
+
+.main-title a:hover {
+    color: darkorange;
+}
 
 #header {
     margin-left: auto;

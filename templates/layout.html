@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% if title %}
+    <title>You wot m8 - {{ title }}</title>
+    {% else %}
+    <title>You wot m8</title>
+    {% endif %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+    <div class="main-title">
+        {% if title %}
+            <header id="logo"><a href="/"><p>You {{ title }} m8</p></a></header>
+        {% else %}
+            <header id="logo"><a href="/"><p>You wot m8</p></a> </header>
+        {% endif %}
+    </div>
+
+
+
+    <div class="content-block">
+        {% block content %} {% endblock %}
+    </div>
+</body>
+</html>
