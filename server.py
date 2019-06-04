@@ -175,7 +175,7 @@ def route_login():
         return redirect(referrer)
     else:
         flash("Invalid username/password")
-        return "wrong"
+        return redirect(referrer)
 
 @app.route('/logout')
 def route_logout():
