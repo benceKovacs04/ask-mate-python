@@ -180,13 +180,19 @@ def route_registration():
 def route_register_user():
     username = request.form['username']
     password = request.form['password']
-    hashed_password = utility.hash_password(password)
-    try:
-        data_handler.save_registration(username, hashed_password)
-    except:
-        return render_template('registration_template.html', invalid_username=True, background_color="e53935")
+    username2 = request.form['username2']
+    password2 = request.form['password2']
+    if username == username2 and password == password2:
+        hashed_password = utility.hash_password(password)
+        try:
+            data_handler.save_registration(username, hashed_password)
+        except:
+            return render_template('registration_template.html', invalid_username=True, background_color="e53935")
 
-    return redirect('/')
+        return redirect('/')
+    else:
+        return render_template('registration_template.html', not_matching=True, background_color="e53935")
+    
 
 @app.route('/login', methods=['POST'])
 def route_login():
