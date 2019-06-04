@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ question['title'] }}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-</head>
-<body>
-    <h1 class="main-title">AskMate</h1>
+{% extends 'layout.html' %}
+{% block content %}
 
     <h2 class="details-title">{{ question['title'] }}</h2>
 
@@ -15,6 +8,7 @@
             <p id="question-tags">{{ tag['name'] }}</p>
         {% endfor %}
     </p>
+
     <table class="table">
         <thead>
             <tr>
@@ -44,7 +38,6 @@
     <button type="button"><a href="/question/{{ question['id'] }}/voting?direction=up&target=question">Like</a></button>
     <button type="button"><a href='/question/{{ question['id'] }}/voting?direction=down&target=question'>Dislike</a></button>
 
-    {% block content %} {% endblock %}
+    {% block question %} {% endblock %}
 
-</body>
-</html>
+{% endblock %}

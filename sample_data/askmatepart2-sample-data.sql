@@ -16,7 +16,7 @@ ALTER TABLE IF EXISTS ONLY public.question_tag DROP CONSTRAINT IF EXISTS fk_ques
 ALTER TABLE IF EXISTS ONLY public.tag DROP CONSTRAINT IF EXISTS pk_tag_id CASCADE;
 ALTER TABLE IF EXISTS ONLY public.question_tag DROP CONSTRAINT IF EXISTS fk_tag_id CASCADE;
 
-DROP TABLE IF EXISTS public.question;
+DROP TABLE IF EXISTS public.question;/home/luxon
 DROP SEQUENCE IF EXISTS public.question_id_seq;
 CREATE TABLE question (
     id serial NOT NULL,

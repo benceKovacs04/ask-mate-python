@@ -1,18 +1,20 @@
-.main-title {
-    background-color: mediumturquoise;
-    text-align: center;
-}
 
-.main-title a {
-    padding-top: 2em;
+
+.main-title p {
+    text-align: center;
+    background-color: mediumturquoise;
     font-size: 3em;
     letter-spacing: 3px;
-    text-decoration: none;
     color: black;
 }
 
-.main-title a:hover {
-    color: darkorange;
+.main-title a {
+    text-decoration: none;
+}
+
+.main-title p:hover {
+    color: white;
+    background-color: #555555;
 }
 
 #header {

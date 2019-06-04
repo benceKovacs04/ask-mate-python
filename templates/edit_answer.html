@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Edit Answer</title>
-    </head>
-    <body>
-        <p><h1>Edit answer</h1></p>
+{% extends 'layout.html' %}
+{% block content %}
 
         <form action="/question/{{ answer_to_edit['question_id'] }}/edit-answer/{{ answer_to_edit['id'] }}/editing" method="post">
 
@@ -18,7 +12,6 @@
             <p><button type="submit">Edit answer!</button></p>
 
         </form>
-    </body>
-</html>
 
+{% endblock %}
 
