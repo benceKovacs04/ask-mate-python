@@ -266,6 +266,19 @@ def add_new_question_tag(cursor, question_id, tag_ids):
                     'tag_ids': tag_ids})
 
 
+@connection.connection_handler
+def save_registration(cursor, username, hashed_password):
+    sql_query = """
+                INSERT INTO users (username, pw_hash)
+                VALUES (%(username)s, %(hashed_pw)s)"""
+    sql_values = {
+                'username': username,
+                'hashed_pw': hashed_password
+    }
+
+    cursor.execute(sql_query, sql_values)
+
+
 def add_question_tag_handler(question_id, tags_from_form):
     """
     When we add a tag to a question we can add an existing tag to it and/or

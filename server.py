@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect, request, url_for
 import data_handler
+import utility
 
 
 app = Flask(__name__)
@@ -140,6 +141,20 @@ def edit_answer(question_id, answer_id):
     data_handler.edit_answer(answer_id, updated_message, updated_image)
 
     return redirect(f'/question/{question_id}')
+
+
+@app.route('/registration')
+def route_registration():
+     return render_template('registration_template.html')
+
+@app.route('/registration', methods=['POST'])
+def route_register_user():
+    username = request.form['username']
+    password = request.form['password']
+    hashed_password = utility.hash_password(password)
+    data_handler.save_registration(username, hashed_password)
+
+    return redirect(url_for('/'))
 
 
 if __name__ == '__main__':
