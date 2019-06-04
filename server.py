@@ -193,6 +193,13 @@ def render_all_user():
     return render_template('all_user.html', all_user=all_user)
 
 
+@app.route('/user/<user_id>')
+def render_user_profile(user_id):
+    user_activities = data_handler.get_user_activities(user_id)
+
+    return render_template('user_profile.html', user_activities=user_activities)
+
+
 if __name__ == '__main__':
     app.run(
         host='0.0.0.0',

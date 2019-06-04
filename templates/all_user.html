@@ -8,7 +8,7 @@
             <tbody>
                 {% for record in all_user %}
                     <tr>
-                        <td>{{ record['username'] }}</td>
+                        <td><a href="/user/{{ record['id'] }}">{{ record['username'] }}</a></td>
                     </tr>
                 {% endfor %}
             </tbody>
