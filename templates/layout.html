@@ -8,6 +8,15 @@
     <title>You wot m8</title>
     {% endif %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class=flashes>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
 </head>
 <body>
     <div class="main-title">
@@ -19,17 +28,20 @@
     </div>
 
     <div class="authorization">
-        {% if session %}
+        {% if session.username %}
             <p>Welcome {{ session.username }}</p>
             <button><a href="/logout">Logout</a></button>
+
         {% else %}
             <div class="authentication">
-                <button>Registration</button>
-                <form class="login" method="post">
+                <p>You are not logged in</p>
+                <a id="registration-button" href="{{ url_for('route_registration') }}">Registration</a>
+                <form action="{{ url_for('route_login') }}" class="login" method="post">
                     <input id="username" name="username" placeholder="username:">
                     <input id="password" name="password" type="password" placeholder="password:">
                     <button type="submit">Login</button>
                 </form>
+                {% if verify %}Invalid username or password {% endif %}
             </div>
         {% endif %}
     </div>
