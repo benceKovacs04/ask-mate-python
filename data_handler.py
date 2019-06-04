@@ -312,4 +312,14 @@ def add_question_tag_handler(question_id, tags_from_form):
     add_new_question_tag(question_id, ids_to_insert_to_question_tag)
 
 
+@connection.connection_handler
+def get_user_registration_details(cursor, user_name):
+    cursor.execute("""
+                    SELECT id, pw_hash
+                    FROM users
+                    WHERE username = %(user_name)s
+                    """, {'user_name': user_name})
+
+    user_details = cursor.fetchall()
+    return user_details
 

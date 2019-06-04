@@ -1,9 +1,11 @@
-from flask import Flask, render_template, redirect, request, session
+from flask import Flask, render_template, redirect, request, session, escape, url_for
 import data_handler
 import utility
 
 
 app = Flask(__name__)
+
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 
 @app.route('/')
@@ -22,6 +24,12 @@ def route_list():
         all_questions = data_handler.get_all_questions(limit)
 
     return render_template('list.html', questions=all_questions, limit=limit, order=order, order_dir=order_dir)
+
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('route_list'))
 
 
 @app.route('/search', methods=["POST"])
@@ -161,9 +169,27 @@ def route_register_user():
     return redirect('/')
 
 
+@app.route('/login')
+def login():
+    user_input_username = request.form['username']
+    user_input_password = request.form['password']
+
+    user_details = data_handler.get_user_registration_details(user_input_username)
+    original_hashed_password = user_details[0]['pw_hash']
+    verification_result = utility.verify_password(user_input_password, original_hashed_password)
+
+    if verification_result:
+        session['user_id'] = user_details[0]['id']
+        session['user_name'] = user_input_username
+
+    return redirect('/')
+
+
 if __name__ == '__main__':
     app.run(
         host='0.0.0.0',
         port=8000,
         debug=True
     )
+
+
