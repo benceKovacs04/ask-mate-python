@@ -8,15 +8,6 @@
     <title>You wot m8</title>
     {% endif %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul class=flashes>
-        {% for message in messages %}
-          <li>{{ message }}</li>
-        {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
 </head>
 <body>
     <div class="main-title">
@@ -41,9 +32,19 @@
                     <input id="password" name="password" type="password" placeholder="password:">
                     <button type="submit">Login</button>
                 </form>
-                {% if verify %}Invalid username or password {% endif %}
             </div>
         {% endif %}
+        <div class="loginerror">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <ul class=flashes>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+                    </ul>
+                {% endif %}
+                {% endwith %}
+        </div>
     </div>
 
     <div class="content-block">
