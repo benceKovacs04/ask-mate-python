@@ -17,11 +17,6 @@
     background-color: #555555;
 }
 
-.authentication {
-    text-align: center;
-    background-color: mediumturquoise;
-}
-
 #header {
     margin-left: auto;
     margin-right: auto;
@@ -196,15 +191,36 @@
     margin-bottom: 10px;
 }
 
-.authorization {
+.login-grid {
     display: flex;
+    background-color: mediumturquoise;
 }
 
-.authentication {
+.login-grid .login-bar{
     flex: 1;
+    display: flex;
+    text-align: center;
+}
+
+.login-bar-cell--top {
+    align-self: flex-start;
+}
+
+.login-grid .login-bar .box{
+    flex: 1;
+    align-items: stretch;
 }
 
 
-.login-error ul{
+.login-error {
+    display: flex;
+    background-color: mediumturquoise;
+    text-align: center;
     color: red;
+}
+
+.login-error .flashes--center p{
+    align-items: stretch;
+    text-align: center;
+    align-self: center;
 }
