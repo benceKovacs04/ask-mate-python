@@ -25,7 +25,7 @@
                 <p>Welcome {{ session.username }}</p>
             </div>
             <div class="box">
-                <button><a href="/logout">Logout</a></button>
+                <button class="log-button"><a href="/logout">Logout</a></button>
             </div>
 
 
@@ -34,16 +34,14 @@
                 <p>You are not logged in</p>
             </div>
             <div class="box">
-                <div class="login">
-                    <form action="{{ url_for('route_login') }}" method="post">
-                        <input id="username" name="username" placeholder="username:">
-                        <input id="password" name="password" type="password" placeholder="password:">
-                        <button type="submit" class="button">Login</button>
-                    </form>
-                </div>
+                <form action="{{ url_for('route_login') }}" method="post">
+                    <input id="username" name="username" placeholder="username:">
+                    <input id="password" name="password" type="password" placeholder="password:">
+                    <button type="submit" class="log-button">Login</button>
+                </form>
             </div>
             <div class="box">
-                <a id="registration-button" href="{{ url_for('route_registration') }}">Registration</a>
+                <a class="log-button" href="{{ url_for('route_registration') }}">Registration</a>
             </div>
         {% endif %}
     </div>

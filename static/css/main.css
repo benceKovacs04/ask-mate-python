@@ -224,9 +224,17 @@
     padding: 1em;
 }
 
-.login .button {
+.log-button {
     color: black;
     background-color: white;
+    text-decoration: none;
+    border: none;
+    padding: 5px;
+}
+
+.log-button:hover {
+    color: white;
+    background-color: #555555;
 }
 
 .login-error {
