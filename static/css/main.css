@@ -272,6 +272,10 @@
     flex: 1;
 }
 
+.del-row {
+    margin-left: 2px;
+}
+
 .question-table-title {
     text-align: center;
 }
@@ -297,7 +301,7 @@
     padding: .6em 1.4em .5em .8em;
     width: 100%;
     box-sizing: border-box;
-    margin: 0;
+    margin-right: 2px;
     border: none;
     box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
     -moz-appearance: none;
