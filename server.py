@@ -236,8 +236,11 @@ def render_all_users():
 @app.route('/user/<user_id>')
 def render_user_profile(user_id):
     user_activities = data_handler.get_user_activities(user_id)
+    user_reputation = data_handler.get_user_reputation(user_id)
 
-    return render_template('user_profile.html', user_activities=user_activities)
+    return render_template('user_profile.html',
+                           user_activities=user_activities,
+                           user_reputation=user_reputation)
 
 
 if __name__ == '__main__':

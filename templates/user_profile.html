@@ -5,6 +5,19 @@
 
         {% if user_activities[0] %}
 
+            <table>
+                <thead>
+                    <tr>
+                        <th>User reputation:</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ user_reputation }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
             <table id="user_questions_table">
                 <thead>
                     <tr>

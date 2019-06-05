@@ -415,3 +415,16 @@ def get_user_activities(cursor, user_id):
     return user_activities
 
 
+@connection.connection_handler
+def get_user_reputation(cursor, user_id):
+    cursor.execute("""
+                    SELECT reputation
+                    FROM users
+                    WHERE id = %(user_id)s
+                    """,
+                   {'user_id': user_id})
+
+    user_reputation = cursor.fetchone()
+    user_reputation = user_reputation['reputation']
+
+    return user_reputation
