@@ -299,7 +299,7 @@ def get_hashed_pw(cursor, username):
     cursor.execute(sql_query,
                    {'username': username})
 
-    return cursor.fetchall()
+    return cursor.fetchone()
 
 
 
