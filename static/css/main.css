@@ -179,16 +179,17 @@
     width: 150px;
     height: 30px;
     border: solid 1px #01579b;
-    border-radius: 4px;
-    background-color: #1976d2;
+    border-radius: 3px;
+    background-color: white;
     text-decoration: none;
     line-height: 30px;
     font-size: 18px;
-    color: white;
+    color: black;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 10px;
+    padding: 3px;
 }
 
 .login-grid {
@@ -219,6 +220,14 @@
     align-items: center;
 }
 
+.login {
+    padding: 1em;
+}
+
+.login .button {
+    color: black;
+    background-color: white;
+}
 
 .login-error {
     display: flex;
