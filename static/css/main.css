@@ -162,6 +162,8 @@
     font-size: 2em;
     text-align: center;
     border: #4CAF50 solid .1em;
+    margin-left: 5em;
+    margin-right: 5em;
 }
 
 .table {
