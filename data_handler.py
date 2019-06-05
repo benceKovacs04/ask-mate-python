@@ -8,7 +8,7 @@ from flask import session
 def get_all_questions(cursor, limit, order_by='submission_time', order_direction='DESC'):
 
     sql_query = """
-                SELECT title, id FROM question
+                SELECT title, id, user_id FROM question
                 ORDER BY {order_by} """
 
     if order_direction == "DESC":
@@ -50,9 +50,9 @@ def search_question(cursor, searched_question):
 @connection.connection_handler
 def get_answers_to_question(cursor, question_id):
     cursor.execute("""
-                            SELECT * FROM answer
-                            WHERE question_id = %(question_id)s;
-                               """,
+                    SELECT * FROM answer
+                    WHERE question_id = %(question_id)s;
+                       """,
                    {'question_id': question_id})
 
     answers = cursor.fetchall()
@@ -98,7 +98,7 @@ def add_new_question_and_return_its_id(cursor, details):
                     'title': details['title'],
                     'message': details['message'],
                     'image': details['image'],
-                    'user_id': session['userid']
+                    'user_id': int(session['userid'])
                     })
 
     last_id = cursor.fetchall()
@@ -131,12 +131,14 @@ def delete_question(cursor, id):
 
 
 @connection.connection_handler
-def get_question_details(cursor, id):
+def get_question_details(cursor, question_id):
     cursor.execute("""
-                    SELECT * FROM question
-                    WHERE id = %(id)s;
+                    SELECT question.*, users.username FROM question
+                    LEFT JOIN users on question.user_id=users.id
+                    WHERE question.id = %(question_id)s;
                            """,
-                   {'id': id})
+                   {'question_id': question_id
+                    })
 
     question = cursor.fetchall()
     return question[0]
@@ -147,13 +149,15 @@ def add_new_answer(cursor, question_id, new_answer):
     dt = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     cursor.execute("""
                     INSERT INTO answer (submission_time, vote_number, question_id, message, image, user_id) 
-                    VALUES (%(submission_time)s, %(vote_number)s, %(question_id)s, %(message)s, %(image)s, %(user_id)s)""",
+                    VALUES (%(submission_time)s, %(vote_number)s, %(question_id)s, %(message)s, %(image)s, %(user_id)s)
+                    """,
                    {'submission_time': dt,
                     'vote_number': 0,
                     'question_id': question_id,
                     'message': new_answer['message'],
                     'image': new_answer['image'],
-                    'user_id': session['userid']})
+                    'user_id': session['userid']
+                    })
 
 
 @connection.connection_handler
@@ -163,6 +167,46 @@ def increase_view_number(cursor, question_id):
                     SET view_number = view_number + 1
                     WHERE id = %(question_id)s""",
                    {'question_id': question_id})
+
+
+@connection.connection_handler
+def change_reputation(cursor, entity, vote_direction, entity_id):
+    if vote_direction == 'up':
+        if entity == 'question':
+            reputation_change = 5
+        elif entity == 'answer':
+            reputation_change = 10
+    elif vote_direction == 'down':
+        reputation_change = -2
+
+    user_id_dict = get_user_id_of_owner_of_entity(entity, entity_id)
+
+    user_id_of_owner = int(user_id_dict['user_id'])
+
+    cursor.execute("""
+                    UPDATE users
+                    SET reputation = reputation + %(reputation_change)s
+                    WHERE id = %(user_id_of_owner)s
+                    """,
+                    {'reputation_change': reputation_change,
+                     'user_id_of_owner': user_id_of_owner})
+
+
+@connection.connection_handler
+def get_user_id_of_owner_of_entity(cursor, entity, entity_id):
+    sql_query = """
+                SELECT user_id
+                FROM {entity}
+                """
+
+    sql_query = sql_query + f" WHERE id = {entity_id}"
+
+    sql_query = sql.SQL(sql_query).format(entity=sql.Identifier(entity))
+
+    cursor.execute(sql_query)
+    user_id = cursor.fetchone()
+
+    return user_id
 
 
 @connection.connection_handler
@@ -407,3 +451,18 @@ def get_user_activities(cursor, user_id):
     user_activities = [user_questions, user_answers]
 
     return user_activities
+
+
+@connection.connection_handler
+def get_user_reputation(cursor, user_id):
+    cursor.execute("""
+                    SELECT reputation
+                    FROM users
+                    WHERE id = %(user_id)s
+                    """,
+                   {'user_id': user_id})
+
+    user_reputation = cursor.fetchone()
+    user_reputation = user_reputation['reputation']
+
+    return user_reputation

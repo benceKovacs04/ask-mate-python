@@ -20,6 +20,7 @@ ALTER TABLE IF EXISTS ONLY public.question DROP CONSTRAINT IF EXISTS fk_user_id 
 ALTER TABLE IF EXISTS ONLY public.answer DROP CONSTRAINT IF EXISTS fk_user_id CASCADE;
 ALTER TABLE IF EXISTS ONLY public.question_tag DROP CONSTRAINT IF EXISTS fk_user_id CASCADE;
 
+
 DROP TABLE IF EXISTS public.question;
 DROP SEQUENCE IF EXISTS public.question_id_seq;
 CREATE TABLE question (
@@ -76,7 +77,8 @@ DROP SEQUENCE IF EXISTS public.user_id_seq;
 CREATE TABLE users (
     id serial NOT NULL,
     username text UNIQUE,
-    pw_hash  text
+    pw_hash  text,
+    reputation integer
 );
 
 
@@ -152,3 +154,7 @@ SELECT pg_catalog.setval('tag_id_seq', 3, true);
 INSERT INTO question_tag VALUES (0, 1);
 INSERT INTO question_tag VALUES (1, 3);
 INSERT INTO question_tag VALUES (2, 3);
+
+INSERT INTO users VALUES (0, 'codecool', '$2b$12$lGVxHGB3Al4xqW.bWfV/C.w4Qdx0y4rGx/lxTjbC2bAskMxL6Hl1K')
+INSERT INTO users VALUES (1, 'dani', '$2b$12$jO5f9jFrRHTmv9LEogaFXeSApiEleTbkbvdN8iRKL92gEuMjP8hxS')
+SELECT pg_catalog.setval('user_id_seq', 2, true)
