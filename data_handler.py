@@ -8,7 +8,7 @@ from flask import session
 def get_all_questions(cursor, limit, order_by='submission_time', order_direction='DESC'):
 
     sql_query = """
-                SELECT title, id FROM question
+                SELECT title, id, user_id FROM question
                 ORDER BY {order_by} """
 
     if order_direction == "DESC":
@@ -67,7 +67,7 @@ def get_single_answer_by_id(cursor, id):
                     """,
                     {'id': id})
 
-    answers = cursor.fetchall()
+    answers = cursor.fetchone()
     return answers
 
 
@@ -122,7 +122,8 @@ def delete_question(cursor, id):
 def get_question_details(cursor, id):
     cursor.execute("""
                     SELECT * FROM question
-                    WHERE id = %(id)s;
+                    LEFT JOIN users on question.user_id=users.id
+                    WHERE question.id = %(id)s;
                            """,
                    {'id': id})
 
@@ -134,13 +135,14 @@ def get_question_details(cursor, id):
 def add_new_answer(cursor, question_id, new_answer):
     dt = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     cursor.execute("""
-                    INSERT INTO answer (submission_time, vote_number, question_id, message, image) 
-                    VALUES (%(submission_time)s, %(vote_number)s, %(question_id)s, %(message)s, %(image)s)""",
+                    INSERT INTO answer (submission_time, vote_number, question_id, message, image, user_id) 
+                    VALUES (%(submission_time)s, %(vote_number)s, %(question_id)s, %(message)s, %(image)s, %(user_id)s)""",
                    {'submission_time': dt,
                     'vote_number': 0,
                     'question_id': question_id,
                     'message': new_answer['message'],
-                    'image': new_answer['image']})
+                    'image': new_answer['image'],
+                    'user_id': session['userid']})
 
 
 @connection.connection_handler
@@ -204,6 +206,16 @@ def change_vote_number(cursor, target_table, vote_direction, id):
     cursor.execute(
         sql.SQL("update {target_table} set vote_number = vote_number + %(vote)s WHERE id = %(id)s").
             format(target_table=sql.Identifier(str(target_table))), {'vote': vote, 'id': id})
+
+
+@connection.connection_handler
+def delete_answer(cursor, answer_id):
+    sql_query = """
+                DELETE FROM answer
+                WHERE id = %(answer_id)s"""
+
+    cursor.execute(sql_query,
+                   {'answer_id': answer_id})
 
 
 @connection.connection_handler
@@ -331,7 +343,7 @@ def get_hashed_pw(cursor, username):
     cursor.execute(sql_query,
                    {'username': username})
 
-    return cursor.fetchall()
+    return cursor.fetchone()
 
 
 @connection.connection_handler

@@ -12,14 +12,25 @@
             {% if invalid_username %}
                 <p id="invalid-user">Username already taken</p>
             {% endif %}
-            <div id="username">
+            {% if not_matching %}
+                <p>Username or password doesn't match</p>
+            {% endif %}
+            <div class="username">
                 <label class="register-label" for="username">Username</label><br>
                 <textarea class="register-input" name="username"></textarea>
             </div>
 
-            <div id="password">
+            <div class="password">
                 <label class="register-label" for="password">Password</label><br>
-                <textarea class="register-input" name="password"></textarea>
+                <input type="password" class="register-input" name="password">
+            </div>
+            <div class="username">
+                <label class="register-label" for="username2">Username again</label><br>
+                <textarea class="register-input" name="username2"></textarea>
+            </div>
+            <div class="password">
+                <label class="register-label" for="password2">Password again</label><br>
+                <input type="password" class="register-input" name="password2">
             </div>
             <button type="submit" id="registration-button">Register</button>
         </form>

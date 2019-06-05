@@ -18,34 +18,43 @@
         {% endif %}
     </div>
 
-    <div class="authorization">
+    <div class="login-grid">
         {% if session.username %}
-            <p>Welcome {{ session.username }}</p>
-            <button><a href="/logout">Logout</a></button>
+
+            <div class="box">
+                <p>Welcome {{ session.username }}</p>
+            </div>
+            <div class="box">
+                <button><a href="/logout">Logout</a></button>
+            </div>
+
 
         {% else %}
-            <div class="authentication">
+            <div class="box">
                 <p>You are not logged in</p>
-                <a id="registration-button" href="{{ url_for('route_registration') }}">Registration</a>
+            </div>
+            <div class="box">
                 <form action="{{ url_for('route_login') }}" class="login" method="post">
                     <input id="username" name="username" placeholder="username:">
                     <input id="password" name="password" type="password" placeholder="password:">
                     <button type="submit">Login</button>
                 </form>
             </div>
+            <div class="box">
+                <a id="registration-button" href="{{ url_for('route_registration') }}">Registration</a>
+            </div>
         {% endif %}
-        <div class="loginerror">
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    <ul class=flashes>
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-                    </ul>
-                {% endif %}
-                {% endwith %}
-        </div>
     </div>
+    <div class="login-error">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="flashes">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
 
     <div class="content-block">
         {% block content %} {% endblock %}
