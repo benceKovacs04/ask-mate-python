@@ -196,19 +196,17 @@
     background-color: mediumturquoise;
 }
 
-.login-grid .login-bar{
+.login-grid .box{
     flex: 1;
-    display: flex;
+}
+
+.box {
     text-align: center;
+    padding: auto;
 }
 
-.login-bar-cell--top {
-    align-self: flex-start;
-}
-
-.login-grid .login-bar .box{
-    flex: 1;
-    align-items: stretch;
+.login-grid-cell {
+    align-items: center;
 }
 
 
@@ -219,8 +217,7 @@
     color: red;
 }
 
-.login-error .flashes--center p{
-    align-items: stretch;
-    text-align: center;
-    align-self: center;
+.login-error .flashes {
+    flex: 1;
 }
+

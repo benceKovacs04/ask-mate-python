@@ -30,20 +30,18 @@
 
 
         {% else %}
-            <div class="login-bar">
-                <div class="box">
-                    <p>You are not logged in</p>
-                </div>
-                <div class="box">
-                    <form action="{{ url_for('route_login') }}" class="login" method="post">
-                        <input id="username" name="username" placeholder="username:">
-                        <input id="password" name="password" type="password" placeholder="password:">
-                        <button type="submit">Login</button>
-                    </form>
-                </div>
-                <div class="box">
-                    <a id="registration-button" href="{{ url_for('route_registration') }}">Registration</a>
-                </div>
+            <div class="box">
+                <p>You are not logged in</p>
+            </div>
+            <div class="box">
+                <form action="{{ url_for('route_login') }}" class="login" method="post">
+                    <input id="username" name="username" placeholder="username:">
+                    <input id="password" name="password" type="password" placeholder="password:">
+                    <button type="submit">Login</button>
+                </form>
+            </div>
+            <div class="box">
+                <a id="registration-button" href="{{ url_for('route_registration') }}">Registration</a>
             </div>
         {% endif %}
     </div>
