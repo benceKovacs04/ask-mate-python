@@ -36,7 +36,7 @@
             </div>
         </div>
         <div class="box">
-            <a href="{{ url_for('render_all_users') }}">List all users</a>
+            <a href="{{ url_for('render_all_users') }}" class="button">List all users</a>
         </div>
     </div>
 
@@ -44,27 +44,27 @@
             {% if questions|length == 0 %}
                 <p>There are no questions yet.</p>
             {% else %}
-                <table id="question-list">
-                    <thead>
-                        <tr>
-                            <p><th id="question-title" colspan="2">Question titles</th></p>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        {% for question in questions %}
+                <div class="question-qrid">
+                    <table class="question-table">
+                        <thead>
                             <tr>
-                                <td><a class="question-list-link-text" href="/question/{{ question['id'] }}"><div class="button">{{ question['title'] }}</div></a></td>
-                                {% if session['username'] and session['userid'] == question['user_id'] %}
-                                    <td><a class="question-list-link-text" href="/question/{{ question['id'] }}/delete"><div class="delete-button">Delete this question</div></a></td>
-                                {% else %}
-                                    <td>You can't delete this question</td>
-                                {% endif %}
+                                <p><th id="question-title" colspan="2">Question titles</th></p>
                             </tr>
-                        {% endfor %}
+                        </thead>
+                        <tbody>
 
-                    </tbody>
-                </table>
+                            {% for question in questions %}
+                                <tr>
+                                    <td><a class="question-list-link-text" href="/question/{{ question['id'] }}"><div class="button">{{ question['title'] }}</div></a></td>
+                                    {% if session['username'] and session['userid'] == question['user_id'] %}
+                                        <td class="del-table-col"><a class="question-list-link-text" href="/question/{{ question['id'] }}/delete"><div class="delete-button">Delete this question</div></a></td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
             {% endif %}
 
         {% else %}

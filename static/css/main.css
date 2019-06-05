@@ -248,3 +248,9 @@
     flex: 1;
 }
 
+table.question-table{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
