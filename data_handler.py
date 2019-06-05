@@ -8,7 +8,7 @@ from flask import session
 def get_all_questions(cursor, limit, order_by='submission_time', order_direction='DESC'):
 
     sql_query = """
-                SELECT title, id FROM question
+                SELECT title, id, user_id FROM question
                 ORDER BY {order_by} """
 
     if order_direction == "DESC":
@@ -122,7 +122,8 @@ def delete_question(cursor, id):
 def get_question_details(cursor, id):
     cursor.execute("""
                     SELECT * FROM question
-                    WHERE id = %(id)s;
+                    LEFT JOIN users on question.user_id=users.id
+                    WHERE question.id = %(id)s;
                            """,
                    {'id': id})
 

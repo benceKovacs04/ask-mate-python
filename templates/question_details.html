@@ -12,18 +12,22 @@
     <table class="table">
         <thead>
             <tr>
-                <th class="question-detail-header">ID</th>
                 <th class="question-detail-header">Submission Time</th>
                 <th class="question-detail-header">View</th>
                 <th class="question-detail-header">Vote Number</th>
+                <th class="question-detail-header">Posted by</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td class="question-detail">{{ question['id'] }}</td>
                 <td class="question-detail">{{ question['submission_time'] }}</td>
                 <td class="question-detail">{{ question['view_number'] }}</td>
                 <td class="question-detail">{{ question['vote_number'] }}</td>
+                {% if question['username'] %}
+                    <td class="question-detail">{{ question['username'] }}</td>
+                {% else %}
+                    <td class="question-detail">Codecool!</td>
+                {% endif     %}
             </tr>
         </tbody>
     </table>
