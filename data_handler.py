@@ -448,7 +448,7 @@ def get_user_activities(cursor, user_id):
     cursor.execute(sql_query)
     user_answers = cursor.fetchall()
 
-    user_activities = [user_questions, user_answers]
+    user_activities = {'questions': user_questions, 'answers': user_answers}
 
     return user_activities
 

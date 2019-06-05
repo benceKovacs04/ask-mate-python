@@ -3,49 +3,58 @@
 
     {% if session['username'] %}
 
-        {% if user_activities[0] %}
+        {% if user_activities['questions'] or user_activities['answers'] %}
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>User reputation:</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>{{ user_reputation }}</td>
-                    </tr>
-                </tbody>
-            </table>
+            {% if user_activities['questions'] %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>User reputation:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ user_reputation }}</td>
+                        </tr>
+                    </tbody>
+                </table>
 
-            <table id="user_questions_table">
-                <thead>
-                    <tr>
-                        <th>User questions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for user_question in user_activities[0] %}
+                <table id="user_questions_table">
+                    <thead>
                         <tr>
-                            <td><a href="/question/{{ user_question['id'] }}">{{ user_question['title'] }}</a></td>
+                            <th>User questions</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <table id="user_answers_table">
-                <thead>
-                    <tr>
-                        <th>User answers</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for user_answer in user_activities[1] %}
+                    </thead>
+                    <tbody>
+                        {% for user_question in user_activities['questions'] %}
+                            <tr>
+                                <td><a href="/question/{{ user_question['id'] }}">{{ user_question['title'] }}</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>This user hasn't posted questions</p>
+            {% endif %}
+
+            {% if user_activities['answers'] %}
+                <table id="user_answers_table">
+                    <thead>
                         <tr>
-                            <td>{{ user_answer['message'] }}</td>
+                            <th>User answers</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {% for user_answer in user_activities['answers'] %}
+                            <tr>
+                                <td>{{ user_answer['message'] }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>This user hasn't posted <answers></answers></p>
+            {% endif %}
 
         {% else %}
             <p>This user haven't posted any questions or answers.</p>
