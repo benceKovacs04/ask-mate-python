@@ -81,6 +81,7 @@
 
 
 .footer_link {
+    color: black;
     width: 100px;
     text-decoration: none;
     font-weight: bold;
@@ -189,3 +190,44 @@
     margin-right: auto;
     margin-bottom: 10px;
 }
+
+.login-grid {
+    display: flex;
+    background-color: mediumturquoise;
+}
+
+.list-grid {
+    display: flex;
+}
+
+.login-grid .box{
+    flex: 1;
+}
+
+.list-grid .box{
+    flex: 1;
+}
+
+.box {
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
+    padding: auto;
+}
+
+.login-grid-cell {
+    align-items: center;
+}
+
+
+.login-error {
+    display: flex;
+    background-color: mediumturquoise;
+    text-align: center;
+    color: red;
+}
+
+.login-error .flashes {
+    flex: 1;
+}
+
