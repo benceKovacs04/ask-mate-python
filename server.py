@@ -64,6 +64,7 @@ def voting(question_id, answer_id=None):
         entity_id = answer_id
 
     data_handler.change_vote_number(target_table, vote_direction, entity_id)
+    data_handler.change_reputation(target_table, vote_direction, entity_id)
 
     return redirect(f'/question/{question_id}?voted=yes')
 
@@ -197,7 +198,6 @@ def route_register_user():
         return render_template('registration_template.html', not_matching=True, background_color="e53935")
 
 
-
 @app.route('/login', methods=['POST'])
 def route_login():
     referrer = request.referrer
@@ -236,8 +236,11 @@ def render_all_users():
 @app.route('/user/<user_id>')
 def render_user_profile(user_id):
     user_activities = data_handler.get_user_activities(user_id)
+    user_reputation = data_handler.get_user_reputation(user_id)
 
-    return render_template('user_profile.html', user_activities=user_activities)
+    return render_template('user_profile.html',
+                           user_activities=user_activities,
+                           user_reputation=user_reputation)
 
 
 if __name__ == '__main__':

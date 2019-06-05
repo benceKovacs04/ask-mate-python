@@ -158,6 +158,46 @@ def increase_view_number(cursor, question_id):
 
 
 @connection.connection_handler
+def change_reputation(cursor, entity, vote_direction, entity_id):
+    if vote_direction == 'up':
+        if entity == 'question':
+            reputation_change = 5
+        elif entity == 'answer':
+            reputation_change = 10
+    elif vote_direction == 'down':
+        reputation_change = -2
+
+    user_id_dict = get_user_id_of_owner_of_entity(entity, entity_id)
+
+    user_id_of_owner = int(user_id_dict['user_id'])
+
+    cursor.execute("""
+                    UPDATE users
+                    SET reputation = reputation + %(reputation_change)s
+                    WHERE id = %(user_id_of_owner)s
+                    """,
+                    {'reputation_change': reputation_change,
+                     'user_id_of_owner': user_id_of_owner})
+
+
+@connection.connection_handler
+def get_user_id_of_owner_of_entity(cursor, entity, entity_id):
+    sql_query = """
+                SELECT user_id
+                FROM {entity}
+                """
+
+    sql_query = sql_query + f" WHERE id = {entity_id}"
+
+    sql_query = sql.SQL(sql_query).format(entity=sql.Identifier(entity))
+
+    cursor.execute(sql_query)
+    user_id = cursor.fetchone()
+
+    return user_id
+
+
+@connection.connection_handler
 def change_vote_number(cursor, target_table, vote_direction, id):
     vote = 0
 
@@ -376,3 +416,18 @@ def get_user_activities(cursor, user_id):
     user_activities = [user_questions, user_answers]
 
     return user_activities
+
+
+@connection.connection_handler
+def get_user_reputation(cursor, user_id):
+    cursor.execute("""
+                    SELECT reputation
+                    FROM users
+                    WHERE id = %(user_id)s
+                    """,
+                   {'user_id': user_id})
+
+    user_reputation = cursor.fetchone()
+    user_reputation = user_reputation['reputation']
+
+    return user_reputation
