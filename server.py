@@ -204,16 +204,17 @@ def route_login():
     try:
         userinput_username = request.form['username']
         userinput_password = request.form['password']
-        get_hashed_pw(userinput_username)
+        user_to_verify = data_handler.get_hashed_pw(userinput_username)
         verify_user = utility.verify_password(userinput_password, user_to_verify['pw_hash'])
         if verify_user:
-            session['userid'] = user_to_verify[0]['id']
+            session['userid'] = user_to_verify['id']
             session['username'] = userinput_username
             return redirect(referrer)
         else:
             flash("Invalid username/password")
             return redirect(referrer)
-    except (TypeError, NameError):
+    except (TypeError, NameError) as error:
+        print(error)
         flash("Username and password fields cannot be empty!")
         return redirect(referrer)
 
