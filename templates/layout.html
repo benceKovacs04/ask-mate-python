@@ -20,8 +20,14 @@
 
     <div class="authorization">
         {% if session.username %}
-            <p>Welcome {{ session.username }}</p>
-            <button><a href="/logout">Logout</a></button>
+            <div class="authentication">
+                 <div class="welcome">
+                    <p>Welcome {{ session.username }}</p>
+                 </div>
+                <div class="logout">
+                    <button><a href="/logout">Logout</a></button>
+                </div>
+            </div>
 
         {% else %}
             <div class="authentication">
@@ -34,18 +40,19 @@
                 </form>
             </div>
         {% endif %}
-        <div class="loginerror">
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    <ul class=flashes>
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-                    </ul>
-                {% endif %}
-                {% endwith %}
-        </div>
     </div>
+    <div class="login-error">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class=flashes>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+                </ul>
+            {% endif %}
+            {% endwith %}
+    </div>
+
 
     <div class="content-block">
         {% block content %} {% endblock %}

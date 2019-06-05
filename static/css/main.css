@@ -195,3 +195,16 @@
     margin-right: auto;
     margin-bottom: 10px;
 }
+
+.authorization {
+    display: flex;
+}
+
+.authentication {
+    flex: 1;
+}
+
+
+.login-error ul{
+    color: red;
+}
