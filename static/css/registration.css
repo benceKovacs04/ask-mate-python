@@ -2,7 +2,7 @@
     width: 400px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 200px;
+    margin-top: 100px;
     text-align: center;
     border: solid 1px #30799B;
     border-radius: 4px;
@@ -13,12 +13,12 @@
     text-align: center;
 }
 
-#username {
+.username {
     padding-bottom: 40px;
     padding-top: 40px
 }
 
-#password {
+.password {
     padding-bottom: 40px;
 }
 
