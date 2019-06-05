@@ -244,21 +244,34 @@ def render_user_profile(user_id):
 
 @app.route('/accept-answer/<question_id>/<answer_id>')
 def route_accept_answer(question_id, answer_id):
+    question = data_handler.get_question_details(question_id)
     referrer = request.referrer
     try:
-        data_handler.save_accepted_answer(int(question_id), int(answer_id))
-    except:
-        flash("You are not allowed to do that :)")
+        if question['user_id'] == session['userid']:
+            try:
+                data_handler.save_accepted_answer(int(question_id), int(answer_id))
+            except:
+                flash("You are not allowed to do that :)")
+                return redirect(referrer)
+
+            return redirect(referrer)
+        else:
+            flash("It's not your question")
+            return redirect(url_for('route_list'))
+    except KeyError:
+        flash("It's not your question")
         return redirect(referrer)
-
-    return redirect(referrer)
-
 
 @app.route('/delete-accepted-answer/<question_id>/<answer_id>')
 def route_delete_accepted_answer(question_id, answer_id):
     referrer = request.referrer
-    data_handler.delete_accepted_answer(int(question_id), int(answer_id))
-
+    question = data_handler.get_question_details(question_id)
+    try:
+        if question['user_id'] == session['userid']:
+            data_handler.delete_accepted_answer(int(question_id), int(answer_id))
+    except KeyError:
+        flash("It's not your question")
+        return redirect(url_for('route_list'))
     return redirect(referrer)
 
 
