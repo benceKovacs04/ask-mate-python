@@ -64,6 +64,7 @@ def voting(question_id, answer_id=None):
         entity_id = answer_id
 
     data_handler.change_vote_number(target_table, vote_direction, entity_id)
+    data_handler.change_reputation(target_table, vote_direction, entity_id)
 
     return redirect(f'/question/{question_id}?voted=yes')
 

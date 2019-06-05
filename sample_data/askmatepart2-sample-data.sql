@@ -20,6 +20,7 @@ ALTER TABLE IF EXISTS ONLY public.question DROP CONSTRAINT IF EXISTS fk_user_id 
 ALTER TABLE IF EXISTS ONLY public.answer DROP CONSTRAINT IF EXISTS fk_user_id CASCADE;
 ALTER TABLE IF EXISTS ONLY public.question_tag DROP CONSTRAINT IF EXISTS fk_user_id CASCADE;
 
+
 DROP TABLE IF EXISTS public.question;
 DROP SEQUENCE IF EXISTS public.question_id_seq;
 CREATE TABLE question (
@@ -76,7 +77,8 @@ DROP SEQUENCE IF EXISTS public.user_id_seq;
 CREATE TABLE users (
     id serial NOT NULL,
     username text UNIQUE,
-    pw_hash  text
+    pw_hash  text,
+    reputation integer
 );
 
 
