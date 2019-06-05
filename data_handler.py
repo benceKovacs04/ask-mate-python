@@ -162,12 +162,13 @@ def change_reputation(cursor, entity, vote_direction, entity_id):
     elif vote_direction == 'down':
         reputation_change = -2
 
-    user_id_of_owner = get_user_id_of_owner_of_entity(entity, entity_id)
+    user_id_dict = get_user_id_of_owner_of_entity(entity, entity_id)
 
-    cursor.execute = ("""
-                    UPDATE reputation
+    user_id_of_owner = int(user_id_dict['user_id'])
+
+    cursor.execute("""
+                    UPDATE users
                     SET reputation = reputation + %(reputation_change)s
-                    FROM users
                     WHERE id = %(user_id_of_owner)s
                     """,
                     {'reputation_change': reputation_change,
@@ -179,15 +180,14 @@ def get_user_id_of_owner_of_entity(cursor, entity, entity_id):
     sql_query = """
                 SELECT user_id
                 FROM {entity}
-                WHERE id = {entity_id}
                 """
 
-
+    sql_query = sql_query + f" WHERE id = {entity_id}"
 
     sql_query = sql.SQL(sql_query).format(entity=sql.Identifier(entity))
 
     cursor.execute(sql_query)
-    user_id = cursor.fetchall()
+    user_id = cursor.fetchone()
 
     return user_id
 
