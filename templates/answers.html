@@ -39,10 +39,9 @@
 
                             {% if session.username and session.userid == answer['user_id'] %}
                                 <td align="center"><a href="/question/{{ question['id'] }}/edit-answer/{{ answer['id'] }}"><button>Edit Answer</button></a></td>
-                            {% endif %}
-
-                            {% if session.username and session.userid == answer['user_id'] %}
                                 <td align="center"><a href="/delete-answer/{{ answer['id'] }}"><button>Delete Answer</button></a></td>
+                            {% else %}
+                                <td colspan="2">You have no permission.</td>
                             {% endif %}
                         </tr>
                     {% endfor %}

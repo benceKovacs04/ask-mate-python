@@ -55,7 +55,11 @@
                         {% for question in questions %}
                             <tr>
                                 <td><a class="question-list-link-text" href="/question/{{ question['id'] }}"><div class="button">{{ question['title'] }}</div></a></td>
-                                <td><a class="question-list-link-text" href="/question/{{ question['id'] }}/delete"><div class="delete-button">Delete this question</div></a></td>
+                                {% if session['username'] and session['userid'] == question['user_id'] %}
+                                    <td><a class="question-list-link-text" href="/question/{{ question['id'] }}/delete"><div class="delete-button">Delete this question</div></a></td>
+                                {% else %}
+                                    <td>You can't delete this question</td>
+                                {% endif %}
                             </tr>
                         {% endfor %}
 
