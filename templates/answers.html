@@ -1,11 +1,13 @@
 {% extends "question_details.html" %}
 
 {%  block question %}
-    <br><br><a href="/question/{{ question['id'] }}/new-tag"><button>Add new tag</button></a>
-
+    {% if session.username %}
+        <br><br><a href="/question/{{ question['id'] }}/new-tag"><button>Add new tag</button></a>
+    {% endif %}
     <p><h3>Answers</h3></p>
-        <p><a href="/question/{{ question['id'] }}/new-answer"><button>Add new answer</button></a>
-
+        {% if session.username %}
+            <p><a href="/question/{{ question['id'] }}/new-answer"><button>Add new answer</button></a>
+        {% endif %}
         {% if answers_to_question %}
             <table border="1" frame="1" cellpadding="10">
                 <thead>
@@ -14,7 +16,10 @@
                         <td align="center" width="10"><strong>Votes</strong></td>
                         <td colspan="2" align="center"><strong>Voting</strong></td>
                         <td align="center" width="10"><strong>Image</strong></td>
-                        <td align="center" width="10"><strong>Edit</strong></td>
+                        {% if session.username %}
+                            <td align="center" width="10"><strong>Edit</strong></td>
+                            <td align="center" width="10"><strong>Delete</strong></td>
+                            {% endif %}
                     </tr>
                 </thead>
                 <tbody>
@@ -32,7 +37,13 @@
                                 <td>No image added</td>
                             {% endif %}
 
-                            <td align="center"><a href="/question/{{ question['id'] }}/edit-answer/{{ answer['id'] }}"><button>Edit Answer</button></a></td>
+                            {% if session.username and session.userid == answer['user_id'] %}
+                                <td align="center"><a href="/question/{{ question['id'] }}/edit-answer/{{ answer['id'] }}"><button>Edit Answer</button></a></td>
+                            {% endif %}
+
+                            {% if session.username and session.userid == answer['user_id'] %}
+                                <td align="center"><a href="/delete-answer/{{ answer['id'] }}"><button>Delete Answer</button></a></td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                 </tbody>
