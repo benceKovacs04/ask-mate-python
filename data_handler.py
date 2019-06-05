@@ -281,6 +281,7 @@ def save_registration(cursor, username, hashed_password):
 
     cursor.execute(sql_query, sql_values)
 
+
 @connection.connection_handler
 def get_hashed_pw(cursor, username):
     sql_query = """
@@ -292,6 +293,17 @@ def get_hashed_pw(cursor, username):
 
     return cursor.fetchall()
 
+
+@connection.connection_handler
+def get_all_user(cursor):
+    cursor.execute("""
+                    SELECT username, id
+                    FROM users
+                    """)
+
+    all_user = cursor.fetchall()
+
+    return all_user
 
 
 def add_question_tag_handler(question_id, tags_from_form):
@@ -323,8 +335,29 @@ def add_question_tag_handler(question_id, tags_from_form):
     for tag in ids_of_names:
         ids_to_insert_to_question_tag.append(tag['id'])
 
-
     add_new_question_tag(question_id, ids_to_insert_to_question_tag)
 
 
+@connection.connection_handler
+def get_user_activities(cursor, user_id):
+    sql_query = """
+                SELECT question.title, question.id
+                FROM question
+                """
+    sql_query = sql_query + f" WHERE question.user_id = {user_id}"
+    sql_query = sql.SQL(sql_query).format(user_id=sql.Identifier(user_id))
+    cursor.execute(sql_query)
+    user_questions = cursor.fetchall()
 
+    sql_query = """
+                    SELECT answer.message, answer.id
+                    FROM answer
+                    """
+    sql_query = sql_query + f" WHERE answer.user_id = {user_id}"
+    sql_query = sql.SQL(sql_query).format(user_id=sql.Identifier(user_id))
+    cursor.execute(sql_query)
+    user_answers = cursor.fetchall()
+
+    user_activities = [user_questions, user_answers]
+
+    return user_activities

@@ -183,8 +183,21 @@ def route_login():
 def route_logout():
     referrer = request.referrer
     session.clear()
-    #return redirect(url_for('route_list'))
     return redirect(referrer)
+
+
+@app.route('/list_all_users')
+def render_all_users():
+    all_user_and_id = data_handler.get_all_user()
+
+    return render_template('all_user.html', all_user=all_user_and_id)
+
+
+@app.route('/user/<user_id>')
+def render_user_profile(user_id):
+    user_activities = data_handler.get_user_activities(user_id)
+
+    return render_template('user_profile.html', user_activities=user_activities)
 
 
 if __name__ == '__main__':
