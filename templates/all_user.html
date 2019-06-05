@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+    {% if session['username'] %}
+
+        <table id="all_user_table" class="table">
+            <thead>List of all Users</thead>
+            <tbody>
+                {% for record in all_user %}
+                    <tr>
+                        <td><a href="/user/{{ record['id'] }}">{{ record['username'] }}</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% else %}
+
+        <p>You can't see this, login first!</p>
+
+    {% endif %}
+
+{% endblock %}

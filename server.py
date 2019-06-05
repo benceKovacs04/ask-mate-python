@@ -7,6 +7,7 @@ app = Flask(__name__)
 
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
+
 @app.route('/')
 @app.route('/list')
 def route_list():
@@ -196,6 +197,7 @@ def route_register_user():
         return render_template('registration_template.html', not_matching=True, background_color="e53935")
 
 
+
 @app.route('/login', methods=['POST'])
 def route_login():
     referrer = request.referrer
@@ -221,6 +223,20 @@ def route_logout():
     referrer = request.referrer
     session.clear()
     return redirect(referrer)
+
+
+@app.route('/list_all_users')
+def render_all_users():
+    all_user_and_id = data_handler.get_all_user()
+
+    return render_template('all_user.html', all_user=all_user_and_id)
+
+
+@app.route('/user/<user_id>')
+def render_user_profile(user_id):
+    user_activities = data_handler.get_user_activities(user_id)
+
+    return render_template('user_profile.html', user_activities=user_activities)
 
 
 if __name__ == '__main__':

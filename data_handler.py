@@ -75,8 +75,8 @@ def get_single_answer_by_id(cursor, id):
 def add_new_question_and_return_its_id(cursor, details):
     dt = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     sql_query = """
-                    INSERT INTO question (submission_time, view_number, vote_number, title, message, image) 
-                    VALUES (%(submission_time)s, %(view_number)s, %(vote_number)s, %(title)s, %(message)s, %(image)s)
+                    INSERT INTO question (submission_time, view_number, vote_number, title, message, image, user_id) 
+                    VALUES (%(submission_time)s, %(view_number)s, %(vote_number)s, %(title)s, %(message)s, %(image)s, %(user_id)s)
                     RETURNING id"""
 
     cursor.execute(sql_query,
@@ -85,7 +85,9 @@ def add_new_question_and_return_its_id(cursor, details):
                     'vote_number': 0,
                     'title': details['title'],
                     'message': details['message'],
-                    'image': details['image']})
+                    'image': details['image'],
+                    'user_id': session['userid']
+                    })
 
     last_id = cursor.fetchall()
 
@@ -290,6 +292,7 @@ def save_registration(cursor, username, hashed_password):
 
     cursor.execute(sql_query, sql_values)
 
+
 @connection.connection_handler
 def get_hashed_pw(cursor, username):
     sql_query = """
@@ -301,6 +304,17 @@ def get_hashed_pw(cursor, username):
 
     return cursor.fetchone()
 
+
+@connection.connection_handler
+def get_all_user(cursor):
+    cursor.execute("""
+                    SELECT username, id
+                    FROM users
+                    """)
+
+    all_user = cursor.fetchall()
+
+    return all_user
 
 
 def add_question_tag_handler(question_id, tags_from_form):
@@ -332,8 +346,29 @@ def add_question_tag_handler(question_id, tags_from_form):
     for tag in ids_of_names:
         ids_to_insert_to_question_tag.append(tag['id'])
 
-
     add_new_question_tag(question_id, ids_to_insert_to_question_tag)
 
 
+@connection.connection_handler
+def get_user_activities(cursor, user_id):
+    sql_query = """
+                SELECT question.title, question.id
+                FROM question
+                """
+    sql_query = sql_query + f" WHERE question.user_id = {user_id}"
+    sql_query = sql.SQL(sql_query).format(user_id=sql.Identifier(user_id))
+    cursor.execute(sql_query)
+    user_questions = cursor.fetchall()
 
+    sql_query = """
+                    SELECT answer.message, answer.id
+                    FROM answer
+                    """
+    sql_query = sql_query + f" WHERE answer.user_id = {user_id}"
+    sql_query = sql.SQL(sql_query).format(user_id=sql.Identifier(user_id))
+    cursor.execute(sql_query)
+    user_answers = cursor.fetchall()
+
+    user_activities = [user_questions, user_answers]
+
+    return user_activities
