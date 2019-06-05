@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 {% block content %}
 
-    <h1 class="details-title">{{ question['title'] }}</h1>
+    <h1 class="title">{{ question['title'] }}</h1>
 
     <p>
         {% for tag in question_tags %}
@@ -12,22 +12,22 @@
     <div class="question-detail">
         <div class="box">
             <p class="question-detail-header">Submission Time</p>
-            <p class="question-detail">{{ question['submission_time'] }}</p>
+            <p>{{ question['submission_time'] }}</p>
         </div>
         <div class="box">
             <p class="question-detail-header">View</p>
-            <p class="question-detail">{{ question['view_number'] }}</p>
+            <p>{{ question['view_number'] }}</p>
         </div>
         <div class="box">
             <p class="question-detail-header">Vote Number</p>
-            <p class="question-detail">{{ question['vote_number'] }}</p>
+            <p>{{ question['vote_number'] }}</p>
         </div>
         <div class="box">
             <p class="question-detail-header">Posted by</p>
             {% if question['username'] %}
-                <p class="question-detail">{{ question['username'] }}</p>
+                <p>{{ question['username'] }}</p>
             {% else %}
-                <p class="question-detail">Codecool!</p>
+                <p>Codecool!</p>
             {% endif     %}
         </div>
     </div>
