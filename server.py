@@ -198,7 +198,6 @@ def route_register_user():
         return render_template('registration_template.html', not_matching=True, background_color="e53935")
 
 
-
 @app.route('/login', methods=['POST'])
 def route_login():
     referrer = request.referrer
