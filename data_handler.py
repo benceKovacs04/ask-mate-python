@@ -50,9 +50,9 @@ def search_question(cursor, searched_question):
 @connection.connection_handler
 def get_answers_to_question(cursor, question_id):
     cursor.execute("""
-                            SELECT * FROM answer
-                            WHERE question_id = %(question_id)s;
-                               """,
+                    SELECT * FROM answer
+                    WHERE question_id = %(question_id)s;
+                       """,
                    {'question_id': question_id})
 
     answers = cursor.fetchall()
@@ -86,7 +86,7 @@ def add_new_question_and_return_its_id(cursor, details):
                     'title': details['title'],
                     'message': details['message'],
                     'image': details['image'],
-                    'user_id': session['userid']
+                    'user_id': int(session['userid'])
                     })
 
     last_id = cursor.fetchall()
@@ -119,13 +119,14 @@ def delete_question(cursor, id):
 
 
 @connection.connection_handler
-def get_question_details(cursor, id):
+def get_question_details(cursor, question_id):
     cursor.execute("""
-                    SELECT * FROM question
+                    SELECT question.*, users.username FROM question
                     LEFT JOIN users on question.user_id=users.id
-                    WHERE question.id = %(id)s;
+                    WHERE question.id = %(question_id)s;
                            """,
-                   {'id': id})
+                   {'question_id': question_id
+                    })
 
     question = cursor.fetchall()
     return question[0]
@@ -136,13 +137,15 @@ def add_new_answer(cursor, question_id, new_answer):
     dt = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     cursor.execute("""
                     INSERT INTO answer (submission_time, vote_number, question_id, message, image, user_id) 
-                    VALUES (%(submission_time)s, %(vote_number)s, %(question_id)s, %(message)s, %(image)s, %(user_id)s)""",
+                    VALUES (%(submission_time)s, %(vote_number)s, %(question_id)s, %(message)s, %(image)s, %(user_id)s)
+                    """,
                    {'submission_time': dt,
                     'vote_number': 0,
                     'question_id': question_id,
                     'message': new_answer['message'],
                     'image': new_answer['image'],
-                    'user_id': session['userid']})
+                    'user_id': session['userid']
+                    })
 
 
 @connection.connection_handler

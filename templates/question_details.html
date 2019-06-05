@@ -23,11 +23,7 @@
                 <td class="question-detail">{{ question['submission_time'] }}</td>
                 <td class="question-detail">{{ question['view_number'] }}</td>
                 <td class="question-detail">{{ question['vote_number'] }}</td>
-                {% if question['username'] %}
-                    <td class="question-detail">{{ question['username'] }}</td>
-                {% else %}
-                    <td class="question-detail">Codecool!</td>
-                {% endif     %}
+                <td class="question-detail">{{ question['username'] }}</td>
             </tr>
         </tbody>
     </table>

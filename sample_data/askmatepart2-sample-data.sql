@@ -152,3 +152,7 @@ SELECT pg_catalog.setval('tag_id_seq', 3, true);
 INSERT INTO question_tag VALUES (0, 1);
 INSERT INTO question_tag VALUES (1, 3);
 INSERT INTO question_tag VALUES (2, 3);
+
+INSERT INTO users VALUES (0, 'codecool', '$2b$12$lGVxHGB3Al4xqW.bWfV/C.w4Qdx0y4rGx/lxTjbC2bAskMxL6Hl1K')
+INSERT INTO users VALUES (1, 'dani', '$2b$12$jO5f9jFrRHTmv9LEogaFXeSApiEleTbkbvdN8iRKL92gEuMjP8hxS')
+SELECT pg_catalog.setval('user_id_seq', 2, true)
