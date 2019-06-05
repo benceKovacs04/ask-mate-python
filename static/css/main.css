@@ -196,12 +196,22 @@
     background-color: mediumturquoise;
 }
 
+.list-grid {
+    display: flex;
+}
+
 .login-grid .box{
+    flex: 1;
+}
+
+.list-grid .box{
     flex: 1;
 }
 
 .box {
     text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
     padding: auto;
 }
 

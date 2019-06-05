@@ -1,38 +1,45 @@
 {% extends 'layout.html' %}
 {% block content %}
 
+    <div class="list-grid">
+        <div class="box">
+            <table id="header">
+                <tr>
+                    {% if session['username'] %}
+                        <td><a href="/add-question" id="ask-new-question">Ask new question</a></td>
+                    {% endif %}
 
-        <table id="header">
-            <tr>
-                {% if session['username'] %}
-                    <td><a href="/add-question" id="ask-new-question">Ask new question</a></td>
-                {% endif %}
-
-                <td><form action="/search" method="post">
-                    <input type="text" name="search" placeholder="Search question " />
-                    <button type="submit">Search</button>
-                </form></td>
-            </tr>
-        </table>
-        <br>
-        <div id="sorting">
-            <form action="/list" method="get">
-                <select name="order">
-                    <option value="">Choose an order</option>
-                    <option value="submission_time">Submission time</option>
-                    <option value="view_number">View number</option>
-                    <option value="vote_number">Vote number</option>
-                    <option value="title">Alphabetical</option>
-                </select>
-                <select name="order_dir">
-                    <option value="">Choose order direction</option>
-                    <option value="DESC">Descending</option>
-                    <option value="ASC">Ascending</option>
-                </select>
-                <button type="submit">Sort!</button>
-            </form>
+                    <td><form action="/search" method="post">
+                        <input type="text" name="search" placeholder="Search question " />
+                        <button type="submit">Search</button>
+                    </form></td>
+                </tr>
+            </table>
         </div>
-        <a href="{{ url_for('render_all_users') }}">List all users</a>
+        <div class="box">
+            <div id="sorting">
+                <form action="/list" method="get">
+                    <select name="order">
+                        <option value="">Choose an order</option>
+                        <option value="submission_time">Submission time</option>
+                        <option value="view_number">View number</option>
+                        <option value="vote_number">Vote number</option>
+                        <option value="title">Alphabetical</option>
+                    </select>
+                    <select name="order_dir">
+                        <option value="">Choose order direction</option>
+                        <option value="DESC">Descending</option>
+                        <option value="ASC">Ascending</option>
+                    </select>
+                    <button type="submit">Sort!</button>
+                </form>
+            </div>
+        </div>
+        <div class="box">
+            <a href="{{ url_for('render_all_users') }}">List all users</a>
+        </div>
+    </div>
+
         {% if questions %}
             {% if questions|length == 0 %}
                 <p>There are no questions yet.</p>
