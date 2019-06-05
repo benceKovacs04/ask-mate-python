@@ -140,19 +140,22 @@
     margin: auto;
 }
 
-.question-detail-header {
-    background-color: paleturquoise;
-    padding-left: 50px;
-    padding-right: 50px;
-    font-size: 18px;
-
-}
-
 .question-detail {
     background-color: paleturquoise;
-    padding-left: 10px;
-    padding-right: 10px;
-    font-size: 18px;
+    padding-left: 1em;
+    padding-right: 1em;
+    text-align: center;
+    display: flex;
+}
+
+.title {
+    font-size: 2em;
+    text-align: center;
+    border: #4CAF50 solid .1em;
+}
+
+.question-detail .box {
+    flex: 1;
     text-align: center;
 }
 

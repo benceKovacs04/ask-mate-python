@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 {% block content %}
 
-    <h2 class="details-title">{{ question['title'] }}</h2>
+    <h1 class="details-title">{{ question['title'] }}</h1>
 
     <p>
         {% for tag in question_tags %}
@@ -9,42 +9,42 @@
         {% endfor %}
     </p>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th class="question-detail-header">Submission Time</th>
-                <th class="question-detail-header">View</th>
-                <th class="question-detail-header">Vote Number</th>
-                <th class="question-detail-header">Posted by</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="question-detail">{{ question['submission_time'] }}</td>
-                <td class="question-detail">{{ question['view_number'] }}</td>
-                <td class="question-detail">{{ question['vote_number'] }}</td>
-                {% if question['username'] %}
-                    <td class="question-detail">{{ question['username'] }}</td>
-                {% else %}
-                    <td class="question-detail">Codecool!</td>
-                {% endif     %}
-            </tr>
-        </tbody>
-    </table>
+    <div class="question-detail">
+        <div class="box">
+            <p class="question-detail-header">Submission Time</p>
+            <p class="question-detail">{{ question['submission_time'] }}</p>
+        </div>
+        <div class="box">
+            <p class="question-detail-header">View</p>
+            <p class="question-detail">{{ question['view_number'] }}</p>
+        </div>
+        <div class="box">
+            <p class="question-detail-header">Vote Number</p>
+            <p class="question-detail">{{ question['vote_number'] }}</p>
+        </div>
+        <div class="box">
+            <p class="question-detail-header">Posted by</p>
+            {% if question['username'] %}
+                <p class="question-detail">{{ question['username'] }}</p>
+            {% else %}
+                <p class="question-detail">Codecool!</p>
+            {% endif     %}
+        </div>
+    </div>
     <br>
     {%  if question['image'] %}
         <p><img src="{{  question['image'] }}" height="200px" width="200px" alt="Invalid image URL"/></p>
     {% endif %}
-    <p><h2 class="message">Message</h2></p>
+    <p><h2 class="title">Message</h2></p>
     <p id="question-message">{{ question['message'] }}</p><br>
 
     {% if session['userid'] == question['user_id'] %}
-        <a href="/edit-question/{{ question['id'] }}"><button>Edit question</button></a>
+        <a href="/edit-question/{{ question['id'] }}" class="button">Edit question</a>
     {% endif %}
 
-    {% if session['username'] and session['userid'] != question['user_id'] %}
-        <button type="button"><a href="/question/{{ question['id'] }}/voting?direction=up&target=question">Like</a></button>
-        <button type="button"><a href='/question/{{ question['id'] }}/voting?direction=down&target=question'>Dislike</a></button>
+    {% if session['userid'] != question['user_id'] %}
+        <a href="/question/{{ question['id'] }}/voting?direction=up&target=question" class="button">Like</a>
+        <a href='/question/{{ question['id'] }}/voting?direction=down&target=question' class="button">Dislike</a>
     {% endif %}
 
     {% block question %} {% endblock %}
