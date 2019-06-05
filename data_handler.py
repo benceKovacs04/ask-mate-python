@@ -60,6 +60,18 @@ def get_answers_to_question(cursor, question_id):
 
 
 @connection.connection_handler
+def get_selected_answer(cursor, question_id):
+    sql_query = """
+                SELECT * FROM accepted_answers
+                WHERE question_id = %(question_id)s"""
+
+    cursor.execute(sql_query,
+                   {'question_id': question_id})
+
+    return cursor.fetchone()
+
+
+@connection.connection_handler
 def get_single_answer_by_id(cursor, id):
     cursor.execute("""
                     SELECT * FROM answer
@@ -315,6 +327,29 @@ def get_all_user(cursor):
     all_user = cursor.fetchall()
 
     return all_user
+
+
+@connection.connection_handler
+def save_accepted_answer(cursor, question_id, answer_id):
+    sql_query = """
+                INSERT INTO accepted_answers 
+                VALUES (%(question_id)s, %(answer_id)s)"""
+
+    cursor.execute(sql_query,
+                   {'question_id': question_id,
+                    'answer_id': answer_id})
+
+
+@connection.connection_handler
+def delete_accepted_answer(cursor, question_id, answer_id):
+    sql_query = """
+                DELETE FROM accepted_answers
+                WHERE question_id = %(question_id)s AND
+                answer_id = %(answer_id)s"""
+
+    cursor.execute(sql_query,
+                   {'question_id': question_id,
+                    'answer_id': answer_id})
 
 
 def add_question_tag_handler(question_id, tags_from_form):

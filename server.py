@@ -43,13 +43,15 @@ def route_question(question_id):
 
     question_details = data_handler.get_question_details(question_id)
     answers_to_question = data_handler.get_answers_to_question(question_id)
+    selected_answer = data_handler.get_selected_answer(question_id)
 
     question_tags = data_handler.get_tag_name_by_question_id(question_id)
 
     return render_template('answers.html',
                            question=question_details,
                            answers_to_question=answers_to_question,
-                           question_tags=question_tags)
+                           question_tags=question_tags,
+                           selected_answer=selected_answer)
 
 
 @app.route('/question/<question_id>/voting')
@@ -238,6 +240,26 @@ def render_user_profile(user_id):
     user_activities = data_handler.get_user_activities(user_id)
 
     return render_template('user_profile.html', user_activities=user_activities)
+
+
+@app.route('/accept-answer/<question_id>/<answer_id>')
+def route_accept_answer(question_id, answer_id):
+    referrer = request.referrer
+    try:
+        data_handler.save_accepted_answer(int(question_id), int(answer_id))
+    except:
+        flash("You are not allowed to do that :)")
+        return redirect(referrer)
+
+    return redirect(referrer)
+
+
+@app.route('/delete-accepted-answer/<question_id>/<answer_id>')
+def route_delete_accepted_answer(question_id, answer_id):
+    referrer = request.referrer
+    data_handler.delete_accepted_answer(int(question_id), int(answer_id))
+
+    return redirect(referrer)
 
 
 if __name__ == '__main__':
