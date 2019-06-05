@@ -4,7 +4,9 @@
 
         <table id="header">
             <tr>
-                <td><a href="/add-question" id="ask-new-question">Ask new question</a></td>
+                {% if session['username'] %}
+                    <td><a href="/add-question" id="ask-new-question">Ask new question</a></td>
+                {% endif %}
 
                 <td><form action="/search" method="post">
                     <input type="text" name="search" placeholder="Search question " />
@@ -30,6 +32,7 @@
                 <button type="submit">Sort!</button>
             </form>
         </div>
+        <a href="{{ url_for('render_all_users') }}">List all users</a>
         {% if questions %}
             {% if questions|length == 0 %}
                 <p>There are no questions yet.</p>
