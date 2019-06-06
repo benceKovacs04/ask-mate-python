@@ -1,66 +1,62 @@
 {% extends "question_details.html" %}
 
 {%  block question %}
-    {% if session.username %}
-        <br><br><a href="/question/{{ question['id'] }}/new-tag"><button>Add new tag</button></a>
-    {% endif %}
-    <p><h3>Answers</h3></p>
+    <p><h3 class="title">Answers</h3></p>
         {% if session.username %}
-            <p><a href="/question/{{ question['id'] }}/new-answer"><button>Add new answer</button></a>
+            <p><a href="/question/{{ question['id'] }}/new-answer" class="button">Add new answer</a>
         {% endif %}
         {% if answers_to_question %}
-            <table border="1" frame="1" cellpadding="10">
-                <thead>
-                    <tr>
-                        <td align="center"><strong>Answer</strong></td>
-                        <td align="center" width="10"><strong>Votes</strong></td>
-                        <td colspan="2" align="center"><strong>Voting</strong></td>
-                        <td align="center" width="10"><strong>Image</strong></td>
-                        {% if session.username %}
-                            <td align="center" width="10"><strong>Edit</strong></td>
-                            <td align="center" width="10"><strong>Delete</strong></td>
+            <div class="answer-head">
+                <strong>Answer</strong>
+                <strong>Votes</strong>
+                <strong>Voting</strong>
+                <strong>Image</strong>
+            </div>
+            {% for answer in answers_to_question %}
+                <div class="answer-table">
+                    <div class="box">
+                        <p>{{ answer['message'] }}</p>
+                    </div>
+                    <div class="box">
+                        <p>{{ answer['vote_number'] }}</p>
+                    </div>
+                    <div class="box">
+                        <a href="/question/{{ question['id'] }}/answer/{{ answer['id'] }}/voting?direction=up&target=answer" class="button">Like</a>
+                        <a href='/question/{{ question['id'] }}/answer/{{ answer['id'] }}/voting?direction=down&target=answer' class="delete-button">Dislike</a>
+                    </div>
+                    <div class="box">
+                        {% if answer['image'] %}
+                            <img src="{{ answer['image'] }}" height="200px" width="200px" alt="Invalid image URL">
+                        {% else %}
+                            <p>No image added</p>
                         {% endif %}
-                        {% if session.userid == question.user_id %}
-                            <td> </td>
+                    </div>
+                    <div class="del-row">
+                        {% if session.username and session.userid == answer['user_id'] %}
+                            <a href="/question/{{ question['id'] }}/edit-answer/{{ answer['id'] }}" class="button">Edit Answer</a>
+                            <a href="/delete-answer/{{ answer['id'] }}" class="delete-button">Delete Answer</a>
+                        {% elif session.username %}
+                            <p>You have no permission</p>
                         {% endif %}
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for answer in answers_to_question %}
-                        <tr>
-                            <td>{{ answer['message'] }}</td>
-                            <td align="center">{{ answer['vote_number'] }}</td>
 
-                            <td align="center"><button type="button"><a href="/question/{{ question['id'] }}/answer/{{ answer['id'] }}/voting?direction=up&target=answer">Like</a></button></td>
-                            <td align="center"><button type="button"><a href='/question/{{ question['id'] }}/answer/{{ answer['id'] }}/voting?direction=down&target=answer'>Dislike</a></button></td>
+                        {% if selected_answer == None %}
+                            {% if question.user_id == session.userid and session.userid != answer.user_id %}
+                                <a href="/accept-answer/{{ question.id }}/{{ answer.id }}" class="button">Mark answer as accepted</a>
+                            {% endif %}
+                        {% elif selected_answer.answer_id == answer.id %}
+                            {% if session.userid == question.user_id %}<a href="/delete-accepted-answer/{{ question.id }}/{{ answer.id }}" class="delete-button"> Accepted answer </a>
+                            {% else %} Accepted answer {% endif %}
+                        {% else %}
+                            <td>-</td>
+                        {% endif %}
+                    </div>
 
-                            {% if answer['image'] %}
-                                <td><img src="{{ answer['image'] }}" height="200px" width="200px" alt="Invalid image URL"></td>
-                            {% else %}
-                                <td>No image added</td>
-                            {% endif %}
 
-                            {% if session.username and session.userid == answer['user_id'] %}
-                                <td align="center"><a href="/question/{{ question['id'] }}/edit-answer/{{ answer['id'] }}"><button>Edit Answer</button></a></td>
-                                <td align="center"><a href="/delete-answer/{{ answer['id'] }}"><button>Delete Answer</button></a></td>
-                            {% elif session.username %}
-                                <td colspan="2" align="center">You have no permission</td>
-                            {% endif %}
-                            {% if selected_answer == None %}
-                                {% if question.user_id == session.userid and session.userid != answer.user_id %}
-                                    <td align="center"><a href="/accept-answer/{{ question.id }}/{{ answer.id }}"><button>Mark answer as accepted</button></a></td>
-                                {% endif %}
-                            {% elif selected_answer.answer_id == answer.id %}
-                                <td>{% if session.userid == question.user_id %}<a href="/delete-accepted-answer/{{ question.id }}/{{ answer.id }}"> Accepted answer </a>
-                                    {% else %} Accepted answer {% endif %}</td>
-                            {% else %}
-                                <td>-</td>
-                            {% endif %}
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <br>
+
+
+                </div>
+            {% endfor %}
+
         {% else %}
             <p>There are no answers to this question yet.</p>
         {% endif %}
