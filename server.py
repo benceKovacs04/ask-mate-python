@@ -57,18 +57,31 @@ def route_question(question_id):
 @app.route('/question/<question_id>/voting')
 @app.route('/question/<question_id>/answer/<answer_id>/voting')
 def voting(question_id, answer_id=None):
+    referrer = request.referrer
     target_table = request.args.get('target')
     vote_direction = request.args.get('direction')
 
     if target_table == 'question':
+        entity = 'question'
         entity_id = question_id
     elif target_table == 'answer':
+        entity = 'answer'
         entity_id = answer_id
 
-    data_handler.change_vote_number(target_table, vote_direction, entity_id)
-    data_handler.change_reputation(target_table, vote_direction, entity_id)
+    entity_owner_id = data_handler.get_user_id_of_owner_of_entity(entity, entity_id)
 
-    return redirect(f'/question/{question_id}?voted=yes')
+    try:
+        if session['userid'] != entity_owner_id:
+            data_handler.change_vote_number(target_table, vote_direction, entity_id)
+            data_handler.change_reputation(target_table, vote_direction, entity_id)
+
+            return redirect(f'/question/{question_id}?voted=yes')
+        else:
+            flash('Voting for yourself is a kinda dick move...')
+            return redirect(referrer)
+    except:
+        flash('You should login first!')
+        redirect(referrer)
 
 
 @app.route('/question/<question_id>/new-tag', methods=['GET', 'POST'])
@@ -216,7 +229,6 @@ def route_login():
             flash("Invalid username/password")
             return redirect(referrer)
     except (TypeError, NameError) as error:
-        print(error)
         flash("Username and password fields cannot be empty!")
         return redirect(referrer)
 
@@ -267,6 +279,7 @@ def route_accept_answer(question_id, answer_id):
     except KeyError:
         flash("It's not your question")
         return redirect(referrer)
+
 
 @app.route('/delete-accepted-answer/<question_id>/<answer_id>')
 def route_delete_accepted_answer(question_id, answer_id):
