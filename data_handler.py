@@ -179,9 +179,7 @@ def change_reputation(cursor, entity, vote_direction, entity_id):
     elif vote_direction == 'down':
         reputation_change = -2
 
-    user_id_dict = get_user_id_of_owner_of_entity(entity, entity_id)
-
-    user_id_of_owner = int(user_id_dict['user_id'])
+    user_id_of_owner = get_user_id_of_owner_of_entity(entity, entity_id)
 
     cursor.execute("""
                     UPDATE users
@@ -206,7 +204,7 @@ def get_user_id_of_owner_of_entity(cursor, entity, entity_id):
     cursor.execute(sql_query)
     user_id = cursor.fetchone()
 
-    return user_id
+    return user_id['user_id']
 
 
 @connection.connection_handler
@@ -430,8 +428,16 @@ def delete_tag_from_question(cursor, question_id, tag_id):
                    {'question_id': question_id,
                     'tag_id': tag_id})
 
+def get_user_activities(user_id):
+    user_questions = get_user_questions(user_id)
+    user_answers = get_user_answers(user_id)
+    user_activities = {'questions': user_questions, 'answers': user_answers}
+
+    return user_activities
+
+
 @connection.connection_handler
-def get_user_activities(cursor, user_id):
+def get_user_questions(cursor, user_id):
     sql_query = """
                 SELECT question.title, question.id
                 FROM question
@@ -441,6 +447,11 @@ def get_user_activities(cursor, user_id):
     cursor.execute(sql_query)
     user_questions = cursor.fetchall()
 
+    return user_questions
+
+
+@connection.connection_handler
+def get_user_answers(cursor, user_id):
     sql_query = """
                     SELECT answer.message, answer.id
                     FROM answer
@@ -450,9 +461,18 @@ def get_user_activities(cursor, user_id):
     cursor.execute(sql_query)
     user_answers = cursor.fetchall()
 
-    user_activities = {'questions': user_questions, 'answers': user_answers}
+    return user_answers
 
-    return user_activities
+
+@connection.connection_handler
+def get_answers_with_question_by_user(cursor, user_id):
+    cursor.execute('''
+                    SELECT q.id AS q_id, a.message AS a_message
+                    FROM question q JOIN answer a ON q.id = a.question_id
+                    WHERE a.user_id = %(user_id)s
+    ''', {'user_id': user_id})
+    detail = cursor.fetchall()
+    return detail
 
 
 @connection.connection_handler
@@ -468,3 +488,12 @@ def get_user_reputation(cursor, user_id):
     user_reputation = user_reputation['reputation']
 
     return user_reputation
+
+
+@connection.connection_handler
+def get_actual_all_questions(cursor):
+    cursor.execute("""
+                    SELECT * FROM question
+                    """)
+    questions = cursor.fetchall()
+    return questions

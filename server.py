@@ -57,19 +57,31 @@ def route_question(question_id):
 @app.route('/question/<question_id>/voting')
 @app.route('/question/<question_id>/answer/<answer_id>/voting')
 def voting(question_id, answer_id=None):
+    referrer = request.referrer
     target_table = request.args.get('target')
     vote_direction = request.args.get('direction')
 
     if target_table == 'question':
+        entity = 'question'
         entity_id = question_id
     elif target_table == 'answer':
+        entity = 'answer'
         entity_id = answer_id
 
-    data_handler.change_vote_number(target_table, vote_direction, entity_id)
-    data_handler.change_reputation(target_table, vote_direction, entity_id)
+    entity_owner_id = data_handler.get_user_id_of_owner_of_entity(entity, entity_id)
 
-    return redirect(f'/question/{question_id}?voted=yes')
+    try:
+        if session['userid'] != entity_owner_id:
+            data_handler.change_vote_number(target_table, vote_direction, entity_id)
+            data_handler.change_reputation(target_table, vote_direction, entity_id)
 
+            return redirect(f'/question/{question_id}?voted=yes')
+        else:
+            flash('Voting for yourself is a kinda dick move...')
+            return redirect(referrer)
+    except:
+        flash('You should login first!')
+        redirect(referrer)
 
 @app.route('/question/<question_id>/add-tag')
 def route_new_tag(question_id):
@@ -261,10 +273,13 @@ def render_all_users():
 def render_user_profile(user_id):
     user_activities = data_handler.get_user_activities(user_id)
     user_reputation = data_handler.get_user_reputation(user_id)
-
+    result = data_handler.get_answers_with_question_by_user(user_id)
+    all_questions = data_handler.get_actual_all_questions()
     return render_template('user_profile.html',
                            user_activities=user_activities,
-                           user_reputation=user_reputation)
+                           user_reputation=user_reputation,
+                           result=result,
+                           questions=all_questions)
 
 
 @app.route('/accept-answer/<question_id>/<answer_id>')
@@ -286,6 +301,7 @@ def route_accept_answer(question_id, answer_id):
     except KeyError:
         flash("It's not your question")
         return redirect(referrer)
+
 
 @app.route('/delete-accepted-answer/<question_id>/<answer_id>')
 def route_delete_accepted_answer(question_id, answer_id):

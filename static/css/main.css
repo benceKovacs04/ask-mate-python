@@ -183,6 +183,7 @@
 }
 
 #question-message {
+    overflow: hidden;
     border: solid 1px #4CAF50;
     padding: 10px;
 }
@@ -371,5 +372,29 @@ input {
 .answer-head strong{
     text-align: center;
     flex: 1;
+}
+
+.user-reputation {
+    display: flex;
+    margin: .1em 3em;
+    color: white;
+    padding: 1em 20em;
+}
+
+.user-reputation .box{
+    flex: 1;
+    background-color: #4CAF50;
+}
+
+.user-profile-table .question-grid .box{
+    margin-right: auto;
+    margin-left: auto;
+    padding-bottom: 1em;
+
+}
+
+.user-profile-table .title{
+    margin-right: 40%;
+    margin-left: 40%;
 }
 

@@ -3,68 +3,64 @@
 
     {% if session['username'] %}
 
-        <table>
-            <thead>
-                <tr>
-                    <th>User reputation:</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>{{ user_reputation }}</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="user-reputation">
+            <div class="box"><p>User reputation:</p></div>
+            <div class="box"><p>{{ user_reputation }}</p></div>
+
+        </div>
 
         {% if user_activities['questions'] or user_activities['answers'] %}
 
             {% if user_activities['questions'] %}
 
-                <table id="user_questions_table">
-                    <thead>
-                        <tr>
-                            <th>User questions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                <div class="user-profile-table">
+                    <div class="title">
+                            <strong>User questions</strong>
+                    </div>
+                    <div class="question-grid">
                         {% for user_question in user_activities['questions'] %}
-                            <tr>
-                                <td><a href="/question/{{ user_question['id'] }}">{{ user_question['title'] }}</a></td>
-                            </tr>
+                            <div class="box">
+                                <a href="/question/{{ user_question['id'] }}" class="button">{{ user_question['title'] }}</a>
+                            </div>
                         {% endfor %}
-                    </tbody>
-                </table>
+                    </div>
+                </div>
             {% else %}
                 <p>This user hasn't posted questions</p>
             {% endif %}
 
             {% if user_activities['answers'] %}
-                <table id="user_answers_table">
-                    <thead>
-                        <tr>
-                            <th>User answers</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for user_answer in user_activities['answers'] %}
-                            <tr>
-                                <td>{{ user_answer['message'] }}</td>
-                            </tr>
+                <div class="user-profile-table">
+                    <div class="title">
+                      <strong>User answers</strong>
+                    </div>
+                        {% for question in questions %}
+                            {% for row in result %}
+                                {% if question.id == row.q_id %}
+                                    <div class="question-grid">
+                                        <div class="box">
+                                            <a href="/question/{{ question.id }}" class="button">{{ question.title }}</a>
+                                        </div>
+                                        <div class="box">
+                                            <p>{{ row.a_message }}</p>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
                         {% endfor %}
-                    </tbody>
-                </table>
+                </div>
             {% else %}
-                <p>This user hasn't posted <answers></answers></p>
+                <p>This user hasn't posted answers</p>
             {% endif %}
 
         {% else %}
             <p>This user haven't posted any questions or answers.</p>
         {% endif %}
 
-        <p><a href="{{ url_for('render_all_users') }}">Back to all users</a></p>
+        <p><a href="{{ url_for('render_all_users') }}" class="button">Back to all users</a></p>
 
     {% else %}
-        <p>Please login!</p>
+        <a href="/" class="button">Please login!</a>
     {% endif %}
 
 {% endblock %}

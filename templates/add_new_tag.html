@@ -1,7 +1,7 @@
 {% extends "question_details.html" %}
 
 {% block question %}
-    <br><br><a href="/question/{{ question['id'] }}"><button>Show answers</button></a>
+    <a href="/question/{{ question['id'] }}" class="button">Show answers</a>
 
     <p><h3>Tag a question, or create a new tag</h3></p>
 
