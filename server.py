@@ -71,22 +71,32 @@ def voting(question_id, answer_id=None):
     return redirect(f'/question/{question_id}?voted=yes')
 
 
-@app.route('/question/<question_id>/new-tag', methods=['GET', 'POST'])
+@app.route('/question/<question_id>/add-tag')
 def route_new_tag(question_id):
-    if request.method == 'POST':
-        form_values = request.form
-        try:
-            data_handler.add_question_tag_handler(question_id, form_values)
-        except:
-            pass
-        return redirect(f'/question/{question_id}')
-
     question_tags = data_handler.get_tag_name_by_question_id(question_id)
     all_question_tags = data_handler.get_all_question_tags()
     question = data_handler.get_question_details(question_id)
 
     return render_template('add_new_tag.html', question_tags=question_tags, all_question_tags = all_question_tags, question=question)
 
+
+@app.route('/question/<question_id>/add-tag', methods=['POST'])
+def route_add_tag(question_id):
+    tag_name = request.form['existing_tag']
+    try:
+        data_handler.add_tag_to_question(question_id, tag_name)
+    except:
+        flash("Question already has that tag")
+        pass
+    return redirect(f'/question/{question_id}')
+
+
+@app.route('/create-new-tag/<question_id>', methods=['POST'])
+def create_new_tag(question_id):
+    new_tag_name = request.form['new_tag']
+    data_handler.save_new_tag(new_tag_name)
+
+    return redirect(f'/question/{question_id}')
 
 @app.route('/add-question')
 def route_new_question():

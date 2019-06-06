@@ -3,23 +3,26 @@
 {% block question %}
     <br><br><a href="/question/{{ question['id'] }}"><button>Show answers</button></a>
 
-    <p><h3>Select an existing one, or create a new one. Or both</h3></p>
+    <p><h3>Tag a question, or create a new tag</h3></p>
 
-    <form action="/question/{{ question['id'] }}/new-tag" method="post">
-        <p><select name="existing_tag">
+    <form id="add-tag" action="/question/{{ question['id'] }}/add-tag" method="post">
+        <p><select id="tag-select" name="existing_tag">
             <option></option>
             {% for tag in all_question_tags %}
-            <option value="{{ tag['name'] }}">{{ tag['name'] }}</option>
+            <option value="{{ tag.name }}">{{ tag.name }}</option>
             {% endfor %}
         </select>
+        <button type="submit" class="button">Add tag</button>
         </p>
+    </form>
 
+    <form id="create-tag" action="/create-new-tag/{{ question.id }}" method="post">
         <p>
-            <label for="new-tag"><strong>New tag</strong></label><br>
+            <label for="new-tag"><strong>Create new tag</strong></label><br>
             <input id="new-tag" name="new_tag">
         </p>
         <p>
-            <button type="submit">Add tag(s)</button>
+            <button type="submit" class="button">Create new tag</button>
         </p>
 
     </form>

@@ -2,7 +2,7 @@
 
 {%  block question %}
     {% if session.username %}
-        <br><br><a href="/question/{{ question['id'] }}/new-tag"><button>Add new tag</button></a>
+        <br><br><a href="/question/{{ question['id'] }}/add-tag"><button>Add new tag</button></a>
     {% endif %}
     <p><h3>Answers</h3></p>
         {% if session.username %}

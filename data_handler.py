@@ -243,13 +243,17 @@ def edit_answer(cursor, answer_id, message, image):
                     'image': image,
                    'answer_id': answer_id})
 
+@connection.connection_handler
+def get_tag_name_by_question_id(cursor, question_id):
+    sql_query = """
+                SELECT name FROM tag
+                JOIN question_tag ON question_tag.tag_id = tag.id
+                WHERE question_id = %(question_id)s"""
 
-def get_tag_name_by_question_id(question_id):
-    tag_ids_dict = get_question_tag_ids(question_id)
-    tag_ids_list = [tag['tag_id'] for tag in tag_ids_dict]
-    question_tags = get_question_tag_names(tag_ids_list)
+    cursor.execute(sql_query,
+                   {'question_id': question_id})
 
-    return question_tags
+    return cursor.fetchall()
 
 
 @connection.connection_handler
@@ -311,20 +315,20 @@ def check_if_tag_exists(cursor, tag_name):
 
 
 @connection.connection_handler
-def get_tag_id_from_tag_table(cursor, tag_names):
+def get_tag_id(cursor, tag_name):
     """
-    This function recieves tag names and returns the IDs of the corresponding
-    tags, so they can be added to question_tag table
+    This function recieves a tag name and returns the ID of the corresponding
+    tag, so it can be added to question_tag table
     :return:
     """
     cursor.execute("""
                     SELECT id FROM tag
-                    WHERE name = ANY(%(tag_names)s)""",
-                   {'tag_names': tag_names})
+                    WHERE name = %(tag_name)s""",
+                   {'tag_name': tag_name})
 
-    ids = cursor.fetchall()
+    tag_id = cursor.fetchone()
 
-    return ids
+    return tag_id['id']
 
 
 @connection.connection_handler
@@ -396,37 +400,25 @@ def delete_accepted_answer(cursor, question_id, answer_id):
                     'answer_id': answer_id})
 
 
-def add_question_tag_handler(question_id, tags_from_form):
-    """
-    When we add a tag to a question we can add an existing tag to it and/or
-    define a new one.
-    This function separates the user input then handles SQL insert calls with the right
-    parameters
+@connection.connection_handler
+def add_tag_to_question(cursor, question_id, tag_name):
+    tag_id = get_tag_id(tag_name)
+    sql_query = """
+                INSERT INTO question_tag
+                VALUES (%(question_id)s, %(tag_id)s)"""
 
-    :param question_id: The ID of the question where the added tags belong
-    :param tags_from_form: The tags we get from the request.form
-    :return: Nothing
-    """
-    new_tag = tags_from_form['new_tag']
+    cursor.execute(sql_query,
+                   {'question_id': question_id,
+                    'tag_id': tag_id})
 
-    if new_tag:
-        if not check_if_tag_exists(new_tag):
-            add_new_tag(tags_from_form['new_tag'])
+@connection.connection_handler
+def save_new_tag(cursor, new_tag_name):
+    sql_query = """
+                INSERT INTO tag (name)
+                VALUES (%(new_tag_name)s)"""
 
-    # I need to create a list of values here
-    tags_to_add_to_question_tags = []
-    for tag in tags_from_form.values():
-        if tag != '':
-            tags_to_add_to_question_tags.append(tag)
-
-    # I need to create a list of values here
-    ids_of_names = get_tag_id_from_tag_table(tags_to_add_to_question_tags)
-    ids_to_insert_to_question_tag = []
-    for tag in ids_of_names:
-        ids_to_insert_to_question_tag.append(tag['id'])
-
-    add_new_question_tag(question_id, ids_to_insert_to_question_tag)
-
+    cursor.execute(sql_query,
+                   {'new_tag_name': new_tag_name})
 
 @connection.connection_handler
 def get_user_activities(cursor, user_id):
