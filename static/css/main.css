@@ -369,3 +369,17 @@ input {
     flex: 1;
 }
 
+.user-reputation {
+    display: flex;
+    margin-right: 80%;
+}
+
+.user-reputation .box{
+    flex: 1;
+}
+
+.user-profile-table .title{
+    margin-right: 40%;
+    margin-left: 40%;
+}
+
