@@ -428,8 +428,16 @@ def add_question_tag_handler(question_id, tags_from_form):
     add_new_question_tag(question_id, ids_to_insert_to_question_tag)
 
 
+def get_user_activities(user_id):
+    user_questions = get_user_questions(user_id)
+    user_answers = get_user_answers(user_id)
+    user_activities = {'questions': user_questions, 'answers': user_answers}
+
+    return user_activities
+
+
 @connection.connection_handler
-def get_user_activities(cursor, user_id):
+def get_user_questions(cursor, user_id):
     sql_query = """
                 SELECT question.title, question.id
                 FROM question
@@ -439,6 +447,11 @@ def get_user_activities(cursor, user_id):
     cursor.execute(sql_query)
     user_questions = cursor.fetchall()
 
+    return user_questions
+
+
+@connection.connection_handler
+def get_user_answers(cursor, user_id):
     sql_query = """
                     SELECT answer.message, answer.id
                     FROM answer
@@ -448,9 +461,7 @@ def get_user_activities(cursor, user_id):
     cursor.execute(sql_query)
     user_answers = cursor.fetchall()
 
-    user_activities = {'questions': user_questions, 'answers': user_answers}
-
-    return user_activities
+    return user_answers
 
 
 @connection.connection_handler
