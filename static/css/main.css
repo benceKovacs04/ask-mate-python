@@ -111,12 +111,13 @@
 
 
 .delete-button {
-    background-color: lightcoral; /* Green */
+    background-color: lightcoral;
     border: none;
     padding: 7px 32px;
     text-align: center;
     text-decoration: none;
     font-size: 16px;
+    color: white;
 }
 
 
@@ -338,5 +339,33 @@ input {
     border-bottom: 1px solid grey;
 }
 
+.answer-table {
+    display: flex;
+}
 
+.answer-table .box{
+    flex: 1;
+}
+
+.answer-table .del-row{
+    flex: 1;
+}
+
+.answer-table .del-row .button{
+    padding: .2em .5em;
+}
+
+.answer-table .del-row .delete-button{
+    padding: .2em .5em;
+}
+
+.answer-head {
+    display: flex;
+    margin-right: 20%;
+}
+
+.answer-head strong{
+    text-align: center;
+    flex: 1;
+}
 
