@@ -103,6 +103,14 @@ def create_new_tag(question_id):
 
     return redirect(f'/question/{question_id}/add-tag')
 
+@app.route('/delete-tag/<question_id>/<tag_name>')
+def delete_tag(question_id ,tag_name):
+    referrer = request.referrer
+    tag_id = data_handler.get_tag_id(tag_name)
+    data_handler.delete_tag_from_question(question_id, tag_id)
+
+    return redirect(referrer)
+
 @app.route('/add-question')
 def route_new_question():
     return render_template("add_question.html", title='add new question')

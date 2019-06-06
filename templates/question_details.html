@@ -5,7 +5,7 @@
 
     <p>
         {% for tag in question_tags %}
-            <p id="question-tags">{{ tag['name'] }}</p>
+            <a href="/delete-tag/{{ question.id }}/{{ tag.name }}"><p id="question-tags">{{ tag.name }}</p></a>
         {% endfor %}
     </p>
 

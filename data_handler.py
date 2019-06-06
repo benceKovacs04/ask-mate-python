@@ -318,7 +318,7 @@ def check_if_tag_exists(cursor, tag_name):
 def get_tag_id(cursor, tag_name):
     """
     This function recieves a tag name and returns the ID of the corresponding
-    tag, so it can be added to question_tag table
+    tag
     :return:
     """
     cursor.execute("""
@@ -419,6 +419,16 @@ def save_new_tag(cursor, new_tag_name):
 
     cursor.execute(sql_query,
                    {'new_tag_name': new_tag_name})
+
+@connection.connection_handler
+def delete_tag_from_question(cursor, question_id, tag_id):
+    sql_query = """
+                DELETE FROM question_tag
+                WHERE (question_id = %(question_id)s AND tag_id = %(tag_id)s)"""
+
+    cursor.execute(sql_query,
+                   {'question_id': question_id,
+                    'tag_id': tag_id})
 
 @connection.connection_handler
 def get_user_activities(cursor, user_id):
