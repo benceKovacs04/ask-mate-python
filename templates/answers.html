@@ -1,6 +1,9 @@
 {% extends "question_details.html" %}
 
 {%  block question %}
+    {% if session %}
+        <a href="/question/{{ question['id'] }}/new-tag" class="button">Add new tag</a>
+    {% endif %}
     <p><h3 class="title">Answers</h3></p>
         {% if session.username %}
             <p><a href="/question/{{ question['id'] }}/new-answer" class="button">Add new answer</a>

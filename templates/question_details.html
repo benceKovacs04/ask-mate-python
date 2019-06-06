@@ -45,7 +45,6 @@
     {% if session['userid'] != question['user_id'] %}
         <a href="/question/{{ question['id'] }}/voting?direction=up&target=question" class="button">Like</a>
         <a href='/question/{{ question['id'] }}/voting?direction=down&target=question' class="button">Dislike</a>
-        <a href="/question/{{ question['id'] }}/new-tag" class="button">Add new tag</a>
     {% endif %}
 
     {% block question %} {% endblock %}
