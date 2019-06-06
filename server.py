@@ -230,8 +230,7 @@ def route_login():
         else:
             flash("Invalid username/password")
             return redirect(referrer)
-    except (TypeError, NameError) as error:
-        print(error)
+    except (TypeError, NameError):
         flash("Username and password fields cannot be empty!")
         return redirect(referrer)
 
