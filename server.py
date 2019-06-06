@@ -239,10 +239,13 @@ def render_all_users():
 def render_user_profile(user_id):
     user_activities = data_handler.get_user_activities(user_id)
     user_reputation = data_handler.get_user_reputation(user_id)
-
+    result = data_handler.get_answers_with_question_by_user(user_id)
+    all_questions = data_handler.get_actual_all_questions()
     return render_template('user_profile.html',
                            user_activities=user_activities,
-                           user_reputation=user_reputation)
+                           user_reputation=user_reputation,
+                           result=result,
+                           questions=all_questions)
 
 
 @app.route('/accept-answer/<question_id>/<answer_id>')

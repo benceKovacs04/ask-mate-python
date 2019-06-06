@@ -30,21 +30,27 @@
             {% endif %}
 
             {% if user_activities['answers'] %}
-                <div class="user_profile_table">
+                <div class="user-profile-table">
                     <div class="title">
                       <strong>User answers</strong>
-
                     </div>
-                    <div class="question-grid">
-                        {% for user_answer in user_activities['answers'] %}
-                            <div class="box">
-                                <td>{{ user_answer['message'] }}</td>
-                            </div>
+                        {% for question in questions %}
+                            {% for row in result %}
+                                {% if question.id == row.q_id %}
+                                    <div class="question-grid">
+                                        <div class="box">
+                                            <a href="/question/{{ question.id }}" class="button">{{ question.title }}</a>
+                                        </div>
+                                        <div class="box">
+                                            <p>{{ row.a_message }}</p>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
                         {% endfor %}
-                    </div>
                 </div>
             {% else %}
-                <p>This user hasn't posted <answers></answers></p>
+                <p>This user hasn't posted answers</p>
             {% endif %}
 
         {% else %}

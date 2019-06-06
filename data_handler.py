@@ -454,6 +454,17 @@ def get_user_activities(cursor, user_id):
 
 
 @connection.connection_handler
+def get_answers_with_question_by_user(cursor, user_id):
+    cursor.execute('''
+                    SELECT q.id AS q_id, a.message AS a_message
+                    FROM question q JOIN answer a ON q.id = a.question_id
+                    WHERE a.user_id = %(user_id)s
+    ''', {'user_id': user_id})
+    detail = cursor.fetchall()
+    return detail
+
+
+@connection.connection_handler
 def get_user_reputation(cursor, user_id):
     cursor.execute("""
                     SELECT reputation
@@ -466,3 +477,12 @@ def get_user_reputation(cursor, user_id):
     user_reputation = user_reputation['reputation']
 
     return user_reputation
+
+
+@connection.connection_handler
+def get_actual_all_questions(cursor):
+    cursor.execute("""
+                    SELECT * FROM question
+                    """)
+    questions = cursor.fetchall()
+    return questions
