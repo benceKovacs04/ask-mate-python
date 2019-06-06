@@ -1,7 +1,7 @@
 {% extends "question_details.html" %}
 
 {%  block question %}
-    {% if session.username %}
+    {% if session.userid == question.user_id %}
         <br><br><a href="/question/{{ question['id'] }}/add-tag"><button>Add new tag</button></a>
     {% endif %}
     <p><h3>Answers</h3></p>
