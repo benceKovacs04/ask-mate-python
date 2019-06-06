@@ -7,7 +7,6 @@
 
     <form id="add-tag" action="/question/{{ question['id'] }}/add-tag" method="post">
         <p><select id="tag-select" name="existing_tag">
-            <option></option>
             {% for tag in all_question_tags %}
             <option value="{{ tag.name }}">{{ tag.name }}</option>
             {% endfor %}
