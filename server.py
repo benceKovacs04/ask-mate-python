@@ -43,13 +43,15 @@ def route_question(question_id):
 
     question_details = data_handler.get_question_details(question_id)
     answers_to_question = data_handler.get_answers_to_question(question_id)
+    selected_answer = data_handler.get_selected_answer(question_id)
 
     question_tags = data_handler.get_tag_name_by_question_id(question_id)
 
     return render_template('answers.html',
                            question=question_details,
                            answers_to_question=answers_to_question,
-                           question_tags=question_tags)
+                           question_tags=question_tags,
+                           selected_answer=selected_answer)
 
 
 @app.route('/question/<question_id>/voting')
@@ -64,6 +66,7 @@ def voting(question_id, answer_id=None):
         entity_id = answer_id
 
     data_handler.change_vote_number(target_table, vote_direction, entity_id)
+    data_handler.change_reputation(target_table, vote_direction, entity_id)
 
     return redirect(f'/question/{question_id}?voted=yes')
 
@@ -197,7 +200,6 @@ def route_register_user():
         return render_template('registration_template.html', not_matching=True, background_color="e53935")
 
 
-
 @app.route('/login', methods=['POST'])
 def route_login():
     referrer = request.referrer
@@ -236,8 +238,44 @@ def render_all_users():
 @app.route('/user/<user_id>')
 def render_user_profile(user_id):
     user_activities = data_handler.get_user_activities(user_id)
+    user_reputation = data_handler.get_user_reputation(user_id)
 
-    return render_template('user_profile.html', user_activities=user_activities)
+    return render_template('user_profile.html',
+                           user_activities=user_activities,
+                           user_reputation=user_reputation)
+
+
+@app.route('/accept-answer/<question_id>/<answer_id>')
+def route_accept_answer(question_id, answer_id):
+    question = data_handler.get_question_details(question_id)
+    referrer = request.referrer
+    try:
+        if question['user_id'] == session['userid']:
+            try:
+                data_handler.save_accepted_answer(int(question_id), int(answer_id))
+            except:
+                flash("You are not allowed to do that :)")
+                return redirect(referrer)
+
+            return redirect(referrer)
+        else:
+            flash("It's not your question")
+            return redirect(url_for('route_list'))
+    except KeyError:
+        flash("It's not your question")
+        return redirect(referrer)
+
+@app.route('/delete-accepted-answer/<question_id>/<answer_id>')
+def route_delete_accepted_answer(question_id, answer_id):
+    referrer = request.referrer
+    question = data_handler.get_question_details(question_id)
+    try:
+        if question['user_id'] == session['userid']:
+            data_handler.delete_accepted_answer(int(question_id), int(answer_id))
+    except KeyError:
+        flash("It's not your question")
+        return redirect(url_for('route_list'))
+    return redirect(referrer)
 
 
 if __name__ == '__main__':

@@ -19,7 +19,10 @@
                         {% if session.username %}
                             <td align="center" width="10"><strong>Edit</strong></td>
                             <td align="center" width="10"><strong>Delete</strong></td>
-                            {% endif %}
+                        {% endif %}
+                        {% if session.userid == question.user_id %}
+                            <td> </td>
+                        {% endif %}
                     </tr>
                 </thead>
                 <tbody>
@@ -40,8 +43,18 @@
                             {% if session.username and session.userid == answer['user_id'] %}
                                 <td align="center"><a href="/question/{{ question['id'] }}/edit-answer/{{ answer['id'] }}"><button>Edit Answer</button></a></td>
                                 <td align="center"><a href="/delete-answer/{{ answer['id'] }}"><button>Delete Answer</button></a></td>
+                            {% elif session.username %}
+                                <td colspan="2" align="center">You have no permission</td>
+                            {% endif %}
+                            {% if selected_answer == None %}
+                                {% if question.user_id == session.userid and session.userid != answer.user_id %}
+                                    <td align="center"><a href="/accept-answer/{{ question.id }}/{{ answer.id }}"><button>Mark answer as accepted</button></a></td>
+                                {% endif %}
+                            {% elif selected_answer.answer_id == answer.id %}
+                                <td>{% if session.userid == question.user_id %}<a href="/delete-accepted-answer/{{ question.id }}/{{ answer.id }}"> Accepted answer </a>
+                                    {% else %} Accepted answer {% endif %}</td>
                             {% else %}
-                                <td colspan="2">You have no permission.</td>
+                                <td>-</td>
                             {% endif %}
                         </tr>
                     {% endfor %}
