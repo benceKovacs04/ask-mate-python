@@ -93,10 +93,15 @@ def route_add_tag(question_id):
 
 @app.route('/create-new-tag/<question_id>', methods=['POST'])
 def create_new_tag(question_id):
-    new_tag_name = request.form['new_tag']
-    data_handler.save_new_tag(new_tag_name)
+    referrer = request.referrer
+    try:
+        new_tag_name = request.form['new_tag']
+        data_handler.save_new_tag(new_tag_name)
+    except:
+        flash("Tag already exists")
+        return redirect(referrer)
 
-    return redirect(f'/question/{question_id}')
+    return redirect(f'/question/{question_id}/add-tag')
 
 @app.route('/add-question')
 def route_new_question():
