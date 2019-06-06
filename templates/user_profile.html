@@ -3,21 +3,22 @@
 
     {% if session['username'] %}
 
+        <table>
+            <thead>
+                <tr>
+                    <th>User reputation:</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ user_reputation }}</td>
+                </tr>
+            </tbody>
+        </table>
+
         {% if user_activities['questions'] or user_activities['answers'] %}
 
             {% if user_activities['questions'] %}
-                <table>
-                    <thead>
-                        <tr>
-                            <th>User reputation:</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>{{ user_reputation }}</td>
-                        </tr>
-                    </tbody>
-                </table>
 
                 <table id="user_questions_table">
                     <thead>
