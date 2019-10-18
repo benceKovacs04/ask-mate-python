@@ -106,3 +106,6 @@ ENV/
 # CSV files
 sample_data/answers.csv
 sample_data/question.csv
+
+# SQL files
+*.sql

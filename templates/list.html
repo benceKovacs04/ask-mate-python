@@ -1,56 +1,59 @@
 {% extends 'layout.html' %}
 {% block content %}
 
-
-        <table id="header">
-            <tr>
-                <td><a href="/add-question" id="ask-new-question">Ask new question</a></td>
-
-                <td><form action="/search" method="post">
-                    <input type="text" name="search" placeholder="Search question " />
-                    <button type="submit">Search</button>
-                </form></td>
-            </tr>
-        </table>
-        <br>
-        <div id="sorting">
-            <form action="/list" method="get">
-                <select name="order">
-                    <option value="">Choose an order</option>
-                    <option value="submission_time">Submission time</option>
-                    <option value="view_number">View number</option>
-                    <option value="vote_number">Vote number</option>
-                    <option value="title">Alphabetical</option>
-                </select>
-                <select name="order_dir">
-                    <option value="">Choose order direction</option>
-                    <option value="DESC">Descending</option>
-                    <option value="ASC">Ascending</option>
-                </select>
-                <button type="submit">Sort!</button>
+    <div class="list-grid">
+        {% if session['username'] %}
+            <div class="box">
+                <a href="/add-question" class="button">Ask new question</a>
+            </div>
+        {% endif %}
+        <div class="box">
+            <form action="/search" method="post">
+                <input type="text" name="search" placeholder="Search question " />
+                <button type="submit" class="button">Search</button>
             </form>
         </div>
+        <div class="box">
+                <form action="/list" method="get" class="listing-box">
+                    <select name="order" class="select-css">
+                        <option value="">Order by</option>
+                        <option value="submission_time">Submission time</option>
+                        <option value="view_number">View number</option>
+                        <option value="vote_number">Vote number</option>
+                        <option value="title">Alphabetical</option>
+                    </select>
+                    <select name="order_dir" class="select-css">
+                        <option value="">Direction</option>
+                        <option value="DESC">Descending</option>
+                        <option value="ASC">Ascending</option>
+                    </select>
+                    <button type="submit" class="button">Sort!</button>
+                </form>
+        </div>
+        <div class="box">
+            <a href="{{ url_for('render_all_users') }}" class="button">List all users</a>
+        </div>
+    </div>
+
         {% if questions %}
             {% if questions|length == 0 %}
                 <p>There are no questions yet.</p>
             {% else %}
-                <table id="question-list">
-                    <thead>
-                        <tr>
-                            <p><th id="question-title" colspan="2">Question titles</th></p>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        {% for question in questions %}
-                            <tr>
-                                <td><a class="question-list-link-text" href="/question/{{ question['id'] }}"><div class="button">{{ question['title'] }}</div></a></td>
-                                <td><a class="question-list-link-text" href="/question/{{ question['id'] }}/delete"><div class="delete-button">Delete this question</div></a></td>
-                            </tr>
-                        {% endfor %}
-
-                    </tbody>
-                </table>
+                    <div class="question-table-title">
+                        <h1>Questions</h1>
+                    </div>
+                            {% for question in questions %}
+                                <div class="question-grid">
+                                    <div class="row">
+                                        <a class="question-list-link-text" href="/question/{{ question['id'] }}"><div class="button">{{ question['title'] }}</div></a>
+                                    </div>
+                                    {% if session['username'] and session['userid'] == question['user_id'] %}
+                                        <div class="del-row">
+                                            <a class="question-list-link-text" href="/question/{{ question['id'] }}/delete"><div class="delete-button">Delete</div></a>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
             {% endif %}
 
         {% else %}
